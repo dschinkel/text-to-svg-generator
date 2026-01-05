@@ -17,5 +17,13 @@ Acceptance:
 - Service root is `src/service/`
 - Initialize the repository and push it up to the remote repo as a new repository using the github cli
 
+## 1. Add README.md with LLM instructions
+Goal:
+Add a readme at the root and in it state the following under a sectoin called LLMs: "Junie like all LLM tools forget long chat context. The way to make it reliable is to stop treating the chat as the source of truth and instead force Junie to re-load the PROJECT_SPEC..md and GUIDELINES.md from disk at the start of every task"
+
+Acceptance:
+- README.md exists at root
+- README.md contains the exact LLM instructions section
+
 ## 2. 
 Goal:
