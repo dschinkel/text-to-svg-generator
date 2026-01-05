@@ -7,7 +7,7 @@ Unfortunately, the way to make it reliable is to stop treating the chat as the s
 
 ## Main Workflow
 
-1. Create a `PROJECT_SPEC.md` with the very high level items
+1. Create a `PROJECT_SPEC.md` with the very high level items and a baseline plan at a very high level.  You'll use this to break down into tasks (or AKA smaller use cases)
 2. Create a [`GUIDELINES.md`](http://GUIDELINES.md) or whatever file the tool uses as a local pesistent level context at the project level.
 
    For cursor you’d use `.cursor/rules` instead
