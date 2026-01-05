@@ -1,0 +1,350 @@
+PLAN:
+1. Frontend: Inject hook into FontSelector
+   TDD Increment 1
+   RED:
+   - Test name: shows fonts from hook
+   - Location: src/client/fonts/components/FontSelector.test.tsx
+   - Intent: Define that `FontSelector` receives a hook and a repository to fetch and display fonts.
+
+   GREEN:
+   - Minimal implementation: Modify `FontSelector.tsx` to accept and use the injected hook and repository.
+   - Files expected to change: src/client/fonts/components/FontSelector.tsx
+
+   COMMIT:
+   - Proposed message: feat: FR.1.1: Step 6: Frontend: Inject hook into FontSelector
+
+2. Frontend: Render FontSelector in App
+   TDD Increment 2
+   RED:
+   - Test name: shows font selector in app
+   - Location: src/client/App.test.tsx
+   - Intent: Ensure `App` renders the `FontSelector` with the required props.
+
+   GREEN:
+   - Minimal implementation: Update `App.tsx` to render `FontSelector`.
+   - Files expected to change: src/client/App.tsx
+
+   COMMIT:
+   - Proposed message: feat: FR.1.1: Step 7: Frontend: Render font selector in App
+
+3. Frontend: Client Font Repository
+   TDD Increment 3
+   RED:
+   - Test name: fetches fonts from api
+   - Location: src/client/fonts/repositories/fontRepository.test.ts
+   - Intent: Implement the concrete repository that fetches fonts from the backend API.
+
+   GREEN:
+   - Minimal implementation: Create `src/client/fonts/repositories/fontRepository.ts`.
+   - Files expected to change: src/client/fonts/repositories/fontRepository.ts
+
+   COMMIT:
+   - Proposed message: feat: FR.1.1: Step 8: Frontend: Client font repository
+
+4. Service: Expose Fonts via HTTP
+   TDD Increment 4
+   RED:
+   - Test name: lists fonts over http
+   - Location: src/service/server/app.test.ts
+   - Intent: Verify that an HTTP server correctly routes requests to the existing `fontController`.
+
+   GREEN:
+   - Minimal implementation: Create a server entry point to host the existing `fontController`.
+   - Files expected to change: src/service/server/app.ts, src/service/server/index.ts
+
+   COMMIT:
+   - Proposed message: feat: FR.1.1: Step 9: Service: Expose fonts via HTTP
+
+5. Cleanup & Verification
+   - Configure Vite proxy for development.
+   - Run all tests and fix linting.
+   COMMIT:
+   - Proposed message: feat: FR.1.1: cleanup: font selector integration
+
+GOAL: shows fonts
+PLAN STEP: 1
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/client/fonts/components/FontSelector.test.tsx - shows fonts
+CHANGESET:
+    it('shows fonts', () => {
+    const fonts = [
+      { id: 'octin-sports', name: 'Octin Sports' },
+      { id: 'campus-mn', name: 'Campus MN' }
+    ];
+    
+    const fakeRepository = {
+      getFonts: jest.fn().mockResolvedValue(fonts)
+    };
+
+    const useFonts = (repository: any) => ({
+      fonts,
+      loading: false,
+      error: null
+    });
+
+    render(
+      <FontSelector 
+        useFonts={useFonts} 
+        repository={fakeRepository} 
+        onSelect={() => {}} 
+      />
+    );
+
+    expect(screen.getByText('Octin Sports')).toBeInTheDocument();
+    expect(screen.getByText('Campus MN')).toBeInTheDocument();
+  });
+
+COMMANDS RUN: yarn jest src/client/fonts/components/FontSelector.test.tsx
+TEST OUTPUT: RED - TypeError: Cannot read properties of undefined (reading 'map')
+
+NEXT STEP: Modify FontSelector to accept useFonts and repository props and use them.
+
+=== GREEN PHASE ===
+CHANGESET:
+export interface FontSelectorProps {
+  useFonts: (repository: any) => { fonts: Font[]; loading: boolean; error: Error | null };
+  repository: any;
+  onSelect: (font: Font) => void;
+}
+
+export const FontSelector = ({ useFonts, repository, onSelect }: FontSelectorProps) => {
+  const { fonts } = useFonts(repository);
+
+  return (
+    <div>
+      <select
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+          const font = fonts.find(f => f.id === e.target.value);
+          if (font) onSelect(font);
+        }}
+      >
+
+COMMANDS RUN: yarn jest src/client/fonts/components/FontSelector.test.tsx
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.1.1: Step 6: Frontend: Inject hook into FontSelector
+USER DECISION: 
+
+GOAL: fetches font family metadata from adobe
+PLAN STEP: 1.1
+
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/service/fonts/data/AdobeTypekitClient.test.ts - fetches font family metadata from adobe
+CHANGESET:
+import { AdobeTypekitClient } from './AdobeTypekitClient';
+
+describe('AdobeTypekitClient', () => {
+  it('fetches font family metadata from adobe', async () => {
+    const mockApiResponse = {
+      family: {
+        id: 'gscg',
+        name: 'Octin Sports',
+        slug: 'octin-sports',
+      }
+    };
+
+    global.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(mockApiResponse),
+      })
+    );
+
+    const client = new AdobeTypekitClient('fake-token');
+    const family = await client.getFamily('gscg');
+
+    expect(family).toEqual(mockApiResponse.family);
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://typekit.com/api/v1/json/families/gscg',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'X-Typekit-Token': 'fake-token'
+        })
+      })
+    );
+  });
+});
+
+COMMANDS RUN: yarn jest src/service/fonts/data/AdobeTypekitClient.test.ts
+TEST OUTPUT: RED - Cannot find module './AdobeTypekitClient'
+
+NEXT STEP: Create AdobeTypekitClient with getFamily method using fetch
+
+=== GREEN PHASE ===
+CHANGESET:
+export class AdobeTypekitClient {
+  private readonly baseUrl = 'https://typekit.com/api/v1/json';
+
+  constructor(private readonly token: string) {}
+
+  async getFamily(familyId: string): Promise<any> {
+    const response = await fetch(`${this.baseUrl}/families/${familyId}`, {
+      headers: {
+        'X-Typekit-Token': this.token
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch font family ${familyId}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.family;
+  }
+}
+
+COMMANDS RUN: yarn jest src/service/fonts/data/AdobeTypekitClient.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.1.1: backend: adobe typekit client
+USER DECISION: committed (updated message: feat: FR.1.1: backend: adobe typekit client - gets Octin, Campus MN fonts from the typekit api)
+
+=== REFACTOR ===
+CHANGESET:
+Refactored to JS modules and separated fetch and save behavior into their own composed functions.
+
+COMMANDS RUN: yarn jest src/service/fonts/repositories/fontRepository.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT (REFACTOR) ===
+PROPOSED COMMIT: refactor to JS modules and separate fetch and save behavior into their own composed functions
+USER DECISION: committed
+
+GOAL: lists fonts
+PLAN STEP: 4.1
+
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/service/fonts/controllers/fontController.test.ts, src/service/fonts/use-cases/listFontsCommand.test.ts
+CHANGESET:
+[New test files created]
+
+COMMANDS RUN: yarn jest src/service/fonts/controllers/fontController.test.ts
+TEST OUTPUT: RED (before implementation)
+
+=== GREEN PHASE ===
+CHANGESET:
+[src/service/fonts/controllers/fontController.ts, src/service/fonts/use-cases/listFontsCommand.ts]
+
+COMMANDS RUN: yarn jest src/service/fonts/controllers/fontController.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.1.1: backend: list fonts command and controller
+USER DECISION: committed
+
+GOAL: provides available fonts
+PLAN STEP: 4.1
+
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/client/fonts/hooks/useFonts.test.ts - provides available fonts
+CHANGESET:
+import { renderHook, waitFor } from '@testing-library/react';
+import { useFonts } from './useFonts';
+
+describe('useFonts', () => {
+  it('provides available fonts', async () => {
+    const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
+    const fakeRepository = {
+      getFonts: jest.fn().mockResolvedValue(fonts)
+    };
+
+    const { result } = renderHook(() => useFonts(fakeRepository));
+
+    await waitFor(() => expect(result.current.fonts).toEqual(fonts));
+  });
+});
+
+COMMANDS RUN: yarn jest src/client/fonts/hooks/useFonts.test.ts
+TEST OUTPUT: RED - Cannot find module './useFonts'
+
+=== GREEN PHASE ===
+CHANGESET:
+import { useState, useEffect } from 'react';
+
+export interface ClientFontRepository {
+  getFonts: () => Promise<any[]>;
+}
+
+export const useFonts = (repository: ClientFontRepository) => {
+  const [fonts, setFonts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadFonts = async () => {
+      try {
+        const data = await repository.getFonts();
+        if (mounted) {
+          setFonts(data);
+          setLoading(false);
+        }
+      } catch (e) {
+        if (mounted) {
+          setError(e as Error);
+          setLoading(false);
+        }
+      }
+    };
+
+    loadFonts();
+
+    return () => {
+      mounted = false;
+    };
+  }, [repository]);
+
+  return { fonts, loading, error };
+};
+
+COMMANDS RUN: yarn jest src/client/fonts/hooks/useFonts.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.1.1: Step 4: Frontend: Client Font Repository & Hook
+USER DECISION: committed (updated message: feat: FR.1.1: Step 4: Frontend: Client Font Repository & Hook)
+
+GOAL: shows list of fonts to chose from
+PLAN STEP: 5.1
+
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/client/fonts/components/FontSelector.test.tsx - shows list of fonts to chose from
+CHANGESET:
+[Created test with JSX syntax]
+
+COMMANDS RUN: yarn jest src/client/fonts/components/FontSelector.test.tsx
+TEST OUTPUT: RED - TypeError: Cannot read properties of undefined (reading 'createElement')
+
+=== GREEN PHASE ===
+CHANGESET:
+[Implemented FontSelector.tsx using JSX]
+
+COMMANDS RUN: yarn jest src/client/fonts/components/FontSelector.test.tsx
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.1.1: Step 5: Frontend: Select a font
+USER DECISION: committed
+
+=== CLEANUP & VERIFICATION ===
+- Ran full test suite (5/5 passing)
+- Removed root test/ folder as requested
+- Updated jest.config.js to remove reference to test/setup.ts
+- Verified compilation with tsc
+
+=== COMMIT (CLEANUP) ===
+PROPOSED COMMIT: feat: FR.1.1: cleanup: full-stack font selection
+USER DECISION: committed

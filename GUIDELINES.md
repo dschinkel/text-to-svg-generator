@@ -66,6 +66,9 @@ N1.4 Canonical examples live in Appendix D.
 N1.5 Test data and stubs must not use the word "mock". Use domain terms for data and "fake" for stubs (e.g., `fakeRepository`, `fakeFonts`).
 N1.6 Do not test for loading state in hook tests.
 N1.7 Treat the System Under Test (SUT) as a black box. Avoid using spies or asserting that internal dependencies were called when the output itself can be asserted.
+N1.8 Use JSX syntax in React tests. Do not use `React.createElement` in tests.
+Bad: `render(React.createElement(FontSelector, { fonts: fonts, onSelect: () => {} }));`
+Good: `render(<FontSelector fonts={fonts} onSelect={() => {}} />);`
 
 ---
 
@@ -99,6 +102,7 @@ A1.6.2 Controllers are delivery-mechanism adapters and must be pass-through only
 - Invoke domain logic and required injected business objects
 - Produce a response Data Object for the controller to return to the service caller
   A1.6.7 Controllers must not contain business decisions. Commands must not contain delivery decisions.
+  A1.6.8 Frontend (src/client) architecture: Frontend does not use controllers or commands. Application logic is handled by hooks which call repositories.
 
 ---
 
@@ -140,9 +144,9 @@ G1.1 Only commit when tests are green and lint/compile warnings are resolved.
 G1.2 Keep commits small and frequent.
 G1.3 Separate structural changes from behavioral changes (Tidy First).
 G1.4 Commit messages must be domain/behavior oriented:
-G1.4.1 Behavioral: `feat: <task-id>: <behavior>`
-G1.4.2 Refactor: `feat: <task-id>: refactor: <behavior>`
-G1.4.3 Cleanup: `feat: <task-id>: cleanup: <behavior>`
+G1.4.1 Behavioral: `feat: <feature-id>: Step <number>: <step-title-prose>` (Example: `feat: FR.1.1: Step 5: Frontend: Select a font`)
+G1.4.2 Refactor: `feat: <feature-id>: refactor: <behavior>`
+G1.4.3 Cleanup: `feat: <feature-id>: cleanup: <behavior>`
 G1.5 If no task exists in tasks.md, still commit with a meaningful message.
 
 ---
