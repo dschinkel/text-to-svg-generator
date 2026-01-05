@@ -181,6 +181,60 @@ TEST OUTPUT: GREEN - All tests passing
 PROPOSED COMMIT: feat: FR.1.1: Step 7: Frontend: Render font selector in App
 USER DECISION: 
 
+GOAL: fetches fonts
+PLAN STEP: 3
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/client/fonts/repositories/fontRepository.test.ts - fetches fonts
+CHANGESET:
+import { fontRepository } from './fontRepository';
+
+describe('fontRepository', () => {
+  it('fetches fonts', async () => {
+    const fakeFonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
+    
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => fakeFonts
+    });
+
+    const repository = fontRepository();
+    const fonts = await repository.getFonts();
+
+    expect(fonts).toEqual(fakeFonts);
+    expect(global.fetch).toHaveBeenCalledWith('/api/fonts');
+  });
+});
+
+COMMANDS RUN: yarn jest src/client/fonts/repositories/fontRepository.test.ts
+TEST OUTPUT: RED - Cannot find module './fontRepository'
+
+NEXT STEP: Create fontRepository with getFonts method using fetch.
+
+=== GREEN PHASE ===
+CHANGESET:
+export const fontRepository = () => {
+  const getFonts = async (): Promise<any[]> => {
+    const response = await fetch('/api/fonts');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch fonts: ${response.statusText}`);
+    }
+    return await response.json();
+  };
+
+  return {
+    getFonts
+  };
+};
+
+COMMANDS RUN: yarn jest src/client/fonts/repositories/fontRepository.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.1.1: Step 8: Frontend: Client font repository
+USER DECISION: 
+
 GOAL: fetches font family metadata from adobe
 PLAN STEP: 1.1
 
