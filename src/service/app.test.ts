@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import request from 'supertest';
-import { createApp } from './app';
+import { createApp } from './app.ts';
 
 describe('server', () => {
   it('lists fonts', async () => {
