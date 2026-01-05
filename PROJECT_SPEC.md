@@ -104,6 +104,8 @@ The system generates all three SVG outputs for the selected font + text:
 - Test naming and variables must use domain language. Do not use technical terms like "mock". Use domain terms for test data and "fake" for stubs (e.g., `fakeRepository` instead of `mockRepository`).
 - Do not test for loading state in hook tests.
 - Treat the System Under Test (SUT) as a black box. Avoid using spies or asserting that internal dependencies were called when the output itself can be asserted.
+- Commit messages for TDD steps must follow the format: `feat: <feature-id>: Step <number>: <step-name>`.
+- Function placement: Always put functions being called from the parent, below the parent.
 
 ### 4.6 Data / JSON DB
 Store all data in local JSON files under `src/db/`.

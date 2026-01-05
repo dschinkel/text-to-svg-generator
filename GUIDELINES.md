@@ -128,6 +128,7 @@ Q1.2.2 React component files must not exceed 200 lines.
 Q1.3 Do not keep appending new behavior into one file. Refactor by extracting well-named domain functions/components during REFACTOR. If you are ever not sure what to name it, ask the user.
 Q1.4 Functions should read like well-written prose and communicate domain intent. Prefer guard clauses and small composed functions over nested conditionals.
 Q1.5 Minimize state and side effects; keep pure logic in `domain/` for backend and for client under `src\client\domain.
+Q1.6 Function placement: Always put functions being called from the parent, below the parent.
 
 ---
 

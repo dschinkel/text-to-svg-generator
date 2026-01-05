@@ -235,7 +235,74 @@ TEST OUTPUT: GREEN - All tests passing
 PROPOSED COMMIT: feat: FR.1.1: Step 8: Frontend: Client font repository
 USER DECISION: 
 
-GOAL: fetches font family metadata from adobe
+GOAL: lists fonts
+PLAN STEP: 4
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/service/server/app.test.ts - lists fonts
+CHANGESET:
+import request from 'supertest';
+import { createApp } from './app';
+
+describe('server', () => {
+  it('lists fonts', async () => {
+    const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
+    const fakeController = {
+      getFonts: jest.fn().mockResolvedValue(fonts)
+    };
+
+    const app = createApp(fakeController);
+    const response = await request(app.callback()).get('/api/fonts');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(fonts);
+  });
+});
+
+COMMANDS RUN: yarn jest src/service/server/app.test.ts
+TEST OUTPUT: RED - Cannot find module './app'
+
+NEXT STEP: Create createApp in app.ts using Koa and koa-router.
+
+=== GREEN PHASE ===
+CHANGESET:
+import Koa from 'koa';
+import Router from 'koa-router';
+
+export interface FontController {
+  getFonts: () => Promise<any[]>;
+}
+
+export const createApp = (fontController: FontController) => {
+  const app = new Koa();
+  const router = new Router();
+
+  router.get('/api/fonts', async (ctx) => {
+    ctx.body = await fontController.getFonts();
+  });
+
+  app.use(router.routes()).use(router.allowedMethods());
+
+  return app;
+};
+
+COMMANDS RUN: yarn jest src/service/server/app.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.1.1: Step 9: Service: Expose fonts
+USER DECISION: 
+
+=== CLEANUP & VERIFICATION ===
+- Ran full test suite: 9 passed
+- Fixed dependency injection in FontSelector and App
+- Configured Vite proxy and Koa server
+- Verified all components are wired correctly
+
+=== COMMIT (CLEANUP) ===
+PROPOSED COMMIT: feat: FR.1.1: cleanup: font selector integration
+USER DECISION: 
 PLAN STEP: 1.1
 
 ----------------------------------------------------------------------
