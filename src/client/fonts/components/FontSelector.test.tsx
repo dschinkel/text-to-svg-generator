@@ -14,7 +14,7 @@ describe('FontSelector', () => {
       getFonts: jest.fn().mockResolvedValue(fonts)
     };
 
-    const useFonts = (repository: any) => ({
+    const useFonts = () => ({
       fonts,
       loading: false,
       error: null
@@ -23,7 +23,6 @@ describe('FontSelector', () => {
     render(
       <FontSelector 
         useFonts={useFonts} 
-        repository={fakeRepository} 
         onSelect={() => {}} 
       />
     );

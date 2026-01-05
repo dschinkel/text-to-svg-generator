@@ -5,12 +5,10 @@ export interface AdobeTypekitClient {
 }
 
 export const fontRepository = (dbPath: string, client: AdobeTypekitClient) => {
-  const getAll = async (): Promise<any[]> => {
-    if (!fs.existsSync(dbPath)) {
-      return [];
-    }
-    const data = fs.readFileSync(dbPath, 'utf8');
-    return JSON.parse(data);
+  const fetch = async (familyId: string): Promise<any> => {
+    const family = await client.getFamily(familyId);
+    await save(family);
+    return family;
   };
 
   const save = async (family: any): Promise<void> => {
@@ -22,10 +20,12 @@ export const fontRepository = (dbPath: string, client: AdobeTypekitClient) => {
     }
   };
 
-  const fetch = async (familyId: string): Promise<any> => {
-    const family = await client.getFamily(familyId);
-    await save(family);
-    return family;
+  const getAll = async (): Promise<any[]> => {
+    if (!fs.existsSync(dbPath)) {
+      return [];
+    }
+    const data = fs.readFileSync(dbPath, 'utf8');
+    return JSON.parse(data);
   };
 
   return {

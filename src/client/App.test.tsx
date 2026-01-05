@@ -4,8 +4,15 @@ import App from './App';
 import '@testing-library/jest-dom';
 
 describe('App', () => {
-  it('shows font selector', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => [{ id: 'octin-sports', name: 'Octin Sports' }]
+    });
+  });
+
+  it('shows font selector', async () => {
     render(<App />);
-    expect(screen.getByText('Select a font')).toBeInTheDocument();
+    expect(await screen.findByText('Select a font')).toBeInTheDocument();
   });
 });

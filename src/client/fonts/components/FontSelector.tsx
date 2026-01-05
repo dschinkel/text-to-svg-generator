@@ -6,13 +6,15 @@ export interface Font {
 }
 
 export interface FontSelectorProps {
-  useFonts: (repository: any) => { fonts: Font[]; loading: boolean; error: Error | null };
-  repository: any;
+  useFonts: () => { fonts: Font[]; loading: boolean; error: Error | null };
   onSelect: (font: Font) => void;
 }
 
-export const FontSelector = ({ useFonts, repository, onSelect }: FontSelectorProps) => {
-  const { fonts } = useFonts(repository);
+export const FontSelector = ({ useFonts, onSelect }: FontSelectorProps) => {
+  const { fonts, loading, error } = useFonts();
+
+  if (loading) return <div>Loading fonts...</div>;
+  if (error) return <div>Error loading fonts: {error.message}</div>;
 
   return (
     <div>
@@ -21,6 +23,7 @@ export const FontSelector = ({ useFonts, repository, onSelect }: FontSelectorPro
           const font = fonts.find(f => f.id === e.target.value);
           if (font) onSelect(font);
         }}
+        className="border border-slate-300 rounded px-2 py-1"
       >
         <option value="">Select a font</option>
         {fonts.map(font => (

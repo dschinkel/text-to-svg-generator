@@ -1,0 +1,111 @@
+[
+  {
+    "id": "tgkh",
+    "name": "Octin Sports",
+    "slug": "octin-sports",
+    "web_link": "http://fonts.adobe.com/fonts/octin-sports",
+    "browse_info": {
+      "capitals": [
+        "all-or-small-caps"
+      ],
+      "classification": [
+        "decorative"
+      ],
+      "contrast": [
+        "low"
+      ],
+      "language": [
+        "ca",
+        "cs",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "hu",
+        "it",
+        "mt",
+        "nl",
+        "pl",
+        "pt",
+        "sl",
+        "sv",
+        "tr"
+      ],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "regular"
+      ],
+      "width": [
+        "regular"
+      ],
+      "x_height": []
+    },
+    "css_stack": "sans-serif",
+    "description": "Octin Sports isn’t just for sports; it’s also great for school, construction, prison, police or military themes.",
+    "foundry": {
+      "name": "Typodermic",
+      "slug": "typodermic"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "tgkh:n4",
+        "link": "/api/v1/json/families/tgkh/n4",
+        "name": "Octin Sports Regular",
+        "fvd": "n4"
+      }
+    ]
+  },
+  {
+    "id": "rcld",
+    "name": "Campus MN",
+    "slug": "campus-mn",
+    "web_link": "http://fonts.adobe.com/fonts/campus-mn",
+    "browse_info": {
+      "capitals": [],
+      "classification": [],
+      "contrast": [],
+      "language": [],
+      "number_style": [],
+      "recommended_for": [],
+      "weight": [],
+      "width": [],
+      "x_height": []
+    },
+    "css_stack": "sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Mecanorma Collection",
+      "slug": "mecanorma-collection"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "rcld:n4",
+        "link": "/api/v1/json/families/rcld/n4",
+        "name": "Campus MN Regular",
+        "fvd": "n4"
+      }
+    ]
+  }
+]
