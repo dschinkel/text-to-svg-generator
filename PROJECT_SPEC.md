@@ -2,10 +2,11 @@
 
 Project: `text-to-svg-generator`
 
-Purpose: Build a small web app that generates layered-outline SVG lettering from user-provided text and an Adobe Fonts (Typekit) font selection. The output SVGs must be suitable for import into TinkerCad.
+Purpose: Build a small web app that generates several layered-outline SVG lettering from user-provided text and an Adobe Fonts (Typekit) font selection. The output SVGs must be suitable for import into TinkerCad.
 
 This document is the **source of truth** for product behavior, architecture decisions, and key technical choices.  
 All implementation work must follow `GUIDELINES.md`.
+All behavior mentioned below are to be incrementally implemented will be broken down into smaller tasks defined in `tasks.md` and worked on one at a time.
 
 ---
 
@@ -13,7 +14,7 @@ All implementation work must follow `GUIDELINES.md`.
 
 ### 1.1 Primary User Outcome
 A user can:
-- Select an Adobe font
+- Select an Adobe font (list of what fonts are available is fetched from Adobe Fonts API will be defined in a later task)
 - Enter text
 - Preview the text rendered in that font
 - Generate and download **three** SVG files:
@@ -36,8 +37,8 @@ A user can:
 - Service (backend) root: `src/service/`
 
 ### 2.2 Data Storage
-- All persisted data must be stored in local JSON files under `db/`.
-- Generated SVG artifacts may be stored on disk; any file paths or metadata are recorded in JSON under `db/`.
+- All persisted data must be stored in local JSON files under `src/db/`.
+- Generated SVG artifacts may be stored on disk; any file paths or metadata are recorded in JSON under `src/db/`.
 
 ---
 
@@ -81,7 +82,7 @@ The system generates all three SVG outputs for the selected font + text:
 
 ### 4.2 Project Bootstrap
 - Initial project boilerplate must be copied from: `~/zevia/code/ai/react-app-boilerplate`
-- The new folder name must be: `svg-text-generator`
+- The new folder name must be: `text-to-svg-generator`
 
 ### 4.3 UI Components / Styling
 - Always use shadcn/ui components when third-party UI components are needed.
@@ -89,18 +90,20 @@ The system generates all three SVG outputs for the selected font + text:
 ### 4.4 React Architecture
 - Separate application logic from React views.
 - Views must be humble and ignorant of implementation details:
-    - Handler logic, fetch, and other logic must live in hooks.
-    - Hooks call repositories/services via injected dependencies.
+    - Handler, fetch, and other logic must live in hooks.
+    - Hooks call repositories/services via injected dependencies. Therefore there will be two layers below hooks:
+      - Repositories which make API calls and return data.
+      - Business which is any app agnostic business logic that hooks need in order to orchestrate the model's use cases.
 
 ### 4.5 Testing
 - Use Jest, React Testing Library, and React Hook Testing Library as appropriate.
 - Tests are written first (TDD), one at a time, per `GUIDELINES.md`.
 
 ### 4.6 Data / JSON DB
-Store all data in local JSON files under `db/`.
+Store all data in local JSON files under `src/db/`.
 
 Minimum required:
-- `db/fonts.json` stores font metadata used by the app (name, IDs, Adobe metadata needed by the system).
+- `src/db/fonts.json` stores font metadata used by the app (name, IDs, Adobe metadata needed by the system).
 
 ### 4.7 LLM Requests (TOON)
 Whenever sending API calls to LLMs, ensure request tokens are converted first using TOON format notation:
@@ -112,9 +115,10 @@ Whenever sending API calls to LLMs, ensure request tokens are converted first us
 
 ### 5.1 Primary Screen
 The primary screen must include:
-- A font selector (dropdown/combobox)
+- A font selector (dropdown)
     - Searchable by font name
     - Shows font names in their own font where feasible
+    - Ordered ASC
 - A text input
 - A live preview area showing the text rendered in the selected font
 - A “Generate” action
@@ -134,20 +138,21 @@ Each thumbnail is clickable and triggers download of the full SVG.
 ### 6.1 Onion Architecture Layers (required)
 The service code must follow this strict layering:
 
-**Controller → Command → Repository → Data Layer**
+**Controller → Command → Business Logic -> Repository → Data Layer**
 
 Rules:
 - Controllers are pass-through adapters only (delivery mechanism boundary).
 - Commands represent user commands/use-cases and orchestrate the use-case.
+- Business logic is pure and domain agnostic.
 - Repositories orchestrate access to data sources and provide stable domain-oriented interfaces.
 - Data layer performs IO (HTTP, filesystem, DB drivers, SDK wrappers) and is injected into repositories.
 
 ### 6.2 Controller Layer (Pass-through)
 Controllers must:
 - Accept delivery mechanism input (HTTP request, queue message, etc.)
-- Translate it into a pure request DTO (no framework types)
-- Call the command with the request DTO
-- Translate the response DTO into a delivery mechanism response
+- Translate it into a pure request Data JS Object (no framework types)
+- Call the command with the request Data JS Object
+- Translate the response Data JS Object back into a delivery mechanism response
 
 Controllers must not:
 - Contain business decisions
@@ -159,7 +164,7 @@ Commands must:
 - Represent a single user use-case
 - Accept request DTOs that have been stripped of delivery concerns
 - Use injected pure business logic and injected repositories/services to execute the use-case
-- Produce a response DTO
+- Produce a response Data JS Object
 
 Commands must not:
 - Depend on HTTP/framework types (Express/Fastify req/res, headers, etc.)
@@ -174,7 +179,7 @@ Commands must not:
 ## 7. Data Model (Initial)
 
 ### 7.1 Fonts
-`db/fonts.json` must store enough data to:
+`src/db/fonts.json` must store enough data to:
 - Show fonts in the dropdown
 - Resolve a chosen font into a renderable selection for preview and for SVG generation
 
@@ -217,7 +222,7 @@ A generations record may be stored to support reproducibility and debugging:
     - https://fonts.adobe.com/docs/api
 
 ### 8.4 SVG Generation (High Quality)
-- Generate base text geometry as vector paths suitable for CAD.
+- Generate base text geometry as vector paths suitable for CAD but small enough to be imported into TinkerCad. The file size of the SVG must be 4mb or under.
 - Generate outlines as offset contours outside the base geometry.
 
 Key activities:
@@ -234,7 +239,7 @@ Key activities:
 ---
 
 ## 9. Open Decisions / Risk Areas (Explicit)
-These items must be resolved early via small spike tasks (still under TDD workflow):
+These items must be resolved early via small spike tasks or research tasks:
 - How the system obtains usable font outline data for SVG path generation for Adobe Fonts selections.
 - The exact outline algorithm/library to produce consistent offset contours.
 - How “installing” a font into the dropdown is implemented (cached metadata vs dynamic API fetch).

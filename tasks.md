@@ -15,3 +15,7 @@ Acceptance:
 - Dependencies install successfully by running `yarn`
 - Client root is `src/client/`
 - Service root is `src/service/`
+- Initialize the repository and push it up to the remote repo as a new repository using the github cli
+
+## 2. 
+Goal:
