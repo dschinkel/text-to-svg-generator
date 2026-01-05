@@ -26,8 +26,13 @@ describe('FontSelector', () => {
         onSelect={() => {}} 
       />
     );
+    
+    const selector = screen.getByTestId('font-selection');
+    expect(selector).toBeInTheDocument();
 
-    expect(screen.getByText('Octin Sports')).toBeInTheDocument();
-    expect(screen.getByText('Campus MN')).toBeInTheDocument();
+    const options = screen.getAllByTestId('font');
+    expect(options).toHaveLength(2);
+    expect(options[0]).toHaveTextContent('Octin Sports');
+    expect(options[1]).toHaveTextContent('Campus MN');
   });
 });

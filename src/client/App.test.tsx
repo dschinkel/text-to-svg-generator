@@ -13,6 +13,6 @@ describe('App', () => {
 
   it('shows font selector', async () => {
     render(<App />);
-    expect(await screen.findByText('Select a font')).toBeInTheDocument();
+    expect(await screen.findByTestId('font-selection')).toBeInTheDocument();
   });
 });

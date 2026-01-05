@@ -38,9 +38,10 @@ Acceptance: Ability to select fonts Octin or Campus MN from a list
 ## Task: Dev Experience - Concurrent Servers
 Goal: Start both frontend and backend servers with `yarn dev`.
 Acceptance: `yarn dev` starts Vite and the Koa backend concurrently, ensuring the server starts first.
-- Added `wait-on` to ensure server is ready before client starts.
-- Fixed `wait-on` to use `tcp` protocol instead of `http` to avoid blocking on 404 responses from the root path.
 
 Corrections I had the LLM make during this task:
 - fetchAndSave should be two separate small methods. Methods should never do more than one thing.  If one method needs to do something, it should call another but fetch and save are two different concerns that should be separated by their own composed functions.
 - refactor JS classes to modules (it didn't do what guidelines.md told it to do which is not to create classes)
+- Added `wait-on` to ensure server is ready before client starts.
+- Fixed `wait-on` to use `tcp` protocol instead of `http` to avoid blocking on 404 responses from the root path.
+

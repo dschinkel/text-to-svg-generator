@@ -70,6 +70,10 @@ N1.8 Use JSX syntax in React tests. Do not use `React.createElement` in tests.
 Bad: `render(React.createElement(FontSelector, { fonts: fonts, onSelect: () => {} }));`
 Good: `render(<FontSelector fonts={fonts} onSelect={() => {}} />);`
 
+N1.9 UI tests must use `data-testid` instead of finding elements by text (e.g., `getByText`, `findByText`). 
+Data test IDs must represent domain concepts.
+Example: For a font selector, use `data-testid="font-selection"`.
+
 ---
 
 ## A1. Architecture & DDD

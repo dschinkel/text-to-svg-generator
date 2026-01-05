@@ -13,12 +13,13 @@ export interface FontSelectorProps {
 export const FontSelector = ({ useFonts, onSelect }: FontSelectorProps) => {
   const { fonts, loading, error } = useFonts();
 
-  if (loading) return <div>Loading fonts...</div>;
-  if (error) return <div>Error loading fonts: {error.message}</div>;
+  if (loading) return <div data-testid="font-loading">Loading fonts...</div>;
+  if (error) return <div data-testid="font-error">Error loading fonts: {error.message}</div>;
 
   return (
     <div>
       <select
+        data-testid="font-selection"
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
           const font = fonts.find(f => f.id === e.target.value);
           if (font) onSelect(font);
@@ -27,7 +28,7 @@ export const FontSelector = ({ useFonts, onSelect }: FontSelectorProps) => {
       >
         <option value="">Select a font</option>
         {fonts.map(font => (
-          <option key={font.id} value={font.id}>
+          <option key={font.id} value={font.id} data-testid="font">
             {font.name}
           </option>
         ))}
