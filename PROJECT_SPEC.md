@@ -5,7 +5,7 @@ Project: `text-to-svg-generator`
 Purpose: Build a small web app that generates several layered-outline SVG lettering from user-provided text and an Adobe Fonts (Typekit) font selection. The output SVGs must be suitable for import into TinkerCad.
 
 This document is the **source of truth** for product behavior, architecture decisions, and key technical choices.  
-All implementation work must follow `GUIDELINES.md`.
+All implementation work must follow `GUIDELINES.md` which is located at the root of the project.
 All behavior mentioned below are to be incrementally implemented will be broken down into smaller tasks defined in `tasks.md` and worked on one at a time.
 
 ---
