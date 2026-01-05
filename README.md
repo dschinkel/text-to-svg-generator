@@ -18,5 +18,5 @@ Unfortunately, the way to make it reliable is to stop treating the chat as the s
 
    Break the main features found in PROJECT_SPEC.md down by using tasks and tasks.md.  Work in small steps, and iterate on one feature at a time.  Use tasks to work in small batches /steps
 
-4. Start working on one task at a time
+4. Start working on one task at a time for the feature you're working to complete.  Features at a higher level are found in PROJECT_SPEC.md prefixed with an F, for example `FR.1`
 5. Commit at Green, commit at refactor
