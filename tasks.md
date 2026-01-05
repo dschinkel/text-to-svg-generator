@@ -25,5 +25,16 @@ Acceptance:
 - README.md exists at root
 - README.md contains the exact LLM instructions section
 
-## 2. 
-Goal:
+## Task: FR.1.1 
+Goal: Select a font from a List of Fonts
+Fonts to include: Octin, Campus MN
+Font source: Adobe Typekit API
+
+Rules:
+- Before starting Read PROJECT_SPEC.md and GUIDELINES.md
+
+Acceptance: Ability to select fonts Octin or Campus MN from a list
+
+Corrections I had the LLM make during this task:
+- fetchAndSave should be two separate small methods. Methods should never do more than one thing.  If one method needs to do something, it should call another but fetch and save are two different concerns that should be separated by their own composed functions.
+- refactor JS classes to modules (it didn't do what guidelines.md told it to do which is not to create classes)
