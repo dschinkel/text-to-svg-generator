@@ -24,6 +24,8 @@ P0.0 When the user says `work on task <number>`, ask this question BEFORE produc
 P0.0.1 Do not present a PLAN until the user answers the question in P0.0.
 
 P0.1 Before writing or changing any code, produce a PLAN when the user says: `work on task <number>` and after resolving P0.0.
+Always present the PLAN again before proceeding to the next step in the PLAN.
+P0.1.1 Before proceeding to the next step in the PLAN, re-load PROJECT_SPEC.md and GUIDELINES.md from disk, state what the next step is, and ask for explicit permission to proceed.
 P0.2 The PLAN must include, in the first line, the task number and the feature name.
 P0.3 The PLAN must list each planned increment and explicitly name the test(s) that will be written for each increment if (and only if) the user chose a TDD workflow in P0.0.
 P0.4 After presenting the PLAN, ask whether to proceed. Do not proceed without an explicit “continue/proceed” from the user.

@@ -6,6 +6,7 @@ Purpose: Build a small web app that generates several layered-outline SVG letter
 
 This document is the **source of truth** for product behavior, architecture decisions, and key technical choices.  
 All implementation work must follow `GUIDELINES.md` which is located at the root of the project.
+At the start of every task and before proceeding to the next step in the PLAN, Junie must re-load PROJECT_SPEC.md and GUIDELINES.md from disk, state what the next step is, and ask the User for permission to proceed.
 All behavior mentioned below are to be incrementally implemented will be broken down into smaller tasks defined in `tasks.md` and worked on one at a time.
 
 ---
@@ -47,12 +48,14 @@ A user can:
 ### 3.1 Feature Requirements (FR.*)
 
 **FR.1 — Select a font from a List of Fonts**
-- Ability to load fonts from Adobe Typekit/Adobe Fonts into a dropdown.
-- User can type a font name and the system fetches/install/registers it and adds it to the dropdown.
-- Dropdown shows the font’s name rendered in the actual font (where feasible).
+**FR.1.1** Ability to load fonts from Adobe Typekit/Adobe Fonts into a dropdown.
+
+**FR.1.2** User can type a font name and the system fetches/install/registers it and adds it to the dropdown.
+
+**FR.1.3** Dropdown shows the font’s name rendered in the actual font (where feasible).
 
 **FR.2 — Add Text for Font**
-- User enters text and sees a preview of the text rendered in the selected font.
+**FR.2.1** User enters text and sees a preview of the text rendered in the selected font.
 
 **FR.3 — Generate Three SVG images**
 The system generates all three SVG outputs for the selected font + text:
@@ -67,8 +70,8 @@ The system generates all three SVG outputs for the selected font + text:
 - SVG image of the text plus a larger outer outline/contour outside the tight outline.
 
 **FR.4 — Download**
-- The UI shows 3 preview thumbnails.
-- Clicking a thumbnail downloads the full-resolution SVG file.
+**FR.4.1** The UI shows 3 preview thumbnails.
+**FR.4.2**  Clicking a thumbnail downloads the full-resolution SVG file.
 
 ---
 
