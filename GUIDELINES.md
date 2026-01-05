@@ -31,7 +31,7 @@ P0.3 The PLAN must list each planned increment and explicitly name the test(s) t
 P0.4 After presenting the PLAN, ask whether to proceed. Do not proceed without an explicit “continue/proceed” from the user.
 P0.5 If the user tells you to proceed, copy the approved PLAN into `tdd.log` before starting implementation (only applies when the user chose a TDD workflow in P0.0).
 P0.5.1 When copying the PLAN into `tdd.log`, include the full PLAN text verbatim under a `PLAN:` heading.
-P0.6 After completing each phase in the PLAN, summarize the phase you just completed and ask to proceed to the next phase.  Tell me what the next phase is at a high level (for example, "implementing UI components").
+P0.6 After completing each step in the PLAN, summarize the step you just completed and ask to proceed to the next step. Tell me what the next step is.
 P0.7 If the user stops you midstream with a question or change request, log the interruption and the resolution in `tdd.log` (only applies when the user chose a TDD workflow in P0.0).
 P0.8 If the user reverts an implemented plan, remove the corresponding plan and its workflow entries from `tdd.log` (only applies when the user chose a TDD workflow in P0.0).
 
@@ -63,6 +63,9 @@ N1.1 Tests must describe business behavior in clear prose.
 N1.2 Do not include function names, endpoints, browser/view terms, or technical sources in test names.
 N1.3 Avoid “should” and avoid overly-specific phrasing. Prefer short domain behavior labels.
 N1.4 Canonical examples live in Appendix D.
+N1.5 Test data and stubs must not use the word "mock". Use domain terms for data and "fake" for stubs (e.g., `fakeRepository`, `fakeFonts`).
+N1.6 Do not test for loading state in hook tests.
+N1.7 Treat the System Under Test (SUT) as a black box. Avoid using spies or asserting that internal dependencies were called when the output itself can be asserted.
 
 ---
 

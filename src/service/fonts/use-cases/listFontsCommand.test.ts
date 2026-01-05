@@ -2,15 +2,14 @@ import { listFontsCommand } from './listFontsCommand';
 
 describe('listFontsCommand', () => {
   it('lists fonts', async () => {
-    const mockFonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
-    const mockRepository = {
-      getAll: jest.fn().mockResolvedValue(mockFonts)
+    const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
+    const fakeRepository = {
+      getAll: jest.fn().mockResolvedValue(fonts)
     };
 
-    const command = listFontsCommand(mockRepository);
+    const command = listFontsCommand(fakeRepository);
     const result = await command.execute();
 
-    expect(result).toEqual(mockFonts);
-    expect(mockRepository.getAll).toHaveBeenCalled();
+    expect(result).toEqual(fonts);
   });
 });

@@ -2,15 +2,14 @@ import { fontController } from './fontController';
 
 describe('fontController', () => {
   it('lists fonts', async () => {
-    const mockFonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
-    const mockListFontsCommand = {
-      execute: jest.fn().mockResolvedValue(mockFonts)
+    const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
+    const fakeListFontsCommand = {
+      execute: jest.fn().mockResolvedValue(fonts)
     };
 
-    const controller = fontController(mockListFontsCommand);
+    const controller = fontController(fakeListFontsCommand);
     const result = await controller.getFonts();
 
-    expect(result).toEqual(mockFonts);
-    expect(mockListFontsCommand.execute).toHaveBeenCalled();
+    expect(result).toEqual(fonts);
   });
 });
