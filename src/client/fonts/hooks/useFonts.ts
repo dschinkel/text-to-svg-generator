@@ -12,22 +12,7 @@ export const useFonts = (repository: ClientFontRepository) => {
   useEffect(() => {
     let mounted = true;
 
-    const loadFonts = async () => {
-      try {
-        const data = await repository.getFonts();
-        if (mounted) {
-          setFonts(data);
-          setLoading(false);
-        }
-      } catch (e) {
-        if (mounted) {
-          setError(e as Error);
-          setLoading(false);
-        }
-      }
-    };
-
-    loadFonts();
+    loadFonts(repository, setFonts, setLoading, setError, () => mounted);
 
     return () => {
       mounted = false;
@@ -35,4 +20,25 @@ export const useFonts = (repository: ClientFontRepository) => {
   }, [repository]);
 
   return { fonts, loading, error };
+};
+
+const loadFonts = async (
+  repository: ClientFontRepository,
+  setFonts: (fonts: any[]) => void,
+  setLoading: (loading: boolean) => void,
+  setError: (error: Error) => void,
+  isMounted: () => boolean
+) => {
+  try {
+    const data = await repository.getFonts();
+    if (isMounted()) {
+      setFonts(data);
+      setLoading(false);
+    }
+  } catch (e) {
+    if (isMounted()) {
+      setError(e as Error);
+      setLoading(false);
+    }
+  }
 };
