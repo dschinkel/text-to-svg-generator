@@ -522,3 +522,289 @@ USER DECISION: committed
 === COMMIT (CLEANUP) ===
 PROPOSED COMMIT: feat: FR.1.1: cleanup: full-stack font selection
 USER DECISION: committed
+
+GOAL: adds a font
+PLAN STEP: 2
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/client/fonts/hooks/useFonts.test.ts - adds a font
+CHANGESET:
+  it('adds a font', async () => {
+    const initialFonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
+    const newFont = { id: 'campus-mn', name: 'Campus MN' };
+    
+    const fakeRepository = {
+      getFonts: async () => initialFonts,
+      addFont: async (name: string) => newFont
+    };
+
+    const { result } = renderHook(() => useFonts(fakeRepository));
+    
+    await waitFor(() => expect(result.current.fonts).toEqual(initialFonts));
+
+    await act(async () => {
+      await result.current.addFont('Campus MN');
+    });
+
+    expect(result.current.fonts).toEqual([...initialFonts, newFont]);
+  });
+
+COMMANDS RUN: yarn jest src/client/fonts/hooks/useFonts.test.ts
+TEST OUTPUT: RED - TypeError: result.current.addFont is not a function
+
+NEXT STEP: Update useFonts hook to return addFont function that calls repository.addFont and updates state.
+
+=== GREEN PHASE ===
+CHANGESET:
+  const addFont = async (name: string) => {
+    try {
+      const newFont = await repository.addFont(name);
+      setFonts(prev => [...prev, newFont]);
+    } catch (e) {
+      setError(e as Error);
+    }
+  };
+
+  return { fonts, loading, error, addFont };
+
+COMMANDS RUN: yarn jest src/client/fonts/hooks/useFonts.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.1.2: Step 2: Frontend: Hook: adds a font
+USER DECISION: committed
+
+GOAL: adds a font
+PLAN STEP: 3
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/client/fonts/repositories/fontRepository.test.ts - adds a font
+CHANGESET:
+  it('adds a font', async () => {
+    const newFont = { id: 'campus-mn', name: 'Campus MN' };
+    let calledUrl = '';
+    let calledOptions: any = {};
+    
+    global.fetch = (async (url: string, options: any) => {
+      calledUrl = url;
+      calledOptions = options;
+      return {
+        ok: true,
+        json: async () => newFont
+      };
+    }) as any;
+
+    const repository = fontRepository();
+    const result = await repository.addFont('Campus MN');
+
+    expect(result).toEqual(newFont);
+    expect(calledUrl).toBe('/api/fonts');
+    expect(calledOptions.method).toBe('POST');
+    expect(calledOptions.headers['Content-Type']).toBe('application/json');
+    expect(calledOptions.body).toBe(JSON.stringify({ name: 'Campus MN' }));
+  });
+
+COMMANDS RUN: yarn jest src/client/fonts/repositories/fontRepository.test.ts
+TEST OUTPUT: RED - TypeError: repository.addFont is not a function
+
+NEXT STEP: Add addFont method to fontRepository that sends a POST request to /api/fonts.
+
+=== GREEN PHASE ===
+CHANGESET:
+  const addFont = async (name: string): Promise<any> => {
+    const response = await fetch('/api/fonts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to add font: ${response.statusText}`);
+    }
+
+    return await response.json();
+  };
+
+  return {
+    getFonts,
+    addFont
+  };
+
+COMMANDS RUN: yarn jest src/client/fonts/repositories/fontRepository.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.1.2: Step 3: Frontend: Repository: adds a font
+USER DECISION: committed
+
+GOAL: adds a font
+PLAN STEP: 4
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/service/fonts/controllers/fontController.test.ts - adds a font
+CHANGESET:
+  it('adds a font', async () => {
+    const newFont = { id: 'campus-mn', name: 'Campus MN' };
+    const fakeAddFontCommand = {
+      execute: async (name: string) => {
+        if (name === 'Campus MN') return newFont;
+        return null;
+      }
+    };
+    const fakeListFontsCommand = {
+      execute: async () => []
+    };
+
+    const controller = fontController(fakeListFontsCommand, fakeAddFontCommand);
+    const result = await controller.addFont('Campus MN');
+
+    expect(result).toEqual(newFont);
+  });
+
+COMMANDS RUN: yarn jest src/service/fonts/controllers/fontController.test.ts
+TEST OUTPUT: RED - TypeError: controller.addFont is not a function
+
+NEXT STEP: Update fontController to accept AddFont use case and implement addFont method.
+
+=== GREEN PHASE ===
+CHANGESET:
+  const addFont = async (name: string): Promise<any> => {
+    return await addFontCommand.execute(name);
+  };
+
+COMMANDS RUN: yarn jest src/service/fonts/controllers/fontController.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.1.2: Step 4: Backend: Controller: adds a font
+USER DECISION: committed and pushed
+
+GOAL: adds a font
+PLAN STEP: 5
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/service/fonts/use-cases/AddFont.test.ts - adds a font
+CHANGESET:
+  it('adds a font', async () => {
+    const font = { id: 'campus-mn', name: 'Campus MN', slug: 'campus-mn' };
+    let calledSlug = '';
+    const fakeRepository = {
+      fetch: async (slug: string) => {
+        calledSlug = slug;
+        return font;
+      },
+      getAll: async () => [],
+      save: async () => {}
+    };
+
+    const result = await AddFont(fakeRepository, 'Campus MN');
+
+    expect(result).toEqual(font);
+    expect(calledSlug).toBe('campus-mn');
+  });
+
+COMMANDS RUN: yarn jest src/service/fonts/use-cases/AddFont.test.ts
+TEST OUTPUT: RED - Cannot find module './AddFont'
+
+NEXT STEP: Create AddFont use case as a simple async function that slugifies the name and calls repository.fetch.
+
+=== GREEN PHASE ===
+CHANGESET:
+export const AddFont = async (repository: any, name: string): Promise<any> => {
+  const slug = name.toLowerCase().replace(/ /g, '-');
+  return await repository.fetch(slug);
+};
+
+COMMANDS RUN: yarn jest src/service/fonts/use-cases/AddFont.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.1.2: Step 5: Backend: UseCase: adds a font
+USER DECISION:
+
+
+PLAN:
+1. Frontend Component: FontSelector
+   - Goal: Update FontSelector to support adding fonts (Combobox UI).
+   - Minimal implementation: Add input and button to FontSelector.
+   - Files expected to change: src/client/fonts/components/FontSelector.tsx
+
+   COMMIT:
+   - Proposed message: feat: FR.1.2: Step 1: Frontend: Component: adds a font
+
+2. Frontend Hook: useFonts
+   RED:
+   - Test name: adds a font
+   - Location: src/client/fonts/hooks/useFonts.test.ts
+   - Intent: Verify that useFonts returns an addFont function that updates the local state.
+
+   GREEN:
+   - Minimal implementation: Update useFonts to return addFont and use repository.addFont.
+   - Files expected to change: src/client/fonts/hooks/useFonts.ts
+
+   COMMIT:
+   - Proposed message: feat: FR.1.2: Step 2: Frontend: Hook: adds a font
+
+3. Frontend Repository: fontRepository
+   RED:
+   - Test name: adds a font
+   - Location: src/client/fonts/repositories/fontRepository.test.ts
+   - Intent: Verify that addFont persists a new font.
+
+   GREEN:
+   - Minimal implementation: Add addFont to fontRepository using fetch with POST.
+   - Files expected to change: src/client/fonts/repositories/fontRepository.ts
+
+   COMMIT:
+   - Proposed message: feat: FR.1.2: Step 3: Frontend: Repository: adds a font
+
+4. Backend Controller: fontController
+   RED:
+   - Test name: adds a font
+   - Location: src/service/fonts/controllers/fontController.test.ts
+   - Intent: Verify that addFont orchestrates adding a font.
+
+   GREEN:
+   - Minimal implementation: Add addFont to fontController.
+   - Files expected to change: src/service/fonts/controllers/fontController.ts
+
+   COMMIT:
+   - Proposed message: feat: FR.1.2: Step 4: Backend: Controller: adds a font
+
+5. Backend UseCase: AddFont
+   RED:
+   - Test name: adds a font
+   - Location: src/service/fonts/use-cases/AddFont.test.ts
+   - Intent: Verify that the UseCase fetches and persists a font by name.
+
+   GREEN:
+   - Minimal implementation: Create AddFont UseCase.
+   - Files expected to change: src/service/fonts/use-cases/AddFont.ts
+
+   COMMIT:
+   - Proposed message: feat: FR.1.2: Step 5: Backend: UseCase: adds a font
+
+6. Backend Routing & Body Parsing
+   RED:
+   - Test name: adds a font
+   - Location: src/service/app.test.ts
+   - Intent: Verify that the system accepts font additions via HTTP.
+
+   GREEN:
+   - Minimal implementation: Add koa-bodyparser and update router to handle POST /api/fonts.
+   - Files expected to change: src/service/app.ts, package.json
+
+   COMMIT:
+   - Proposed message: feat: FR.1.2: Step 6: Backend: App: adds a font
+
+7. Cleanup & Verification
+   - Run all tests.
+   - Fix linting errors.
+   COMMIT:
+   - Proposed message: feat: FR.1.2: cleanup: final verification

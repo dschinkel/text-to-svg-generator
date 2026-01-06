@@ -9,6 +9,7 @@ export interface Font {
 export interface FontSelectorProps {
   useFonts: () => { 
     fonts: Font[]; 
+    filteredFonts: Font[];
     loading: boolean; 
     error: Error | null;
     newFontName: string;
@@ -25,36 +26,43 @@ export const FontSelector = ({ useFonts, onSelect }: FontSelectorProps) => {
   const state = useFonts();
 
   return (
-    <>
+    <div className="w-full max-w-sm">
       <FontLoading loading={state.loading} />
       <FontError error={state.error} />
       <FontSelection {...state} onSelect={onSelect} />
-    </>
+    </div>
   );
 };
 
 const FontLoading = ({ loading }: { loading: boolean }) => {
   if (!loading) return null;
-  return <div data-testid="font-loading">Loading fonts...</div>;
+  return <div data-testid="font-loading" className="text-sm text-slate-500 mb-2">Loading fonts...</div>;
 };
 
 const FontError = ({ error }: { error: Error | null }) => {
   if (!error) return null;
-  return <div data-testid="font-error">Error loading fonts: {error.message}</div>;
+  return <div data-testid="font-error" className="text-sm text-red-500 mb-2">Error: {error.message}</div>;
 };
 
 const FontList = ({ 
   fonts, 
   onSelect, 
   setIsOpen,
-  visible 
+  visible,
+  onAdd,
+  newFontName
 }: { 
   fonts: Font[], 
   onSelect: (font: Font) => void,
   setIsOpen: (isOpen: boolean) => void,
-  visible: boolean 
+  visible: boolean,
+  onAdd: () => void,
+  newFontName: string
 }) => {
   if (!visible) return null;
+
+  const showAddOption = newFontName && !fonts.find(f => f.name.toLowerCase() === newFontName.toLowerCase());
+
   return (
     <ul 
       className="absolute z-10 w-full mt-1 bg-white border border-slate-300 rounded shadow-lg max-h-60 overflow-auto"
@@ -68,65 +76,70 @@ const FontList = ({
             onSelect(font);
             setIsOpen(false);
           }}
-          className="px-2 py-2 hover:bg-slate-100 cursor-pointer"
+          className="px-3 py-2 hover:bg-slate-100 cursor-pointer text-left"
           style={{ fontFamily: font.css_stack || font.name }}
         >
           {font.name}
         </li>
       ))}
+      {showAddOption && (
+        <li 
+          onClick={onAdd}
+          className="px-3 py-2 hover:bg-blue-50 cursor-pointer text-left text-blue-600 border-t border-slate-100"
+          data-testid="add-font-option"
+        >
+          Add "{newFontName}"...
+        </li>
+      )}
+      {fonts.length === 0 && !showAddOption && (
+        <li className="px-3 py-2 text-slate-400 italic">No fonts found</li>
+      )}
     </ul>
   );
 };
 
 const FontSelection = ({ 
-  fonts, 
+  filteredFonts, 
   loading, 
   error, 
   newFontName, 
   setNewFontName, 
   isOpen, 
   setIsOpen,
-  toggleOpen,
   handleAdd,
   onSelect 
 }: any) => {
   if (loading || error) return null;
 
   return (
-    <div className="flex flex-col gap-4 relative">
-      <div className="flex gap-2">
+    <div className="relative">
+      <div className="flex flex-col gap-1">
+        <label className="text-sm font-medium text-slate-700">Select a Font</label>
         <input
           type="text"
           data-testid="font-input"
           value={newFontName}
-          onChange={(e) => setNewFontName(e.target.value)}
-          placeholder="Type font name..."
-          className="border border-slate-300 rounded px-2 py-1 flex-1"
+          onChange={(e) => {
+            setNewFontName(e.target.value);
+            setIsOpen(true);
+          }}
+          onFocus={() => setIsOpen(true)}
+          placeholder="Search or type a new font..."
+          className="border border-slate-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
-        <button
-          data-testid="add-font-button"
-          onClick={handleAdd}
-          className="bg-blue-500 text-white px-4 py-1 rounded"
-        >
-          Add
-        </button>
       </div>
 
-      <div className="relative">
-        <button
-          data-testid="font-selection"
-          onClick={toggleOpen}
-          className="border border-slate-300 rounded px-2 py-1 w-full text-left bg-white"
-        >
-          Select a font
-        </button>
-        <FontList 
-          fonts={fonts} 
-          onSelect={onSelect} 
-          setIsOpen={setIsOpen} 
-          visible={isOpen} 
-        />
-      </div>
+      <FontList 
+        fonts={filteredFonts} 
+        onSelect={onSelect} 
+        setIsOpen={setIsOpen} 
+        visible={isOpen} 
+        onAdd={() => {
+          handleAdd();
+          setIsOpen(false);
+        }}
+        newFontName={newFontName}
+      />
     </div>
   );
 };

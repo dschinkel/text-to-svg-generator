@@ -42,9 +42,13 @@ export const useFonts = (repository: ClientFontRepository) => {
   };
 
   const toggleOpen = () => setIsOpen(!isOpen);
+  const filteredFonts = fonts.filter(font => 
+    font.name.toLowerCase().includes(newFontName.toLowerCase())
+  );
 
   return { 
     fonts, 
+    filteredFonts,
     loading, 
     error, 
     addFont,

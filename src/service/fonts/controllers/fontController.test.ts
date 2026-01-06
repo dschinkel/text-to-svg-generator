@@ -5,6 +5,7 @@ describe('Font Controller', () => {
     const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
     const fakeListFonts = async () => fonts;
     const fakeAddFont = async () => ({});
+    const fakeRepository = {};
     const fakeClient = {};
     const kitId = 'test-kit';
 

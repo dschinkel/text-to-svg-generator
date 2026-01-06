@@ -7,17 +7,22 @@ export interface AdobeTypekitClient {
 export const fontRepository = (dbPath: string, client: AdobeTypekitClient) => {
   const fetch = async (familyId: string): Promise<any> => {
     const family = await client.getFamily(familyId);
+    if (family.css_stack === 'sans-serif') {
+      family.css_stack = `"${family.slug}", sans-serif`;
+    }
     await save(family);
     return family;
   };
 
   const save = async (family: any): Promise<void> => {
     const fonts = await getAll();
-    const exists = fonts.find(f => f.id === family.id);
-    if (!exists) {
+    const index = fonts.findIndex(f => f.id === family.id);
+    if (index === -1) {
       fonts.push(family);
-      fs.writeFileSync(dbPath, JSON.stringify(fonts, null, 2));
+    } else {
+      fonts[index] = family;
     }
+    fs.writeFileSync(dbPath, JSON.stringify(fonts, null, 2));
   };
 
   const getAll = async (): Promise<any[]> => {

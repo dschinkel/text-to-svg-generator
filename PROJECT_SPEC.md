@@ -1,4 +1,4 @@
-# PROJECT_SPEC.md
+# PROJECT SPEC
 
 Project: `text-to-svg-generator`
 
@@ -52,7 +52,7 @@ A user can:
 
 **FR.1.2** User can type a font name and the system fetches/install/registers it and adds it to the dropdown.
 
-**FR.1.3** Dropdown shows the font’s name rendered in the actual font (where feasible).
+**FR.1.3** Listed fonts show up rendered in their actual typeface (where feasible).
 
 **FR.2 — Add Text for Font**
 **FR.2.1** User enters text and sees a preview of the text rendered in the selected font.

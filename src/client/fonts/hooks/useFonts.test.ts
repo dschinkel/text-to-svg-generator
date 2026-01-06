@@ -33,4 +33,25 @@ describe('Use Fonts', () => {
 
     expect(result.current.fonts).toEqual([...initialFonts, newFont]);
   });
+
+  it('filters fonts by name', async () => {
+    const fonts = [
+      { id: 'octin-sports', name: 'Octin Sports' },
+      { id: 'campus-mn', name: 'Campus MN' }
+    ];
+    const fakeRepository = {
+      getFonts: async () => fonts,
+      addFont: async () => ({})
+    };
+
+    const { result } = renderHook(() => useFonts(fakeRepository));
+    
+    await waitFor(() => expect(result.current.fonts).toEqual(fonts));
+
+    await act(async () => {
+      result.current.setNewFontName('Campus');
+    });
+
+    expect(result.current.filteredFonts).toEqual([fonts[1]]);
+  });
 });

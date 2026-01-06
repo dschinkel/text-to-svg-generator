@@ -26,7 +26,7 @@ Acceptance:
 - README.md contains the exact LLM instructions section
 
 ## Task: FR.1.1 
-Goal: Select a font from a List of Fonts
+### Goal: Select a font from a List of Fonts
 Fonts to include: Octin, Campus MN
 Font source: Adobe Typekit API
 
@@ -36,7 +36,7 @@ Rules:
 Acceptance: Ability to select fonts Octin or Campus MN from a list
 
 ## Task: Dev Experience - Concurrent Servers
-Goal: Start both frontend and backend servers with `yarn dev`.
+### Goal: Start both frontend and backend servers with `yarn dev`.
 Acceptance: `yarn dev` starts Vite and the Koa backend concurrently, ensuring the server starts first.
 
 Corrections I had the LLM make during this task:
@@ -45,3 +45,22 @@ Corrections I had the LLM make during this task:
 - Added `wait-on` to ensure server is ready before client starts.
 - Fixed `wait-on` to use `tcp` protocol instead of `http` to avoid blocking on 404 responses from the root path.
 
+## Task: FR.1.2
+### Goal: User can type a font name and the system fetches and adds it to the dropdown.
+
+Rules:
+- The current fonts dropdown unless we can also type in it will not work here.  Provide me suggestions on other controls we can use for this scenario.  Still list the fonts, be able to select them but also be able to type in new fonts to the same control.  Keep it simple
+- Before starting Read PROJECT_SPEC.md and GUIDELINES.md
+
+## Task: FR.1.3 [COMPLETED]
+### Goal: Listed fonts show up rendered in their actual typeface (rendert heir names in the list using their unique web fonts) (where feasible)
+
+Rules:
+- Before you start, repeat back to me what you think a user would do once this Acceptance criteria is met.
+- Before starting Read PROJECT_SPEC.md and GUIDELINES.md
+- Use Adobe Fonts web font loading to render the font names in the dropdown.
+
+Acceptance:
+AS an Etsy Seller
+When I veiw the list of fonts
+Then I see their name rendered in that font

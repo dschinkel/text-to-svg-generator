@@ -43,7 +43,7 @@
       ],
       "x_height": []
     },
-    "css_stack": "sans-serif",
+    "css_stack": "\"octin-sports\", sans-serif",
     "description": "Octin Sports isn’t just for sports; it’s also great for school, construction, prison, police or military themes.",
     "foundry": {
       "name": "Typodermic",
@@ -86,7 +86,7 @@
       "width": [],
       "x_height": []
     },
-    "css_stack": "sans-serif",
+    "css_stack": "\"campus-mn\", sans-serif",
     "description": null,
     "foundry": {
       "name": "Mecanorma Collection",
@@ -105,6 +105,103 @@
         "link": "/api/v1/json/families/rcld/n4",
         "name": "Campus MN Regular",
         "fvd": "n4"
+      }
+    ]
+  },
+  {
+    "id": "grrl",
+    "name": "Sporty Pro",
+    "slug": "sporty-pro",
+    "web_link": "http://fonts.adobe.com/fonts/sporty-pro",
+    "browse_info": {
+      "capitals": [
+        "all-or-small-caps"
+      ],
+      "classification": [
+        "sans-serif"
+      ],
+      "contrast": [
+        "low"
+      ],
+      "language": [],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [
+        "headings",
+        "paragraphs"
+      ],
+      "weight": [
+        "heavy",
+        "light",
+        "regular"
+      ],
+      "width": [
+        "extended"
+      ],
+      "x_height": []
+    },
+    "css_stack": "\"sporty-pro\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Sudtipos",
+      "slug": "sudtipos"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "grrl:n1",
+        "link": "/api/v1/json/families/grrl/n1",
+        "name": "Sporty Pro Thin",
+        "fvd": "n1"
+      },
+      {
+        "id": "grrl:n2",
+        "link": "/api/v1/json/families/grrl/n2",
+        "name": "Sporty Pro XLight",
+        "fvd": "n2"
+      },
+      {
+        "id": "grrl:n3",
+        "link": "/api/v1/json/families/grrl/n3",
+        "name": "Sporty Pro Light",
+        "fvd": "n3"
+      },
+      {
+        "id": "grrl:n4",
+        "link": "/api/v1/json/families/grrl/n4",
+        "name": "Sporty Pro Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "grrl:n5",
+        "link": "/api/v1/json/families/grrl/n5",
+        "name": "Sporty Pro Bold",
+        "fvd": "n5"
+      },
+      {
+        "id": "grrl:n6",
+        "link": "/api/v1/json/families/grrl/n6",
+        "name": "Sporty Pro XBold",
+        "fvd": "n6"
+      },
+      {
+        "id": "grrl:n7",
+        "link": "/api/v1/json/families/grrl/n7",
+        "name": "Sporty Pro Black",
+        "fvd": "n7"
+      },
+      {
+        "id": "grrl:n8",
+        "link": "/api/v1/json/families/grrl/n8",
+        "name": "Sporty Pro Shadow",
+        "fvd": "n8"
       }
     ]
   }
