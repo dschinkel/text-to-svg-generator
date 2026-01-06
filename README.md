@@ -3,12 +3,6 @@
 ## LLMs
 Junie like all LLM tools forget long chat context. The way to make it reliable is to stop treating the chat as the source of truth and instead force Junie to re-load the `PROJECT_SPEC.md` and `GUIDELINES.md` from disk at the start of every task.
 
-## SVG Generation
-For server-side SVG generation, this project uses `opentype.js`. It was chosen because:
-1. **Precision**: It provides exact vector paths from OpenType and TrueType fonts, which is critical for 3D extrusion in tools like TinkerCad.
-2. **Server-Side Compatibility**: It runs in Node.js, allowing for consistent SVG generation without a browser environment.
-3. **Control**: It facilitates path manipulation and bounding box calculations, which are necessary for creating layered outlines.
-
 ## Main Workflow
 
 1. Create a `PROJECT_SPEC.md` with the very high level items and a baseline plan at a very high level.  You'll use this to break down into tasks (or AKA smaller use cases)
@@ -36,3 +30,9 @@ An Adobe Fonts **Kit** (also called a **Web Project**) is a container for the sp
   3. Load the Kit's CSS link in your application (e.g., `https://use.typekit.net/[KIT_ID].css`).
   4. Use the font names in your CSS `font-family` property.
 - **Rendering**: Without a Kit, we can fetch font metadata, but we cannot render the typeface in the browser.
+- 
+## SVG Generation
+For server-side SVG generation, this project uses `opentype.js`. It was chosen because:
+1. **Precision**: It provides exact vector paths from OpenType and TrueType fonts, which is critical for 3D extrusion in tools like TinkerCad.
+2. **Server-Side Compatibility**: It runs in Node.js, allowing for consistent SVG generation without a browser environment.
+3. **Control**: It facilitates path manipulation and bounding box calculations, which are necessary for creating layered outlines.
