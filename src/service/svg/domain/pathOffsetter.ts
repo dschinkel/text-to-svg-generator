@@ -32,9 +32,7 @@ export const getOffsetPath = (d: string, offset: number, fillGaps = false): stri
     const path = offsetPaths[i];
     if (path.length === 0) continue;
     
-    // If fillGaps is enabled, we only keep paths that are outer boundaries (clockwise).
-    // In ClipperLib, Orientation returns true if clockwise.
-    if (fillGaps && !CL.Clipper.Orientation(path)) {
+    if (fillGaps && isHole(path, CL)) {
       continue;
     }
 
@@ -46,4 +44,10 @@ export const getOffsetPath = (d: string, offset: number, fillGaps = false): stri
   }
 
   return resultD;
+};
+
+const isHole = (path: any[], CL: any): boolean => {
+  // In ClipperLib, Orientation returns true if clockwise.
+  // By default, outer paths are clockwise and holes are counter-clockwise.
+  return !CL.Clipper.Orientation(path);
 };

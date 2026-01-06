@@ -1207,3 +1207,7 @@ PROPOSED COMMIT: feat: FR.3.2: cleanup: tight and outer outline generation
 - Enabled hole filtering for "outer" outlines in src/service/svg/domain/svgGenerator.ts
 COMMANDS RUN: yarn test src/service/svg/domain/svgGenerator.test.ts
 TEST OUTPUT: GREEN - All tests passing
+=== REFACTOR PHASE ===
+- Extracted hole detection logic into isHole helper in src/service/svg/domain/pathOffsetter.ts
+COMMANDS RUN: yarn test src/service/svg/domain/svgGenerator.test.ts
+TEST OUTPUT: GREEN - All tests passing
