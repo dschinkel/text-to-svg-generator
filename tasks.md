@@ -82,3 +82,40 @@ Acceptance:
 Given I have selected a font
 When I input some text
 I see a preview of the text realtime using the selected font
+
+
+## Task: FR.3.1
+### Goal: Generate the Base SVG (Text only).
+Rules:
+- Before starting Read PROJECT_SPEC.md and GUIDELINES.md
+- SVG generation must happen on the server.
+- The base SVG must be an image of the text in the selected font.
+
+Acceptance:
+Given I have selected a font and entered text
+When the system generates the output
+Then I see a preview thumbnail of the text rendered as an SVG.
+
+## Task: FR.3.2
+### Goal: Generate the Tight Outline SVG (Text + small contour).
+Rules:
+- Before starting Read PROJECT_SPEC.md and GUIDELINES.md
+- SVG generation must happen on the server.
+- The tight outline SVG must include the text plus a small outer outline/contour around it.
+
+Acceptance:
+Given I have a base SVG
+When the system applies a tight contour
+Then I see a preview thumbnail of the text with a tight outline.
+
+## Task: FR.3.3
+### Goal: Generate the Outer Outline SVG (Text + larger outer contour).
+Rules:
+- Before starting Read PROJECT_SPEC.md and GUIDELINES.md
+- SVG generation must happen on the server.
+- The outer outline SVG must include the text plus a larger outer outline/contour outside the tight outline.
+
+Acceptance:
+Given I have a tight outline SVG
+When the system applies a larger outer contour
+Then I see a preview thumbnail of the text with a large outer outline.
