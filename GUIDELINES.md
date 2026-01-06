@@ -45,8 +45,9 @@ T1.2 In RED, write exactly one failing test that defines a single small behavior
 T1.3 Default test level rules:
 T1.3.1 For React work, start by creating the component layer code (the "View") without tests. This is usually Step 1 of the PLAN, but it is NOT part of the TDD workflow (no RED phase). TDD (RED → GREEN → REFACTOR) MUST start at the hook layer (Step 2) once the component code is present. Do not write UI/integration tests unless explicitly instructed. When creating component layer code, provide props as placeholders for where we will inject hook logic later. Component code must not contain logic; logic belongs in hooks and lower layers.
 T1.3.2 For non-React work, write tests at the behavioral/business layer level (headless/functional) and avoid end-to-end/system tests unless explicitly instructed.
-T1.3.3 Disallowed by default (unless explicitly instructed): browser/UI integration tests, real network calls, end-to-end tests, full-stack HTTP tests.
+T1.3.3 Disallowed by default (unless explicitly instructed or for service data layer): browser/UI integration tests, real network calls, end-to-end tests, full-stack HTTP tests.
 T1.3.4 Allowed by default: in-process “integration” tests that do not require a browser and do not make real network calls (for example, repository tests using in-memory or file-backed fakes).
+T1.3.5 Service Data Layer Integration: Tests located in `src/service/<domain>/data/` MUST be integration tests that hit real external services, databases, or file systems. They must not use fakes or mocks for the primary IO target of that module.
 T1.4 In GREEN, write only the minimum production code required to pass the single failing test; no extra functionality.
 T1.5 After GREEN, prompt the user to commit using: `feat: <task-id>: <behavior>`. After the commit, ask whether to push or continue.
 T1.6 In REFACTOR, refactor only while tests are green. Make one refactoring change at a time and run tests after each small refactor (TCR).
