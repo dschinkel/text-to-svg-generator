@@ -20,3 +20,15 @@ Unfortunately, the way to make it reliable is to stop treating the chat as the s
 
 4. Start working on one task at a time for the feature you're working to complete.  Features at a higher level are found in PROJECT_SPEC.md prefixed with an F, for example `FR.1`
 5. Commit at Green, commit at refactor
+
+## Adobe Fonts Kits (Web Projects)
+
+An Adobe Fonts **Kit** (also called a **Web Project**) is a container for the specific fonts you want to use on your website. It bridges the Adobe Typekit API to your browser.
+
+- **Purpose**: Kits allow the browser to render specific typefaces on the screen.
+- **Workflow**:
+  1. Add font families to a Kit (via API or Adobe dashboard).
+  2. **Publish** the Kit to rebuild its CSS.
+  3. Load the Kit's CSS link in your application (e.g., `https://use.typekit.net/[KIT_ID].css`).
+  4. Use the font names in your CSS `font-family` property.
+- **Rendering**: Without a Kit, we can fetch font metadata, but we cannot render the typeface in the browser.

@@ -1,4 +1,4 @@
-# GUIDELINES (v1.2)
+# GUIDELINES (v1.3)
 
 Scope: Applies to all coding tasks executed by Junie or any AI agent in this repo.
 
@@ -27,13 +27,14 @@ P0.1 Before writing or changing any code, produce a PLAN when the user says: `wo
 Always present the PLAN again before proceeding to the next step in the PLAN.
 P0.1.1 Before proceeding to the next step in the PLAN, re-load PROJECT_SPEC.md and GUIDELINES.md from disk, state what the next step is, and ask for explicit permission to proceed.
 P0.2 The PLAN must include, in the first line, the task number and the feature name.
-P0.3 The PLAN must list each planned increment and explicitly name the test(s) that will be written for each increment if (and only if) the user chose a TDD workflow in P0.0.
+P0.3 The PLAN must list each planned increment and explicitly name the test(s) that will be written for each increment if (and only if) the user chose a TDD workflow in P0.0. Each TDD increment in the PLAN must strictly follow the RED → GREEN → REFACTOR cycle, including the REFACTOR step even if no immediate refactoring is anticipated, to ensure the opportunity for improvement is never overlooked.
 P0.4 After presenting the PLAN, ask whether to proceed. Do not proceed without an explicit “continue/proceed” from the user.
 P0.5 If the user tells you to proceed, copy the approved PLAN into `tdd.log` before starting implementation (only applies when the user chose a TDD workflow in P0.0).
 P0.5.1 When copying the PLAN into `tdd.log`, include the full PLAN text verbatim under a `PLAN:` heading.
 P0.6 After completing each step in the PLAN, summarize the step you just completed and ask to proceed to the next step. Tell me what the next step is.
 P0.7 If the user stops you midstream with a question or change request, log the interruption and the resolution in `tdd.log` (only applies when the user chose a TDD workflow in P0.0).
 P0.8 If the user reverts an implemented plan, remove the corresponding plan and its workflow entries from `tdd.log` (only applies when the user chose a TDD workflow in P0.0).
+P0.9 For React work, when presenting a PLAN, explicitly ask whether Step 1 (Component layer) should be a non-TDD scaffold or if it should be TDD'd (which would require explicit instruction to write UI tests).
 
 ---
 
@@ -42,7 +43,7 @@ P0.8 If the user reverts an implemented plan, remove the corresponding plan and 
 T1.1 Work in RED → GREEN → REFACTOR cycles.
 T1.2 In RED, write exactly one failing test that defines a single small behavior increment. Do not write multiple tests in a single RED step.
 T1.3 Default test level rules:
-T1.3.1 For React work, start at the hook layer (or lower). Do not write UI/integration tests unless explicitly instructed.
+T1.3.1 For React work, start by creating the component layer code (the "View") without tests. This is usually Step 1 of the PLAN, but it is NOT part of the TDD workflow (no RED phase). TDD (RED → GREEN → REFACTOR) MUST start at the hook layer (Step 2) once the component code is present. Do not write UI/integration tests unless explicitly instructed. When creating component layer code, provide props as placeholders for where we will inject hook logic later. Component code must not contain logic; logic belongs in hooks and lower layers.
 T1.3.2 For non-React work, write tests at the behavioral/business layer level (headless/functional) and avoid end-to-end/system tests unless explicitly instructed.
 T1.3.3 Disallowed by default (unless explicitly instructed): browser/UI integration tests, real network calls, end-to-end tests, full-stack HTTP tests.
 T1.3.4 Allowed by default: in-process “integration” tests that do not require a browser and do not make real network calls (for example, repository tests using in-memory or file-backed fakes).
@@ -54,6 +55,7 @@ T1.8 Cleanup & Verification must include running tests and fixing lint warnings/
 T1.9 `tdd.log` must relate every RED | GREEN | REFACTOR entry to its corresponding PLAN step number.
 T1.10 When fixing a defect or implementing a feature with a clear external contract, first write an “API-level” failing test. In this repo, “API-level” means the public boundary for the behavior (typically the hook public API or the domain service function), not an HTTP endpoint or end-to-end test unless explicitly requested.
 T1.11 When tests fail, fix implementation first, not the test, unless the test clearly contradicts the spec.
+T1.12 Always follow an outside-in TDD approach. Start implementation at the highest permitted layer (e.g., UI components or Hooks for frontend, Controllers or API routes for backend) and work your way down to the lower-level collaborators (repositories, commands, domain logic). When a dependency is needed but has not been implemented yet, provide a simple custom stub (a "fake") for that dependency to satisfy the current test and allow the current step to go GREEN.
 
 ---
 
@@ -61,7 +63,7 @@ T1.11 When tests fail, fix implementation first, not the test, unless the test c
 
 N1.1 Tests must describe business behavior in clear prose.
 N1.2 Do not include function names, endpoints, browser/view terms, or technical sources in test names.
-N1.3 Avoid “should” and avoid overly-specific phrasing. Prefer short domain behavior labels.
+N1.3 Avoid “should” and avoid overly-specific phrasing. Prefer short domain behavior labels. All test names must be written in all lowercase.
 N1.4 Canonical examples live in Appendix D.
 N1.5 Test data and stubs must not use the word "mock". Use domain terms for data and "fake" for stubs (e.g., `fakeRepository`, `fakeFonts`).
 N1.6 Do not test for loading state in hook tests.
@@ -76,6 +78,10 @@ Good: `render(<FontSelector fonts={fonts} onSelect={() => {}} />);`
 N1.9 UI tests must use `data-testid` instead of finding elements by text (e.g., `getByText`, `findByText`). 
 Data test IDs must represent domain concepts.
 Example: For a font selector, use `data-testid="font-selection"`.
+
+N1.10 Test names must be delivery mechanism and framework agnostic.
+Good: `adds a font`
+Bad: `posts a new font`, `adds a font by fetching from adobe`, `calls the api to add a font`.
 
 ---
 
@@ -152,7 +158,7 @@ G1.1 Only commit when tests are green and lint/compile warnings are resolved.
 G1.2 Keep commits small and frequent.
 G1.3 Separate structural changes from behavioral changes (Tidy First).
 G1.4 Commit messages must be domain/behavior oriented:
-G1.4.1 Behavioral: `feat: <feature-id>: Step <number>: <step-title-prose>` (Example: `feat: FR.1.1: Step 5: Frontend: Select a font`)
+G1.4.1 Behavioral: `feat: <feature-id>: Step <number>: <layer>: <step-title-prose>`. For hook-related logic, the layer should be `Frontend: Hook`. (Example: `feat: FR.1.2: Step 2: Frontend: Hook: Adds a new font`)
 G1.4.2 Refactor: `feat: <feature-id>: refactor: <behavior>`
 G1.4.3 Cleanup: `feat: <feature-id>: cleanup: <behavior>`
 G1.5 If no task exists in tasks.md, still commit with a meaningful message.
@@ -183,9 +189,11 @@ Use this template when the user opts-in to a TDD workflow per P0.0.
 ```md
 Here is the PLAN for Task <number>: "<feature name>"
 
+OUTSIDE-IN FLOW:
+<Layer 1> -> <Layer 2> -> <Layer 3> -> ...
+
 PLAN:
 1. <Phase name>
-   TDD Increment 1
    RED:
    - Test name: <business behavior test name>
    - Location: <path/to/test>
@@ -248,6 +256,9 @@ Use this template when the user opts-out of a TDD workflow per P0.0.
 
 ```md
 Here is the PLAN for Task <number>: "<feature name>"
+
+OUTSIDE-IN FLOW:
+<Layer 1> -> <Layer 2> -> <Layer 3> -> ...
 
 PLAN:
 1. <Phase name>
@@ -363,7 +374,7 @@ TEST OUTPUT: GREEN - All tests passing
 
 Bad examples (do not use):
 ```
-test('should correctly parse tags from the OpenAI response')
+test('Should correctly parse tags from the OpenAI response')
 test('myFunction should be called with correct arguments')
 test('renders slider and handles value change')
 test('parseTags() returns valid results')
