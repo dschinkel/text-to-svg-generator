@@ -1,0 +1,30 @@
+graph TD
+    subgraph Frontend
+        App[App Integration]
+        useSVG[Step 1: useSVG Hook]
+        SVGPreview[SVGPreview Component]
+        App --- useSVG
+        useSVG --- SVGPreview
+    end
+
+    subgraph Backend
+        API[GET /api/svg?type=tight]
+        Ctrl[Step 2: FontController]
+        UC[Step 3: GenerateTightOutlineSVG Use Case]
+        Gen[Step 4: svgGenerator Domain]
+        Lib[opentype.js]
+        
+        useSVG -.-> API
+        API --- Ctrl
+        Ctrl --- UC
+        UC --- Gen
+        Gen --- Lib
+    end
+
+    style App fill:#f9f,stroke:#333,stroke-width:2px
+    style useSVG fill:#f9f,stroke:#333,stroke-width:2px
+    style SVGPreview fill:#f9f,stroke:#333,stroke-width:2px
+    style API fill:#bbf,stroke:#333,stroke-width:2px
+    style Ctrl fill:#bbf,stroke:#333,stroke-width:2px
+    style UC fill:#bbf,stroke:#333,stroke-width:2px
+    style Gen fill:#bbf,stroke:#333,stroke-width:2px

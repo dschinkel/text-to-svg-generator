@@ -969,3 +969,100 @@ USER DECISION:
 === REFACTOR PHASE ===
 REFRACTORING NOTES:
 No refactoring was necessary
+
+PLAN:
+1. Frontend: Hook - useSVG
+   RED:
+   - Test name: fetches tight outline svg
+   - Location: src/client/components/useSVG.test.ts
+   - Intent: Update the hook to fetch and return the tightOutlineSVG from the backend API using type=tight.
+
+   GREEN:
+   - Minimal implementation: Update useSVG.ts to fetch both base and tight SVGs.
+   - Files expected to change: src/client/components/useSVG.ts
+
+   COMMIT:
+   - Proposed message: feat: FR.3.2: Step 1: Frontend: Hook: fetches tight outline svg
+
+   REFACTOR:
+   - Candidate refactors: None anticipated.
+   - Files expected to change: None.
+
+   COMMIT (only if refactor happened):
+   - Proposed message: feat: FR.3.2: refactor: Hook: fetches tight outline svg
+
+2. Backend: Controller & Routing
+   TDD Increment 2
+   RED:
+   - Test name: returns tight outline svg
+   - Location: src/service/server/app.test.ts
+   - Intent: Ensure GET /api/svg?type=tight returns an SVG response.
+
+   GREEN:
+   - Minimal implementation: Update src/service/app.ts to pass type to fontController, and update fontController.ts to call the appropriate use case.
+   - Files expected to change: src/service/app.ts, src/service/fonts/controllers/fontController.ts
+
+   COMMIT:
+   - Proposed message: feat: FR.3.2: Step 2: Service: App: returns tight outline svg
+
+   REFACTOR:
+   - Candidate refactors: None anticipated.
+   - Files expected to change: None.
+
+   COMMIT (only if refactor happened):
+   - Proposed message: feat: FR.3.2: refactor: Service: App: returns tight outline svg
+
+3. Backend: Use Case - Generate Tight Outline SVG
+   TDD Increment 3
+   RED:
+   - Test name: generates tight outline svg
+   - Location: src/service/svg/use-cases/GenerateTightOutlineSVG.test.ts
+   - Intent: Define a use case that orchestrates tight outline generation.
+
+   GREEN:
+   - Minimal implementation: Create GenerateTightOutlineSVG use case.
+   - Files expected to change: src/service/svg/use-cases/GenerateTightOutlineSVG.ts
+
+   COMMIT:
+   - Proposed message: feat: FR.3.2: Step 3: Service: UseCase: generates tight outline svg
+
+   REFACTOR:
+   - Candidate refactors: None anticipated.
+   - Files expected to change: None.
+
+   COMMIT (only if refactor happened):
+   - Proposed message: feat: FR.3.2: refactor: Service: UseCase: generates tight outline svg
+
+4. Backend: Domain - SVG Generation (Contour)
+   TDD Increment 4
+   RED:
+   - Test name: generates tight outline svg from text
+   - Location: src/service/svg/domain/svgGenerator.test.ts
+   - Intent: Update svgGenerator to support a type parameter and render a stroke behind the text for the tight outline.
+
+   GREEN:
+   - Minimal implementation: Add options to svgGenerator to handle stroke width/color.
+   - Files expected to change: src/service/svg/domain/svgGenerator.ts
+
+   COMMIT:
+   - Proposed message: feat: FR.3.2: Step 4: Service: Domain: generates tight outline svg from text
+
+   REFACTOR:
+   - Candidate refactors: None anticipated.
+   - Files expected to change: None.
+
+   COMMIT (only if refactor happened):
+   - Proposed message: feat: FR.3.2: refactor: Service: Domain: generates tight outline svg from text
+
+5. App Integration
+   - Goal: Add another SVGPreview component in App.tsx to display the "Tight Outline SVG".
+   - Changes: Update src/client/App.tsx.
+   - Verification: Manual verification in browser.
+
+6. Cleanup & Verification
+   - Run all tests.
+   - Fix linting errors.
+   - Mark task as [COMPLETED] in tasks.md.
+
+   COMMIT:
+   - Proposed message: feat: FR.3.2: cleanup: tight outline svg generation
