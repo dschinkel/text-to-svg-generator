@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react';
+import { useWebFonts } from './useWebFonts';
 
 export interface ClientFontRepository {
   getFonts: () => Promise<any[]>;
+  addFont: (name: string) => Promise<any>;
 }
 
 export const useFonts = (repository: ClientFontRepository) => {
   const [fonts, setFonts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [newFontName, setNewFontName] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+
+  useWebFonts('jzl6jgi');
 
   useEffect(() => {
     let mounted = true;
@@ -19,7 +25,36 @@ export const useFonts = (repository: ClientFontRepository) => {
     };
   }, [repository]);
 
-  return { fonts, loading, error };
+  const addFont = async (name: string) => {
+    try {
+      const newFont = await repository.addFont(name);
+      setFonts(prev => [...prev, newFont]);
+    } catch (e) {
+      setError(e as Error);
+    }
+  };
+
+  const handleAdd = async () => {
+    if (newFontName) {
+      await addFont(newFontName);
+      setNewFontName('');
+    }
+  };
+
+  const toggleOpen = () => setIsOpen(!isOpen);
+
+  return { 
+    fonts, 
+    loading, 
+    error, 
+    addFont,
+    newFontName,
+    setNewFontName,
+    isOpen,
+    setIsOpen,
+    toggleOpen,
+    handleAdd
+  };
 };
 
 const loadFonts = async (

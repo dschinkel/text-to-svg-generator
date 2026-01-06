@@ -124,7 +124,7 @@ A1.6.2 Controllers are delivery-mechanism adapters and must be pass-through only
 
 ## R1. React Rules
 
-R1.1 Humble views: UI components are thin; logic belongs in hooks below.
+R1.1 Humble views: UI components are thin; logic belongs in hooks below. This includes keeping loading and error logic (e.g., conditional rendering or early returns based on loading/error states) out of the component and moving it into hooks.
 R1.2 No fetch/service/tool-call logic inside React components.
 R1.3 Hooks may orchestrate IO by calling injected repositories, but must not embed HTTP/SDK/file logic directly. Repositories encapsulate use-case intent and call injected data-layer dependencies for IO.
 R1.4 No useEffect inside React components. useEffect may exist only inside hooks.
@@ -144,7 +144,7 @@ Q1.2.2 React component files must not exceed 200 lines.
 Q1.3 Do not keep appending new behavior into one file. Refactor by extracting well-named domain functions/components during REFACTOR. If you are ever not sure what to name it, ask the user.
 Q1.4 Functions should read like well-written prose and communicate domain intent. Prefer guard clauses and small composed functions over nested conditionals.
 Q1.5 Minimize state and side effects; keep pure logic in `domain/` for backend and for client under `src\client\domain.
-Q1.6 Function placement: Always put functions being called from the parent, below the parent.
+Q1.6 Function placement: Always put functions being called from the parent, below the parent. The primary/parent component or function in a file must be at the top.
 
 ---
 
