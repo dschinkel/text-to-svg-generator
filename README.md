@@ -1,9 +1,13 @@
 # text-to-svg-generator
 
 ## LLMs
-Junie like all LLM tools forget long chat context. 
+Junie like all LLM tools forget long chat context. The way to make it reliable is to stop treating the chat as the source of truth and instead force Junie to re-load the `PROJECT_SPEC.md` and `GUIDELINES.md` from disk at the start of every task.
 
-Unfortunately, the way to make it reliable is to stop treating the chat as the source of truth and instead force Junie to re-load the PROJECT_SPEC.md and GUIDELINES.md from disk at the start of every task
+## SVG Generation
+For server-side SVG generation, this project uses `opentype.js`. It was chosen because:
+1. **Precision**: It provides exact vector paths from OpenType and TrueType fonts, which is critical for 3D extrusion in tools like TinkerCad.
+2. **Server-Side Compatibility**: It runs in Node.js, allowing for consistent SVG generation without a browser environment.
+3. **Control**: It facilitates path manipulation and bounding box calculations, which are necessary for creating layered outlines.
 
 ## Main Workflow
 
