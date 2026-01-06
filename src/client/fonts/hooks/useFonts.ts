@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useWebFonts } from './useWebFonts';
 
 export interface ClientFontRepository {
@@ -12,6 +12,7 @@ export const useFonts = (repository: ClientFontRepository) => {
   const [error, setError] = useState<Error | null>(null);
   const [newFontName, setNewFontName] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useWebFonts('jzl6jgi');
 
@@ -24,6 +25,22 @@ export const useFonts = (repository: ClientFontRepository) => {
       mounted = false;
     };
   }, [repository]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   const addFont = async (name: string) => {
     try {
@@ -57,7 +74,8 @@ export const useFonts = (repository: ClientFontRepository) => {
     isOpen,
     setIsOpen,
     toggleOpen,
-    handleAdd
+    handleAdd,
+    containerRef
   };
 };
 

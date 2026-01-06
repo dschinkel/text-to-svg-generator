@@ -54,4 +54,31 @@ describe('Use Fonts', () => {
 
     expect(result.current.filteredFonts).toEqual([fonts[1]]);
   });
+
+  it('closes font list when clicking outside', async () => {
+    const fakeRepository = {
+      getFonts: async () => [],
+      addFont: async () => ({})
+    };
+
+    const { result } = renderHook(() => useFonts(fakeRepository));
+
+    // Mock the ref since it's not attached to a real DOM in renderHook
+    const div = document.createElement('div');
+    Object.defineProperty(result.current.containerRef, 'current', { value: div });
+
+    await act(async () => {
+      result.current.setIsOpen(true);
+    });
+
+    expect(result.current.isOpen).toBe(true);
+
+    // Simulate click outside (on document body, which is outside the div)
+    await act(async () => {
+      const event = new MouseEvent('mousedown', { bubbles: true });
+      document.body.dispatchEvent(event);
+    });
+
+    expect(result.current.isOpen).toBe(false);
+  });
 });

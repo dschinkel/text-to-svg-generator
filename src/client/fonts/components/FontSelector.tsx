@@ -18,6 +18,7 @@ export interface FontSelectorProps {
     setIsOpen: (isOpen: boolean) => void;
     toggleOpen: () => void;
     handleAdd: () => Promise<void>;
+    containerRef: React.RefObject<HTMLDivElement>;
   };
   onSelect: (font: Font) => void;
 }
@@ -26,7 +27,7 @@ export const FontSelector = ({ useFonts, onSelect }: FontSelectorProps) => {
   const state = useFonts();
 
   return (
-    <div className="w-full max-w-sm">
+    <div className="w-full max-w-sm" ref={state.containerRef}>
       <FontLoading loading={state.loading} />
       <FontError error={state.error} />
       <FontSelection {...state} onSelect={onSelect} />
@@ -76,7 +77,7 @@ const FontList = ({
             onSelect(font);
             setIsOpen(false);
           }}
-          className="px-3 py-2 hover:bg-slate-100 cursor-pointer text-left"
+          className="px-3 py-3 hover:bg-slate-100 cursor-pointer text-left text-xl"
           style={{ fontFamily: font.css_stack || font.name }}
         >
           {font.name}
@@ -85,7 +86,7 @@ const FontList = ({
       {showAddOption && (
         <li 
           onClick={onAdd}
-          className="px-3 py-2 hover:bg-blue-50 cursor-pointer text-left text-blue-600 border-t border-slate-100"
+          className="px-3 py-3 hover:bg-green-50 cursor-pointer text-left text-green-600 border-t border-slate-100 text-xl font-medium"
           data-testid="add-font-option"
         >
           Add "{newFontName}"...
@@ -114,7 +115,7 @@ const FontSelection = ({
   return (
     <div className="relative">
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium text-slate-700">Select a Font</label>
+        <label className="text-base font-semibold text-slate-700 mb-1">Select a Font</label>
         <input
           type="text"
           data-testid="font-input"
@@ -125,7 +126,7 @@ const FontSelection = ({
           }}
           onFocus={() => setIsOpen(true)}
           placeholder="Search or type a new font..."
-          className="border border-slate-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="border border-slate-300 rounded-lg px-4 py-3 w-full text-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm"
         />
       </div>
 

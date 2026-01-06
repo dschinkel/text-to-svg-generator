@@ -1,4 +1,4 @@
-## 0. Copy boilerplate scaffold into existing repo
+## 0. Copy boilerplate scaffold into existing repo [COMPLETED]
 Goal:
 Copy the contents of `..\react-app-boilerplate` into the existing `text-to-svg-generator` folder to establish baseline scaffolding, excluding `node_modules` and excluding `tasks.md` (this repo already has its own tasks file).
 
@@ -17,7 +17,7 @@ Acceptance:
 - Service root is `src/service/`
 - Initialize the repository and push it up to the remote repo as a new repository using the github cli
 
-## 1. Add README.md with LLM instructions
+## 1. Add README.md with LLM instructions [COMPLETED]
 Goal:
 Add a readme at the root and in it state the following under a sectoin called LLMs: "Junie like all LLM tools forget long chat context. The way to make it reliable is to stop treating the chat as the source of truth and instead force Junie to re-load the PROJECT_SPEC..md and GUIDELINES.md from disk at the start of every task"
 
@@ -25,7 +25,7 @@ Acceptance:
 - README.md exists at root
 - README.md contains the exact LLM instructions section
 
-## Task: FR.1.1 
+## Task: FR.1.1 [COMPLETED]
 ### Goal: Select a font from a List of Fonts
 Fonts to include: Octin, Campus MN
 Font source: Adobe Typekit API
@@ -35,7 +35,7 @@ Rules:
 
 Acceptance: Ability to select fonts Octin or Campus MN from a list
 
-## Task: Dev Experience - Concurrent Servers
+## Task: Dev Experience - Concurrent Servers [COMPLETED]
 ### Goal: Start both frontend and backend servers with `yarn dev`.
 Acceptance: `yarn dev` starts Vite and the Koa backend concurrently, ensuring the server starts first.
 
@@ -45,7 +45,7 @@ Corrections I had the LLM make during this task:
 - Added `wait-on` to ensure server is ready before client starts.
 - Fixed `wait-on` to use `tcp` protocol instead of `http` to avoid blocking on 404 responses from the root path.
 
-## Task: FR.1.2
+## Task: FR.1.2 [COMPLETED]
 ### Goal: User can type a font name and the system fetches and adds it to the dropdown.
 
 Rules:
@@ -64,3 +64,14 @@ Acceptance:
 AS an Etsy Seller
 When I veiw the list of fonts
 Then I see their name rendered in that font
+
+## Task: FR.1.4 [COMPLETED]
+### Goal: Improve UI/UX interms of asthetics and usability.
+
+Acceptance:
+- Add a good looking modern site header and footer
+- Add a good looking modern site layout
+- Make the fonts list show with larger size font
+- Move The fonts list to be under the fold, more toward the top as we'll be adding more stuff below it soon
+- Make header and its text larger
+- Change theme color from blue to green
