@@ -1,0 +1,13 @@
+graph TD
+    subgraph Frontend
+        Step1[Step 1: svgMergerService Domain]
+        Step2[Step 2: LayeredPreview Component Update]
+        Step3[Step 3: App Integration]
+    end
+
+    Step3 --> Step2
+    Step2 --> Step1
+    Step3 -- reuses --> DownloadService[downloadService]
+
+    classDef nonTdd fill:#bbf,stroke:#333,stroke-width:2px;
+    class Step1,Step2,Step3 nonTdd;

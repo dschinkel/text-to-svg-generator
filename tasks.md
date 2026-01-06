@@ -126,3 +126,25 @@ Acceptance:
 - Given I see the three SVG previews
 - When I click a preview thumbnail
 - Then the corresponding full-resolution SVG file is downloaded to my computer.
+
+## Task: FR.5.1 [COMPLETED]
+### Goal: Show one final preview of all 3 images (Base, Tight, and Outer) layered on top of each other.
+Acceptance:
+- Given I have generated all three SVGs
+- When I look at the result panel
+- Then I see a fourth preview box showing all three layers stacked
+- And each layer has a distinct color
+
+## Task: FR.5.2 [COMPLETED]
+### Goal: Clicking the Layered Preview thumbnail downloads a combined SVG file containing all three layers.
+Acceptance:
+- Given I see the layered preview
+- When I click the layered preview thumbnail
+- Then a combined SVG file (containing all three colored layers) is downloaded to my computer.
+
+## Task: FR.5.3 [COMPLETED]
+### Goal: Ensure the downloaded Layered SVG imports all three layers into TinkerCad correctly.
+Acceptance:
+- Given I have downloaded the layered SVG
+- When I import it into TinkerCad
+- Then I see all three layers as separate or distinct objects, not just the base layer.

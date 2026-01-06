@@ -27,9 +27,8 @@ describe('SVG Generator Domain', () => {
     const svg = svgGenerator(text, font, { type: 'tight' });
 
     expect(svg).toContain('<svg');
-    // Tight outline should have a stroke or multiple paths
-    expect(svg).toContain('stroke=');
-    expect(svg).toContain('stroke-width=');
+    expect(svg).toContain('stroke="black"');
+    expect(svg).toContain('stroke-width="8"');
   });
 
   it('generates outer outline svg from text', async () => {
@@ -40,8 +39,7 @@ describe('SVG Generator Domain', () => {
     const svg = svgGenerator(text, font, { type: 'outer' });
 
     expect(svg).toContain('<svg');
-    // Outer outline should have a stroke
-    expect(svg).toContain('stroke=');
+    expect(svg).toContain('stroke="black"');
     expect(svg).toContain('stroke-width="16"');
   });
 });

@@ -11,6 +11,9 @@ import { usePreview } from './components/TextPreview/usePreview';
 import { SVGPreview } from './components/SVGPreview';
 import { useSVG } from './components/useSVG';
 import { downloadSVG } from './domain/downloadService';
+import { useLayeredSVG } from './components/useLayeredSVG';
+import { LayeredPreview } from './components/LayeredPreview';
+import { useDownload } from './hooks/useDownload';
 
 const App = () => {
   const repository = fontRepository();
@@ -18,13 +21,8 @@ const App = () => {
   
   const preview = usePreview();
   const { baseSVG, tightOutlineSVG, outerOutlineSVG } = useSVG(preview.text, preview.selectedFont?.id);
-
-  const handleDownload = (svg: string | null, label: string) => {
-    if (!svg) return;
-    const textSlug = preview.text.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 30) || 'untitled';
-    const labelSlug = label.toLowerCase().replace(/ /g, '-');
-    downloadSVG(svg, `${textSlug}-${labelSlug}.svg`);
-  };
+  const { baseLayer, tightLayer, outerLayer } = useLayeredSVG(baseSVG, tightOutlineSVG, outerOutlineSVG);
+  const { handleDownload, handleLayeredDownload } = useDownload(downloadSVG);
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
@@ -54,7 +52,7 @@ const App = () => {
               <SVGPreview 
                 svgString={baseSVG} 
                 label="Base SVG" 
-                onDownload={() => handleDownload(baseSVG, 'Base')}
+                onDownload={() => handleDownload(baseSVG, 'Base', preview.text)}
               />
             </div>
             
@@ -62,12 +60,21 @@ const App = () => {
               <SVGPreview 
                 svgString={tightOutlineSVG} 
                 label="Tight Outline SVG" 
-                onDownload={() => handleDownload(tightOutlineSVG, 'Tight Outline')}
+                onDownload={() => handleDownload(tightOutlineSVG, 'Tight Outline', preview.text)}
               />
               <SVGPreview 
                 svgString={outerOutlineSVG} 
                 label="Outer Outline SVG" 
-                onDownload={() => handleDownload(outerOutlineSVG, 'Outer Outline')}
+                onDownload={() => handleDownload(outerOutlineSVG, 'Outer Outline', preview.text)}
+              />
+            </div>
+
+            <div className="mt-8 border-t pt-8">
+              <LayeredPreview 
+                baseLayer={baseLayer}
+                tightLayer={tightLayer}
+                outerLayer={outerLayer}
+                label="Layered Preview"
               />
             </div>
           </section>

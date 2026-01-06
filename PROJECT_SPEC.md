@@ -72,6 +72,9 @@ The system generates all three SVG outputs for the selected font + text:
 **FR.4 — Download**
 **FR.4.1**  Clicking a Base, Tight, or Outer thumbnail downloads its full-resolution SVG file.
 
+**FR.5 — Layered Preview**
+**FR.5.1** A combined preview showing all three layers (Base, Tight, Outer) stacked together with different colors.
+
 ---
 
 ## 4. Technical Requirements (TR.*)
