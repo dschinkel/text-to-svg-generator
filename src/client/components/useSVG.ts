@@ -3,21 +3,17 @@ import { useState, useEffect } from 'react';
 export const useSVG = (text: string, fontId: string | undefined) => {
   const [baseSVG, setBaseSVG] = useState<string | null>(null);
   const [tightOutlineSVG, setTightOutlineSVG] = useState<string | null>(null);
+  const [outerOutlineSVG, setOuterOutlineSVG] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!text) {
+    if (!text || (text !== 'DEBUG' && !fontId)) {
       setBaseSVG(null);
       setTightOutlineSVG(null);
+      setOuterOutlineSVG(null);
       return;
     }
 
-    if (text !== 'DEBUG' && !fontId) {
-      setBaseSVG(null);
-      setTightOutlineSVG(null);
-      return;
-    }
-
-    const fetchSVG = async (type: 'base' | 'tight') => {
+    const fetchSVG = async (type: 'base' | 'tight' | 'outer') => {
       try {
         const baseUrl = text === 'DEBUG' 
           ? `/api/svg?text=DEBUG` 
@@ -26,24 +22,30 @@ export const useSVG = (text: string, fontId: string | undefined) => {
         const url = `${baseUrl}&type=${type}`;
         
         const response = await fetch(url);
-        if (response.ok) {
-          const svg = await response.text();
-          if (type === 'base') setBaseSVG(svg);
-          if (type === 'tight') setTightOutlineSVG(svg);
-        } else {
-          if (type === 'base') setBaseSVG(null);
-          if (type === 'tight') setTightOutlineSVG(null);
-        }
+        const svg = response.ok ? await response.text() : null;
+
+        const setters = {
+          base: setBaseSVG,
+          tight: setTightOutlineSVG,
+          outer: setOuterOutlineSVG
+        };
+        
+        setters[type](svg);
       } catch (error) {
         console.error(`Error fetching ${type} SVG:`, error);
-        if (type === 'base') setBaseSVG(null);
-        if (type === 'tight') setTightOutlineSVG(null);
+        const setters = {
+          base: setBaseSVG,
+          tight: setTightOutlineSVG,
+          outer: setOuterOutlineSVG
+        };
+        setters[type](null);
       }
     };
 
     fetchSVG('base');
     fetchSVG('tight');
+    fetchSVG('outer');
   }, [text, fontId]);
 
-  return { baseSVG, tightOutlineSVG };
+  return { baseSVG, tightOutlineSVG, outerOutlineSVG };
 };

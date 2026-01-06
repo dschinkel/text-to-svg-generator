@@ -1,0 +1,26 @@
+graph TD
+    %% Global Styles
+    classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#01579b
+    classDef backend fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#e65100
+    classDef setup fill:#f1f8e9,stroke:#33691e,stroke-width:2px,color:#33691e
+
+    subgraph Frontend [Frontend Layer]
+        App([Step 5: App Integration])
+        Hook([Step 1: useSVG Hook])
+    end
+
+    subgraph Backend [Service Layer]
+        Ctrl([Step 4: FontController])
+        UC([Step 2: GenerateOuterOutlineSVG Use Case])
+        Domain([Step 3: svgGenerator Domain])
+    end
+
+    %% Flow
+    App --> Hook
+    Hook -- "GET /api/svg?type=outer" --> Ctrl
+    Ctrl --> UC
+    UC --> Domain
+
+    %% Assign Classes
+    class App,Hook frontend
+    class Ctrl,UC,Domain backend

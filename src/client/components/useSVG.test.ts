@@ -49,4 +49,43 @@ describe('SVG Hook', () => {
     expect(fetchedUrls).toContain('/api/svg?text=Hello&fontId=octin-sports&type=base');
     expect(fetchedUrls).toContain('/api/svg?text=Hello&fontId=octin-sports&type=tight');
   });
+
+  test('fetches outer outline svg', async () => {
+    const fakeBaseSVG = '<svg>base</svg>';
+    const fakeTightSVG = '<svg>tight</svg>';
+    const fakeOuterSVG = '<svg>outer</svg>';
+    const fetchedUrls: string[] = [];
+    
+    global.fetch = ((url: string) => {
+      fetchedUrls.push(url);
+      if (url.includes('type=outer')) {
+        return Promise.resolve({
+          ok: true,
+          text: async () => fakeOuterSVG
+        });
+      }
+      if (url.includes('type=tight')) {
+        return Promise.resolve({
+          ok: true,
+          text: async () => fakeTightSVG
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        text: async () => fakeBaseSVG
+      });
+    }) as any;
+
+    const { result } = renderHook(() => useSVG('Hello', 'octin-sports'));
+
+    await waitFor(() => {
+      expect(result.current.baseSVG).toBe(fakeBaseSVG);
+      expect(result.current.tightOutlineSVG).toBe(fakeTightSVG);
+      expect(result.current.outerOutlineSVG).toBe(fakeOuterSVG);
+    });
+
+    expect(fetchedUrls).toContain('/api/svg?text=Hello&fontId=octin-sports&type=base');
+    expect(fetchedUrls).toContain('/api/svg?text=Hello&fontId=octin-sports&type=tight');
+    expect(fetchedUrls).toContain('/api/svg?text=Hello&fontId=octin-sports&type=outer');
+  });
 });

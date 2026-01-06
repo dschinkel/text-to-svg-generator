@@ -1,65 +1,53 @@
 PLAN:
-1. Frontend: Inject hook into FontSelector
-   TDD Increment 1
+1. Frontend: Hook - useSVG (TDD)
    RED:
-   - Test name: shows fonts from hook
-   - Location: src/client/fonts/components/FontSelector.test.tsx
-   - Intent: Define that `FontSelector` receives a hook and a repository to fetch and display fonts.
-
+   - Test name: fetches outer outline svg
+   - Location: src/client/components/useSVG.test.ts
+   - Intent: Update the hook to fetch and return outerOutlineSVG from the backend API using type=outer.
    GREEN:
-   - Minimal implementation: Modify `FontSelector.tsx` to accept and use the injected hook and repository.
-   - Files expected to change: src/client/fonts/components/FontSelector.tsx
-
+   - Minimal implementation: Update useSVG.ts to fetch all three types (base, tight, outer).
+   - Files expected to change: src/client/components/useSVG.ts
    COMMIT:
-   - Proposed message: feat: FR.1.1: Step 6: Frontend: Inject hook into FontSelector
-
-2. Frontend: Render FontSelector in App
-   TDD Increment 2
+   - Proposed message: feat: FR.3.3: Step 1: Frontend: Hook: fetches outer outline svg
+   REFACTOR:
+   - Candidate refactors: Consolidate fetch logic to reduce duplication.
+2. Backend: Use Case - Generate Outer Outline SVG (TDD)
    RED:
-   - Test name: shows font selector in app
-   - Location: src/client/App.test.tsx
-   - Intent: Ensure `App` renders the `FontSelector` with the required props.
-
+   - Test name: generates outer outline svg
+   - Location: src/service/svg/use-cases/GenerateOuterOutlineSVG.test.ts
+   - Intent: Define a use case that orchestrates outer outline generation.
    GREEN:
-   - Minimal implementation: Update `App.tsx` to render `FontSelector`.
-   - Files expected to change: src/client/App.tsx
-
+   - Minimal implementation: Create GenerateOuterOutlineSVG use case using the shared font loader.
+   - Files expected to change: src/service/svg/use-cases/GenerateOuterOutlineSVG.ts
    COMMIT:
-   - Proposed message: feat: FR.1.1: Step 7: Frontend: Render font selector in App
-
-3. Frontend: Client Font Repository
-   TDD Increment 3
+   - Proposed message: feat: FR.3.3: Step 2: Service: UseCase: generates outer outline svg
+   REFACTOR:
+   - Candidate refactors: Ensure minimal duplication with other SVG use cases.
+3. Backend: Domain - SVG Generation (Outer Contour) (TDD)
    RED:
-   - Test name: fetches fonts from api
-   - Location: src/client/fonts/repositories/fontRepository.test.ts
-   - Intent: Implement the concrete repository that fetches fonts from the backend API.
-
+   - Test name: generates outer outline svg from text
+   - Location: src/service/svg/domain/svgGenerator.test.ts
+   - Intent: Update svgGenerator to support outer type with a larger stroke.
    GREEN:
-   - Minimal implementation: Create `src/client/fonts/repositories/fontRepository.ts`.
-   - Files expected to change: src/client/fonts/repositories/fontRepository.ts
-
+   - Minimal implementation: Add outer case to svgGenerator with a larger stroke-width and padding.
+   - Files expected to change: src/service/svg/domain/svgGenerator.ts
    COMMIT:
-   - Proposed message: feat: FR.1.1: Step 8: Frontend: Client font repository
-
-4. Service: Expose Fonts via HTTP
-   TDD Increment 4
-   RED:
-   - Test name: lists fonts over http
-   - Location: src/service/server/app.test.ts
-   - Intent: Verify that an HTTP server correctly routes requests to the existing `fontController`.
-
-   GREEN:
-   - Minimal implementation: Create a server entry point to host the existing `fontController`.
-   - Files expected to change: src/service/server/app.ts, src/service/server/index.ts
-
+   - Proposed message: feat: FR.3.3: Step 3: Service: Domain: generates outer outline svg from text
+   REFACTOR:
+   - Candidate refactors: Extract common path rendering logic to reduce duplication.
+4. Backend Integration (Non-TDD)
+   - Goal: Update FontController, app.ts, and index.ts to expose the new use case.
+   - Changes: src/service/fonts/controllers/fontController.ts, src/service/app.ts, src/service/index.ts.
+5. App Integration
+   - Goal: Add another SVGPreview component in App.tsx for the Outer Outline SVG.
+   - Changes: src/client/App.tsx.
+   - Verification: Manual verification in browser.
+6. Cleanup & Verification
+   - Run all tests.
+   - Fix linting errors.
+   - Mark task as [COMPLETED] in tasks.md.
    COMMIT:
-   - Proposed message: feat: FR.1.1: Step 9: Service: Expose fonts via HTTP
-
-5. Cleanup & Verification
-   - Configure Vite proxy for development.
-   - Run all tests and fix linting.
-   COMMIT:
-   - Proposed message: feat: FR.1.1: cleanup: font selector integration
+   - Proposed message: feat: FR.3.3: cleanup: outer outline svg generation
 
 GOAL: shows fonts
 PLAN STEP: 1
