@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { useWebFonts } from './useWebFonts';
+import { useWebFonts } from './useWebFonts.ts';
 import '@testing-library/jest-dom';
 
 describe('Web Fonts', () => {

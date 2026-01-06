@@ -1,15 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { FontSelector } from './fonts/components/FontSelector';
-import { useFonts } from './fonts/hooks/useFonts';
-import { fontRepository } from './fonts/repositories/fontRepository';
+import { FontSelector } from './components/FontSelector';
+import { useFonts } from './hooks/useFonts';
+import { fontRepository } from './repositories/fontRepository';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { TextPreview } from './components/TextPreview/TextPreview';
+import { usePreview } from './components/TextPreview/usePreview';
 
 const App = () => {
   const repository = fontRepository();
   const boundUseFonts = () => useFonts(repository);
+  
+  const preview = usePreview();
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
@@ -22,12 +26,19 @@ const App = () => {
             <div className="max-w-md">
               <FontSelector 
                 useFonts={boundUseFonts} 
-                onSelect={() => {}} 
+                onSelect={preview.setSelectedFont} 
               />
             </div>
           </section>
-          
-          {/* Future sections will go here */}
+
+          <section>
+            <h2 className="text-xl font-semibold mb-6 text-slate-800 border-b pb-2">Preview</h2>
+            <TextPreview 
+              text={preview.text} 
+              setText={preview.setText} 
+              selectedFont={preview.selectedFont} 
+            />
+          </section>
         </div>
       </main>
 

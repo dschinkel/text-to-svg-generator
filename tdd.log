@@ -808,3 +808,142 @@ PLAN:
    - Fix linting errors.
    COMMIT:
    - Proposed message: feat: FR.1.2: cleanup: final verification
+GOAL: remembers the user's input text
+PLAN STEP: 2.1
+
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/client/components/TextPreview/usePreview.test.ts - remembers the user's input text
+CHANGESET:
+import { renderHook, act } from '@testing-library/react';
+import { usePreview } from './usePreview';
+
+describe('Preview Hook', () => {
+  test('remembers the user\'s input text', () => {
+    const { result } = renderHook(() => usePreview());
+
+    act(() => {
+      result.current.setText('Hello World');
+    });
+
+    expect(result.current.text).toBe('Hello World');
+  });
+});
+
+COMMANDS RUN: yarn test src/client/components/TextPreview/usePreview.test.ts
+TEST OUTPUT: RED - Cannot find module './usePreview'
+
+NEXT STEP: Create usePreview.ts with text state
+
+=== GREEN PHASE ===
+CHANGESET:
+import { useState } from 'react';
+
+export const usePreview = () => {
+  const [text, setText] = useState('');
+
+  return {
+    text,
+    setText
+  };
+};
+
+COMMANDS RUN: yarn test src/client/components/TextPreview/usePreview.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.2: Step 2: Frontend: Hook: remembers input text
+USER DECISION: commit
+
+=== REFACTOR PHASE ===
+REFRACTORING NOTES:
+No refactoring was necessary
+
+GOAL: tracks the currently selected font for preview
+PLAN STEP: 3.2
+
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/client/components/TextPreview/usePreview.test.ts - tracks the currently selected font for preview
+CHANGESET:
+  test('tracks the currently selected font for preview', () => {
+    const { result } = renderHook(() => usePreview());
+    const font = { id: 'octin-sports', name: 'Octin Sports', css_stack: '"octin-sports"' };
+
+    act(() => {
+      result.current.setSelectedFont(font);
+    });
+
+    expect(result.current.selectedFont).toEqual(font);
+  });
+
+COMMANDS RUN: yarn test src/client/components/TextPreview/usePreview.test.ts
+TEST OUTPUT: RED - TypeError: result.current.setSelectedFont is not a function
+
+NEXT STEP: Add selectedFont state to usePreview.ts
+
+=== GREEN PHASE ===
+CHANGESET:
+export const usePreview = () => {
+  const [text, setText] = useState('');
+  const [selectedFont, setSelectedFont] = useState<Font | null>(null);
+
+  return {
+    text,
+    setText,
+    selectedFont,
+    setSelectedFont
+  };
+};
+
+COMMANDS RUN: yarn test src/client/components/TextPreview/usePreview.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.2: Step 3: Frontend: Hook: tracks selected font
+USER DECISION: commit
+
+=== REFACTOR PHASE ===
+REFRACTORING NOTES:
+No refactoring was necessary
+
+=== COMMIT (REFACTOR) ===
+PROPOSED COMMIT: feat: FR.2: refactor: consolidate Font interface
+USER DECISION: commit
+
+GOAL: renders live text preview in App.tsx
+PLAN STEP: 4.2
+
+=== GREEN PHASE ===
+CHANGESET:
+  const preview = usePreview();
+
+  return (
+    ...
+              <FontSelector 
+                useFonts={boundUseFonts} 
+                onSelect={preview.setSelectedFont} 
+              />
+    ...
+            <TextPreview 
+              text={preview.text} 
+              setText={preview.setText} 
+              selectedFont={preview.selectedFont} 
+            />
+
+VERIFICATION: Manual verification (UI tests disallowed)
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.2: Step 4: Frontend: App: renders live text preview
+USER DECISION: commit
+
+=== CLEANUP & VERIFICATION ===
+- Ran full test suite
+- Fixed linting errors
+- Updated guidelines for UI tests and hook placement
+
+=== COMMIT (CLEANUP) ===
+PROPOSED COMMIT: feat: FR.2: cleanup: final verification of text preview
+USER DECISION: commit

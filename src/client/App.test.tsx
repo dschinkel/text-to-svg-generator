@@ -7,7 +7,7 @@ describe('App', () => {
   beforeEach(() => {
     global.fetch = (() => Promise.resolve({
       ok: true,
-      json: async () => [{ id: 'octin-sports', name: 'Octin Sports' }]
+      json: async () => [{ id: 'octin-sports', name: 'Octin Sports', css_stack: '"octin-sports"' }]
     })) as any;
   });
 

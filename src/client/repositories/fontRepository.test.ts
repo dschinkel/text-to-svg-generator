@@ -1,4 +1,4 @@
-import { fontRepository } from './fontRepository';
+import { fontRepository } from './fontRepository.ts';
 
 describe('Font Repository', () => {
   it('fetches fonts', async () => {

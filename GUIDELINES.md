@@ -1,4 +1,4 @@
-# GUIDELINES (v1.3)
+# GUIDELINES (v1.4)
 
 Scope: Applies to all coding tasks executed by Junie or any AI agent in this repo.
 
@@ -43,15 +43,15 @@ P0.9 For React work, when presenting a PLAN, explicitly ask whether Step 1 (Comp
 T1.1 Work in RED → GREEN → REFACTOR cycles.
 T1.2 In RED, write exactly one failing test that defines a single small behavior increment. Do not write multiple tests in a single RED step.
 T1.3 Default test level rules:
-T1.3.1 For React work, start by creating the component layer code (the "View") without tests. This is usually Step 1 of the PLAN, but it is NOT part of the TDD workflow (no RED phase). TDD (RED → GREEN → REFACTOR) MUST start at the hook layer (Step 2) once the component code is present. Do not write UI/integration tests unless explicitly instructed. When creating component layer code, provide props as placeholders for where we will inject hook logic later. Component code must not contain logic; logic belongs in hooks and lower layers.
+T1.3.1 For React work, start by creating the component layer code (the "View") without tests. This is usually Step 1 of the PLAN, but it is NOT part of the TDD workflow (no RED phase). TDD (RED → GREEN → REFACTOR) MUST start at the hook layer (Step 2) once the component code is present. You MUST NEVER write UI component tests or integration tests (e.g., tests that use `fireEvent`, `render` of components to verify behavior) unless explicitly instructed by the user. When creating component layer code, provide props as placeholders for where we will inject hook logic later. Component code must not contain logic; logic belongs in hooks and lower layers.
 T1.3.2 For non-React work, write tests at the behavioral/business layer level (headless/functional) and avoid end-to-end/system tests unless explicitly instructed.
 T1.3.3 Disallowed by default (unless explicitly instructed or for service data layer): browser/UI integration tests, real network calls, end-to-end tests, full-stack HTTP tests.
 T1.3.4 Allowed by default: in-process “integration” tests that do not require a browser and do not make real network calls (for example, repository tests using in-memory or file-backed fakes).
 T1.3.5 Service Data Layer Integration: Tests located in `src/service/<domain>/data/` MUST be integration tests that hit real external services, databases, or file systems. They must not use fakes or mocks for the primary IO target of that module.
 T1.4 In GREEN, write only the minimum production code required to pass the single failing test; no extra functionality.
-T1.5 After GREEN, prompt the user to commit using: `feat: <task-id>: <behavior>`. After the commit, ask whether to push or continue.
+T1.5 After GREEN, you MUST explicitly ask for permission to commit using: `feat: <task-id>: <behavior>`. After the commit, ask whether to push or continue.
 T1.6 In REFACTOR, refactor only while tests are green. Make one refactoring change at a time and run tests after each small refactor (TCR).
-T1.7 If refactoring occurred, prompt the user to commit using: `feat: <task-id>: refactor: <behavior>`. After the commit, ask whether to push or continue.
+T1.7 If refactoring occurred, you MUST explicitly ask for permission to commit using: `feat: <task-id>: refactor: <behavior>`. After the commit, ask whether to push or continue.
 T1.8 Cleanup & Verification must include running tests and fixing lint warnings/errors. Then prompt the user to commit using: `feat: <task-id>: cleanup: <behavior>`.
 T1.9 `tdd.log` must relate every RED | GREEN | REFACTOR entry to its corresponding PLAN step number.
 T1.10 When fixing a defect or implementing a feature with a clear external contract, first write an “API-level” failing test. In this repo, “API-level” means the public boundary for the behavior (typically the hook public API or the domain service function), not an HTTP endpoint or end-to-end test unless explicitly requested.
@@ -179,6 +179,9 @@ D1.1 `domain/` contains pure TypeScript business logic and entity definitions.
 D1.2 `data/` contains IO implementations and adapters (HTTP clients, SDK wrappers, DB drivers, file system access). It is injected into repositories and must not contain domain decisions.
 D1.3 `repositories/` contains repository interfaces and implementations that orchestrate use-cases and depend on injected `data/` dependencies for IO. Repositories must not directly own low-level IO.
 D1.4 `components/` contains React UI components organized by domain context.
+D1.4.1 Flat component structure: Place components directly in `src/client/components/` by default.
+D1.4.2 Nested component structure: Only use subdirectories (e.g., `src/client/components/TextPreview/`) when a component has multiple tightly related files (e.g., its own hooks, styles, or sub-components).
+D1.4.3 Hook placement: Hooks belong in the same directory as the component or domain they serve. Never create a separate `hooks/` subdirectory.
 D1.5 Root `src/` organizes by domain folders containing use-cases (for example /billing/make-payment.tsx, /registration/unregister.tsx).
 
 ---

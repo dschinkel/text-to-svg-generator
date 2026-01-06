@@ -1,5 +1,5 @@
 import { renderHook, waitFor, act } from '@testing-library/react';
-import { useFonts } from './useFonts';
+import { useFonts } from './useFonts.ts';
 
 describe('Use Fonts', () => {
   it('provides available fonts', async () => {

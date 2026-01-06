@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useWebFonts } from './useWebFonts';
+import { useWebFonts } from './useWebFonts.ts';
 
 export interface ClientFontRepository {
   getFonts: () => Promise<any[]>;
