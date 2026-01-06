@@ -84,7 +84,7 @@ When I input some text
 I see a preview of the text realtime using the selected font
 
 
-## Task: FR.3.1
+## Task: FR.3.1 [COMPLETED]
 ### Goal: Generate the Base SVG (Text only).
 Rules:
 - Before starting Read PROJECT_SPEC.md and GUIDELINES.md

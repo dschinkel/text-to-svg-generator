@@ -1,0 +1,33 @@
+graph TD
+    %% Global Styles
+    classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#01579b
+    classDef backend fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#e65100
+    classDef setup fill:#f1f8e9,stroke:#33691e,stroke-width:2px,color:#33691e
+
+    subgraph Frontend [Frontend Layer]
+        Step7([Step 7: App Integration])
+        Step7_1([Step 7.1: Update Font Selection UI])
+        Step1([Step 1: SVGPreview Component])
+        Step2([Step 2: useSVG Hook])
+    end
+
+    subgraph Backend [Service Layer]
+        Step4([Step 4: FontController])
+        Step5([Step 5: GenerateBaseSVG Use Case])
+        Step6([Step 6: svgGenerator Domain])
+        Step3([Step 3: opentype.js Setup])
+    end
+
+    %% Flow
+    Step7 --> Step7_1
+    Step7_1 --> Step1
+    Step1 --> Step2
+    Step2 -- "GET /api/svg" --> Step4
+    Step4 --> Step5
+    Step5 --> Step6
+    Step6 --> Step3
+
+    %% Assign Classes
+    class Step1,Step2,Step7,Step7_1 frontend
+    class Step4,Step5,Step6 backend
+    class Step3 setup

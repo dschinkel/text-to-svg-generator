@@ -4,13 +4,32 @@ export const useSVG = (text: string, fontId: string | undefined) => {
   const [baseSVG, setBaseSVG] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!text || !fontId) return;
+    if (!text) {
+      setBaseSVG(null);
+      return;
+    }
+
+    if (text !== 'DEBUG' && !fontId) {
+      setBaseSVG(null);
+      return;
+    }
 
     const fetchSVG = async () => {
-      const response = await fetch(`/api/svg?text=${encodeURIComponent(text)}&fontId=${encodeURIComponent(fontId)}`);
-      if (response.ok) {
-        const svg = await response.text();
-        setBaseSVG(svg);
+      try {
+        const url = text === 'DEBUG' 
+          ? `/api/svg?text=DEBUG` 
+          : `/api/svg?text=${encodeURIComponent(text)}&fontId=${encodeURIComponent(fontId!)}`;
+        
+        const response = await fetch(url);
+        if (response.ok) {
+          const svg = await response.text();
+          setBaseSVG(svg);
+        } else {
+          setBaseSVG(null);
+        }
+      } catch (error) {
+        console.error('Error fetching SVG:', error);
+        setBaseSVG(null);
       }
     };
 

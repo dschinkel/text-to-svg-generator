@@ -5,6 +5,7 @@ import { AddFont } from './fonts/use-cases/AddFont.ts';
 import { fontRepository } from './fonts/repositories/fontRepository.ts';
 import { adobeTypekitClient } from './fonts/data/adobeTypekitClient.ts';
 import { SyncFontKit } from './fonts/use-cases/SyncFontKit.ts';
+import { GenerateBaseSVG } from './svg/use-cases/GenerateBaseSVG';
 import path from 'path';
 
 const dbPath = path.resolve(process.cwd(), 'src/db/fonts.json');
@@ -23,7 +24,9 @@ SyncFontKit(repository, client, kitId)
   .then(() => console.log('Font kit synced successfully'))
   .catch(err => console.error('Failed to sync font kit:', err));
 
-const controller = fontController(listFontsCommand, AddFont, repository, client, kitId);
+const boundGenerateBaseSVG = (text: string, fontId: string) => GenerateBaseSVG(repository, client, kitId, text, fontId);
+
+const controller = fontController(listFontsCommand, AddFont, boundGenerateBaseSVG, repository, client, kitId);
 
 const app = createApp(controller);
 const port = process.env.PORT || 4000;

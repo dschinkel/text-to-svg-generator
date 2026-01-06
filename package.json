@@ -7,7 +7,7 @@
     "dev": "concurrently \"yarn dev:server\" \"wait-on tcp:localhost:4000 && yarn dev:client\"",
     "dev:client": "vite",
     "dev:server": "yarn server",
-    "server": "tsx --env-file=.env src/service/index.ts",
+    "server": "tsx watch --env-file=.env src/service/index.ts",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "jest"

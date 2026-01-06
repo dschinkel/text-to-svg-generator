@@ -8,12 +8,15 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { TextPreview } from './components/TextPreview/TextPreview';
 import { usePreview } from './components/TextPreview/usePreview';
+import { SVGPreview } from './components/SVGPreview';
+import { useSVG } from './components/useSVG';
 
 const App = () => {
   const repository = fontRepository();
   const boundUseFonts = () => useFonts(repository);
   
   const preview = usePreview();
+  const { baseSVG } = useSVG(preview.text, preview.selectedFont?.id);
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
@@ -27,17 +30,24 @@ const App = () => {
               <FontSelector 
                 useFonts={boundUseFonts} 
                 onSelect={preview.setSelectedFont} 
+                selectedFont={preview.selectedFont}
               />
             </div>
           </section>
 
           <section>
             <h2 className="text-xl font-semibold mb-6 text-slate-800 border-b pb-2">Preview</h2>
-            <TextPreview 
-              text={preview.text} 
-              setText={preview.setText} 
-              selectedFont={preview.selectedFont} 
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <TextPreview 
+                text={preview.text} 
+                setText={preview.setText} 
+                selectedFont={preview.selectedFont} 
+              />
+              <SVGPreview 
+                svgString={baseSVG} 
+                label="Base SVG" 
+              />
+            </div>
           </section>
         </div>
       </main>

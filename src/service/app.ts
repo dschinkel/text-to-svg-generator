@@ -14,17 +14,6 @@ export const createApp = (fontController: FontController) => {
 
   app.use(bodyParser());
 
-  router.get('/api/fonts', async (ctx) => {
-    ctx.body = await fontController.getFonts();
-  });
-
-  router.post('/api/fonts', async (ctx) => {
-    const { name } = ctx.request.body as { name: string };
-    const font = await fontController.addFont(name);
-    ctx.status = 201;
-    ctx.body = font;
-  });
-
   router.get('/api/svg', async (ctx) => {
     const { text, fontId } = ctx.query as { text: string; fontId: string };
     
@@ -38,13 +27,24 @@ export const createApp = (fontController: FontController) => {
     
     if (svg === null || svg === undefined) {
       ctx.status = 404;
-      ctx.body = 'SVG Not Found';
+      ctx.body = `SVG Not Found for text="${text}" and fontId="${fontId}"`;
       return;
     }
 
     ctx.status = 200;
     ctx.type = 'image/svg+xml';
     ctx.body = svg;
+  });
+
+  router.get('/api/fonts', async (ctx) => {
+    ctx.body = await fontController.getFonts();
+  });
+
+  router.post('/api/fonts', async (ctx) => {
+    const { name } = ctx.request.body as { name: string };
+    const font = await fontController.addFont(name);
+    ctx.status = 201;
+    ctx.body = font;
   });
 
   app.use(router.routes()).use(router.allowedMethods());

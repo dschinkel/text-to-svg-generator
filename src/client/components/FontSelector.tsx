@@ -21,16 +21,17 @@ export interface FontSelectorProps {
     containerRef: React.RefObject<HTMLDivElement>;
   };
   onSelect: (font: Font) => void;
+  selectedFont?: Font | null;
 }
 
-export const FontSelector = ({ useFonts, onSelect }: FontSelectorProps) => {
+export const FontSelector = ({ useFonts, onSelect, selectedFont }: FontSelectorProps) => {
   const state = useFonts();
 
   return (
     <div className="w-full max-w-sm" ref={state.containerRef}>
       <FontLoading loading={state.loading} />
       <FontError error={state.error} />
-      <FontSelection {...state} onSelect={onSelect} />
+      <FontSelection {...state} onSelect={onSelect} selectedFont={selectedFont} />
     </div>
   );
 };
@@ -51,14 +52,16 @@ const FontList = ({
   setIsOpen,
   visible,
   onAdd,
-  newFontName
+  newFontName,
+  selectedFont
 }: { 
   fonts: Font[], 
   onSelect: (font: Font) => void,
   setIsOpen: (isOpen: boolean) => void,
   visible: boolean,
   onAdd: () => void,
-  newFontName: string
+  newFontName: string,
+  selectedFont?: Font | null
 }) => {
   if (!visible) return null;
 
@@ -69,20 +72,25 @@ const FontList = ({
       className="absolute z-10 w-full mt-1 bg-white border border-slate-300 rounded shadow-lg max-h-60 overflow-auto"
       data-testid="font-list"
     >
-      {fonts.map(font => (
-        <li 
-          key={font.id}
-          data-testid="font"
-          onClick={() => {
-            onSelect(font);
-            setIsOpen(false);
-          }}
-          className="px-3 py-3 hover:bg-slate-100 cursor-pointer text-left text-xl"
-          style={{ fontFamily: font.css_stack || font.name }}
-        >
-          {font.name}
-        </li>
-      ))}
+      {fonts.map(font => {
+        const isSelected = font.id === selectedFont?.id;
+        return (
+          <li 
+            key={font.id}
+            data-testid="font"
+            onClick={() => {
+              onSelect(font);
+              setIsOpen(false);
+            }}
+            className={`px-3 py-3 hover:bg-slate-100 cursor-pointer text-left text-xl ${
+              isSelected ? 'bg-green-50 border-l-4 border-green-500 font-medium' : ''
+            }`}
+            style={{ fontFamily: font.css_stack || font.name }}
+          >
+            {font.name}
+          </li>
+        );
+      })}
       {showAddOption && (
         <li 
           onClick={onAdd}
@@ -108,7 +116,8 @@ const FontSelection = ({
   isOpen, 
   setIsOpen,
   handleAdd,
-  onSelect 
+  onSelect,
+  selectedFont
 }: any) => {
   if (loading || error) return null;
 
@@ -128,6 +137,11 @@ const FontSelection = ({
           placeholder="Search or type a new font..."
           className="border border-slate-300 rounded-lg px-4 py-3 w-full text-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm"
         />
+        {selectedFont && (
+          <div className="mt-2 text-sm text-slate-500 font-medium">
+            Currently selected: <span className="text-green-600 font-bold">{selectedFont.name}</span>
+          </div>
+        )}
       </div>
 
       <FontList 
@@ -140,6 +154,7 @@ const FontSelection = ({
           setIsOpen(false);
         }}
         newFontName={newFontName}
+        selectedFont={selectedFont}
       />
     </div>
   );
