@@ -18,4 +18,17 @@ describe('SVG Generator Domain', () => {
     expect(svg).toContain('path d=');
     expect(svg).toContain('</svg>');
   });
+
+  it('generates tight outline svg from text', async () => {
+    const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
+    const font = await opentype.load(fontPath);
+    
+    const text = 'Hello';
+    const svg = svgGenerator(text, font, { type: 'tight' });
+
+    expect(svg).toContain('<svg');
+    // Tight outline should have a stroke or multiple paths
+    expect(svg).toContain('stroke=');
+    expect(svg).toContain('stroke-width=');
+  });
 });
