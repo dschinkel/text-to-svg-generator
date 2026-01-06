@@ -9,18 +9,9 @@ export const getOffsetPath = (d: string, offset: number, fillGaps = false): stri
   if (offset === 0) return d;
 
   const scale = 1000;
-  // Use a more robust way to access ClipperLib properties
   const CL = (ClipperLib as any).default || ClipperLib;
   
-  const paths = d.split('Z')
-    .filter(p => p.trim() !== '')
-    .map(p => {
-      const commands = p.trim().split(/(?=[MLZ])/);
-      return commands.map(cmd => {
-        const parts = cmd.trim().substring(1).split(/[\s,]+/).filter(x => x !== '');
-        return { X: Math.round(parseFloat(parts[0]) * scale), Y: Math.round(parseFloat(parts[1]) * scale) };
-      });
-    });
+  const paths = parseAndFlattenPath(d, scale);
 
   const clipper = new CL.ClipperOffset();
   const offsetPaths = new CL.Paths();
@@ -44,6 +35,147 @@ export const getOffsetPath = (d: string, offset: number, fillGaps = false): stri
   }
 
   return resultD;
+};
+
+const parseAndFlattenPath = (d: string, scale: number): any[][] => {
+  const paths: any[][] = [];
+  let currentPath: any[] = [];
+  
+  // Regex to match SVG commands and their arguments
+  const commandRegex = /([a-df-z])([^a-df-z]*)/gi;
+  let match;
+  
+  let lastX = 0;
+  let lastY = 0;
+  let startX = 0;
+  let startY = 0;
+
+  while ((match = commandRegex.exec(d)) !== null) {
+    const command = match[1];
+    const args = match[2].trim().split(/[\s,]+/).filter(x => x !== '').map(parseFloat);
+    const isRelative = command === command.toLowerCase();
+    const type = command.toUpperCase();
+
+    switch (type) {
+      case 'M':
+        for (let i = 0; i < args.length; i += 2) {
+          let x = args[i];
+          let y = args[i + 1];
+          if (isRelative) {
+            x += lastX;
+            y += lastY;
+          }
+          if (i === 0) {
+            if (currentPath.length > 0) paths.push(currentPath);
+            currentPath = [{ X: Math.round(x * scale), Y: Math.round(y * scale) }];
+            startX = x;
+            startY = y;
+          } else {
+            currentPath.push({ X: Math.round(x * scale), Y: Math.round(y * scale) });
+          }
+          lastX = x;
+          lastY = y;
+        }
+        break;
+      case 'L':
+        for (let i = 0; i < args.length; i += 2) {
+          let x = args[i];
+          let y = args[i + 1];
+          if (isRelative) {
+            x += lastX;
+            y += lastY;
+          }
+          currentPath.push({ X: Math.round(x * scale), Y: Math.round(y * scale) });
+          lastX = x;
+          lastY = y;
+        }
+        break;
+      case 'H':
+        for (let i = 0; i < args.length; i++) {
+          let x = args[i];
+          if (isRelative) x += lastX;
+          currentPath.push({ X: Math.round(x * scale), Y: Math.round(lastY * scale) });
+          lastX = x;
+        }
+        break;
+      case 'V':
+        for (let i = 0; i < args.length; i++) {
+          let y = args[i];
+          if (isRelative) y += lastY;
+          currentPath.push({ X: Math.round(lastX * scale), Y: Math.round(y * scale) });
+          lastY = y;
+        }
+        break;
+      case 'Q':
+        for (let i = 0; i < args.length; i += 4) {
+          let cx = args[i];
+          let cy = args[i + 1];
+          let x = args[i + 2];
+          let y = args[i + 3];
+          if (isRelative) {
+            cx += lastX;
+            cy += lastY;
+            x += lastX;
+            y += lastY;
+          }
+          flattenQuadraticBezier(lastX, lastY, cx, cy, x, y, scale, currentPath);
+          lastX = x;
+          lastY = y;
+        }
+        break;
+      case 'C':
+        for (let i = 0; i < args.length; i += 6) {
+          let c1x = args[i];
+          let c1y = args[i + 1];
+          let c2x = args[i + 2];
+          let c2y = args[i + 3];
+          let x = args[i + 4];
+          let y = args[i + 5];
+          if (isRelative) {
+            c1x += lastX;
+            c1y += lastY;
+            c2x += lastX;
+            c2y += lastY;
+            x += lastX;
+            y += lastY;
+          }
+          flattenCubicBezier(lastX, lastY, c1x, c1y, c2x, c2y, x, y, scale, currentPath);
+          lastX = x;
+          lastY = y;
+        }
+        break;
+      case 'Z':
+        if (currentPath.length > 0) {
+          paths.push(currentPath);
+          currentPath = [];
+        }
+        lastX = startX;
+        lastY = startY;
+        break;
+    }
+  }
+  if (currentPath.length > 0) paths.push(currentPath);
+  return paths;
+};
+
+const flattenQuadraticBezier = (x1: number, y1: number, cx: number, cy: number, x2: number, y2: number, scale: number, path: any[]) => {
+  const steps = 10;
+  for (let i = 1; i <= steps; i++) {
+    const t = i / steps;
+    const x = (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * cx + t * t * x2;
+    const y = (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * cy + t * t * y2;
+    path.push({ X: Math.round(x * scale), Y: Math.round(y * scale) });
+  }
+};
+
+const flattenCubicBezier = (x1: number, y1: number, c1x: number, c1y: number, c2x: number, c2y: number, x2: number, y2: number, scale: number, path: any[]) => {
+  const steps = 10;
+  for (let i = 1; i <= steps; i++) {
+    const t = i / steps;
+    const x = (1 - t) * (1 - t) * (1 - t) * x1 + 3 * (1 - t) * (1 - t) * t * c1x + 3 * (1 - t) * t * t * c2x + t * t * t * x2;
+    const y = (1 - t) * (1 - t) * (1 - t) * y1 + 3 * (1 - t) * (1 - t) * t * c1y + 3 * (1 - t) * t * t * c2y + t * t * t * y2;
+    path.push({ X: Math.round(x * scale), Y: Math.round(y * scale) });
+  }
 };
 
 const isHole = (path: any[], CL: any): boolean => {
