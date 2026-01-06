@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useWebFonts } from '../hooks/useWebFonts';
 
 export interface Font {
   id: string;
@@ -20,6 +21,8 @@ export const FontSelector = ({ useFonts, onSelect }: FontSelectorProps) => {
   const { fonts, loading, error, addFont } = useFonts();
   const [newFontName, setNewFontName] = React.useState('');
   const [isOpen, setIsOpen] = React.useState(false);
+
+  useWebFonts('jzl6jgi');
 
   if (loading) return <div data-testid="font-loading">Loading fonts...</div>;
   if (error) return <div data-testid="font-error">Error loading fonts: {error.message}</div>;
