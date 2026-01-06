@@ -43,7 +43,7 @@ describe('Server', () => {
     const fakeController = {
       getFonts: async () => [],
       addFont: async () => ({}),
-      getBaseSVG: async (text: string, fontId: string) => {
+      getSVG: async (text: string, fontId: string) => {
         if (text === 'Hello' && fontId === 'octin-sports') return fakeSVG;
         return null;
       }
