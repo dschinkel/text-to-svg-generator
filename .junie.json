@@ -1,0 +1,7 @@
+{
+  "terminal_whitelist": [
+    "yarn jest && yarn tsc --noEmit",
+    "yarn test",
+    "yarn build"
+  ]
+}
