@@ -75,3 +75,4 @@ Acceptance:
 - Move The fonts list to be under the fold, more toward the top as we'll be adding more stuff below it soon
 - Make header and its text larger
 - Change theme color from blue to green
+
