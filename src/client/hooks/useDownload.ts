@@ -12,7 +12,18 @@ export const useDownload = (downloadFn: (svg: string, filename: string) => void)
     downloadFn(svg, `${textSlug}-${labelSlug}.svg`);
   }, [downloadFn]);
 
+  const handleLayeredDownload = useCallback((svgs: (string | null)[], text: string) => {
+    const textSlug = slugify(text);
+    svgs.forEach((svg, index) => {
+      if (!svg) return;
+      const labels = ['base', 'tight-outline', 'outer-outline'];
+      const label = labels[index] || `layer-${index}`;
+      downloadFn(svg, `${textSlug}-${label}.svg`);
+    });
+  }, [downloadFn]);
+
   return {
-    handleDownload
+    handleDownload,
+    handleLayeredDownload
   };
 };

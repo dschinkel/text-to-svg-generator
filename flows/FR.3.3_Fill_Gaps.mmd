@@ -1,0 +1,8 @@
+graph TD
+    A[Start] --> B[Analyze current offset logic]
+    B --> C[Create reproduction test with holes]
+    C --> D[RED: Test for filled gaps]
+    D --> E[GREEN: Update getOffsetPath to remove holes]
+    E --> F[REFACTOR: Clean up pathOffsetter]
+    F --> G[Verify all tests pass]
+    G --> H[End]

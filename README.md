@@ -36,3 +36,9 @@ For server-side SVG generation, this project uses `opentype.js`. It was chosen b
 1. **Precision**: It provides exact vector paths from OpenType and TrueType fonts, which is critical for 3D extrusion in tools like TinkerCad.
 2. **Server-Side Compatibility**: It runs in Node.js, allowing for consistent SVG generation without a browser environment.
 3. **Control**: It facilitates path manipulation and bounding box calculations, which are necessary for creating layered outlines.
+
+### Path Offsetting (Outlines)
+For generating the "Tight" and "Outer" outline layers, this project uses `clipper-lib`. 
+
+- **TinkerCad Compatibility**: TinkerCad's SVG importer only supports real path geometry (closed filled paths). It ignores SVG `stroke-width` attributes.
+- **Real Geometry**: `clipper-lib` is used to calculate offset contours from the base font paths, creating new path data for the outlines. This ensures that when the SVG is imported into TinkerCad, the outlines appear as solid, extruded objects rather than collapsing back to the original font size.

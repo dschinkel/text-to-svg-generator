@@ -1,0 +1,15 @@
+graph TD
+    A[User Inputs Text & Font] --> B[Service: Generate SVG Request]
+    B --> C[svgGenerator Domain]
+    C --> D[Load Font via opentype.js]
+    D --> E[Get Glyph Path]
+    E --> F{Is Outline Type?}
+    F -- No --> G[Base Path Geometry]
+    F -- Yes --> H[Generate Offset Path Geometry]
+    H --> I[Convert Path to Polygon]
+    I --> J[Apply ClipperOffset]
+    J --> K[Convert back to SVG Path Data]
+    G --> L[Construct SVG XML]
+    K --> L
+    L --> M[Return SVG to Client]
+    M --> N[User Downloads & Imports to TinkerCad]

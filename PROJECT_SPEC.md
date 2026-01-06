@@ -25,6 +25,7 @@ A user can:
 
 ### 1.2 SVG Output Requirements
 - Outputs must be **SVG suitable for CAD import** (TinkerCad).
+    - Outlines must be real path geometry (closed filled paths), not stroke-based effects.
 - The system must generate deterministic, repeatable geometry for the same inputs.
 - Output must provide **full resolution** SVG (vector).  
   Thumbnails are previews; downloads are the original SVG.

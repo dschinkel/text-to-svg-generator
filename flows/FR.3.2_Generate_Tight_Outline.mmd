@@ -1,0 +1,11 @@
+graph TD
+    A[Start] --> B[Get Font Path]
+    B --> C[Calculate Bounding Box]
+    C --> D[Generate Offset Path Geometry]
+    D --> E[Create SVG with Filled Path]
+    E --> F[End]
+    
+    subgraph "Offset Path Geometry"
+    D1[Calculate Offset Curves]
+    D2[Create Closed Filled Path]
+    end

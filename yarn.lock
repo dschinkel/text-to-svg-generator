@@ -1705,6 +1705,11 @@ class-variance-authority@^0.7.1:
   dependencies:
     clsx "^2.1.1"
 
+clipper-lib@^6.4.2:
+  version "6.4.2"
+  resolved "https://registry.yarnpkg.com/clipper-lib/-/clipper-lib-6.4.2.tgz#f2444d87913aaea8312f9e26421b0843f4149e87"
+  integrity sha512-knglhjQX5ihNj/XCIs6zCHrTemdvHY3LPZP9XB2nq2/3igyYMFueFXtfp84baJvEE+f8pO1ZS4UVeEgmLnAprQ==
+
 cliui@^8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/cliui/-/cliui-8.0.1.tgz#0c04b075db02cbfe60dc8e6cf2f5486b1a3608aa"
