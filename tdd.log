@@ -947,3 +947,25 @@ USER DECISION: commit
 === COMMIT (CLEANUP) ===
 PROPOSED COMMIT: feat: FR.2: cleanup: final verification of text preview
 USER DECISION: commit
+
+GOAL: fetches base svg
+PLAN STEP: 2
+
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/client/components/useSVG.test.ts - fetches base svg
+
+=== GREEN PHASE ===
+CHANGESET: useSVG.ts created
+
+COMMANDS RUN: yarn test src/client/components/useSVG.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.3.1: Step 2: Frontend: Hook: fetches base svg
+USER DECISION: 
+
+=== REFACTOR PHASE ===
+REFRACTORING NOTES:
+No refactoring was necessary
