@@ -35,6 +35,7 @@ P0.6 After completing each step in the PLAN, summarize the step you just complet
 P0.7 If the user stops you midstream with a question or change request, log the interruption and the resolution in `tdd.log` (only applies when the user chose a TDD workflow in P0.0).
 P0.8 If the user reverts an implemented plan, remove the corresponding plan and its workflow entries from `tdd.log` (only applies when the user chose a TDD workflow in P0.0).
 P0.9 For React work, when presenting a PLAN, explicitly ask whether Step 1 (Component layer) should be a non-TDD scaffold or if it should be TDD'd (which would require explicit instruction to write UI tests).
+P0.10 At the very end of a task (after all steps and cleanup), you MUST mark the task as [COMPLETED] in `tasks.md`, run all tests one last time, and then ask for a final cleanup commit and push before calling `submit`.
 
 ---
 
@@ -165,6 +166,7 @@ G1.4.1 Behavioral: `feat: <feature-id>: Step <number>: <layer>: <step-title-pros
 G1.4.2 Refactor: `feat: <feature-id>: refactor: <behavior>`
 G1.4.3 Cleanup: `feat: <feature-id>: cleanup: <behavior>`
 G1.5 If no task exists in tasks.md, still commit with a meaningful message.
+G1.6 When the user approves a commit prompt, you MUST immediately execute the corresponding git commit command via bash. Do not wait for the next turn.
 
 ---
 

@@ -76,7 +76,7 @@ Acceptance:
 - Make header and its text larger
 - Change theme color from blue to green
 
-## Task: FR.2
+## Task: FR.2 [COMPLETED]
 ### Goal:User enters text and sees a preview of the text rendered in the selected font.
 Acceptance:
 Given I have selected a font
