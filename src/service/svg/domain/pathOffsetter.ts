@@ -14,27 +14,43 @@ export const getOffsetPath = (d: string, offset: number, fillGaps = false): stri
   const paths = parseAndFlattenPath(d, scale);
 
   const clipper = new CL.ClipperOffset();
-  const offsetPaths = new CL.Paths();
-  clipper.AddPaths(paths, CL.JoinType.jtRound, CL.EndType.etClosedPolygon);
-  clipper.Execute(offsetPaths, offset * scale);
-
+  
+  // Simplify input paths to handle self-intersections
+  const simplifiedPaths = CL.Clipper.SimplifyPolygons(paths, CL.PolyFillType.pftNonZero);
+  
+  clipper.AddPaths(simplifiedPaths, CL.JoinType.jtRound, CL.EndType.etClosedPolygon);
+  
   let resultD = '';
-  for (let i = 0; i < offsetPaths.length; i++) {
-    const path = offsetPaths[i];
-    if (path.length === 0) continue;
+  
+  if (fillGaps) {
+    const polyTree = new CL.PolyTree();
+    clipper.Execute(polyTree, offset * scale);
     
-    if (fillGaps && isHole(path, CL)) {
-      continue;
+    // PolyTree correctly identifies hierarchy. Top-level nodes are outer boundaries.
+    const outerNodes = polyTree.Childs();
+    for (let i = 0; i < outerNodes.length; i++) {
+      const node = outerNodes[i];
+      resultD += pathToSvg(node.Contour(), scale);
     }
-
-    resultD += `M${path[0].X / scale} ${path[0].Y / scale}`;
-    for (let j = 1; j < path.length; j++) {
-      resultD += `L${path[j].X / scale} ${path[j].Y / scale}`;
+  } else {
+    const offsetPaths = new CL.Paths();
+    clipper.Execute(offsetPaths, offset * scale);
+    for (let i = 0; i < offsetPaths.length; i++) {
+      resultD += pathToSvg(offsetPaths[i], scale);
     }
-    resultD += 'Z';
   }
 
   return resultD;
+};
+
+const pathToSvg = (path: any[], scale: number): string => {
+  if (path.length === 0) return '';
+  let d = `M${path[0].X / scale} ${path[0].Y / scale}`;
+  for (let j = 1; j < path.length; j++) {
+    d += `L${path[j].X / scale} ${path[j].Y / scale}`;
+  }
+  d += 'Z';
+  return d;
 };
 
 const parseAndFlattenPath = (d: string, scale: number): any[][] => {
@@ -176,10 +192,4 @@ const flattenCubicBezier = (x1: number, y1: number, c1x: number, c1y: number, c2
     const y = (1 - t) * (1 - t) * (1 - t) * y1 + 3 * (1 - t) * (1 - t) * t * c1y + 3 * (1 - t) * t * t * c2y + t * t * t * y2;
     path.push({ X: Math.round(x * scale), Y: Math.round(y * scale) });
   }
-};
-
-const isHole = (path: any[], CL: any): boolean => {
-  // In ClipperLib, Orientation returns true if clockwise.
-  // By default, outer paths are clockwise and holes are counter-clockwise.
-  return !CL.Clipper.Orientation(path);
 };
