@@ -96,7 +96,7 @@ Given I have selected a font and entered text
 When the system generates the output
 Then I see a preview thumbnail of the text rendered as an SVG.
 
-## Task: FR.3.2
+## Task: FR.3.2 [COMPLETED]
 ### Goal: Generate the Tight Outline SVG (Text + small contour).
 Rules:
 - Before starting Read PROJECT_SPEC.md and GUIDELINES.md
@@ -108,7 +108,7 @@ Given I have a base SVG
 When the system applies a tight contour
 Then I see a preview thumbnail of the text with a tight outline.
 
-## Task: FR.3.3
+## Task: FR.3.3 [COMPLETED]
 ### Goal: Generate the Outer Outline SVG (Text + larger outer contour).
 Rules:
 - Before starting Read PROJECT_SPEC.md and GUIDELINES.md

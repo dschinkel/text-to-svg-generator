@@ -31,4 +31,17 @@ describe('SVG Generator Domain', () => {
     expect(svg).toContain('stroke=');
     expect(svg).toContain('stroke-width=');
   });
+
+  it('generates outer outline svg from text', async () => {
+    const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
+    const font = await opentype.load(fontPath);
+    
+    const text = 'Hello';
+    const svg = svgGenerator(text, font, { type: 'outer' });
+
+    expect(svg).toContain('<svg');
+    // Outer outline should have a stroke
+    expect(svg).toContain('stroke=');
+    expect(svg).toContain('stroke-width="16"');
+  });
 });

@@ -9,7 +9,8 @@ describe('Server', () => {
     const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
     const fakeController = {
       getFonts: async () => fonts,
-      addFont: async () => ({})
+      addFont: async () => ({}),
+      getSVG: async () => null
     };
 
     const app = createApp(fakeController);
@@ -26,7 +27,8 @@ describe('Server', () => {
       addFont: async (name: string) => {
         if (name === 'Campus MN') return newFont;
         return null;
-      }
+      },
+      getSVG: async () => null
     };
 
     const app = createApp(fakeController);
@@ -63,7 +65,7 @@ describe('Server', () => {
     const fakeController = {
       getFonts: async () => [],
       addFont: async () => ({}),
-      getBaseSVG: async () => null
+      getSVG: async () => null
     } as any;
 
     const app = createApp(fakeController);
@@ -78,7 +80,7 @@ describe('Server', () => {
     const fakeController = {
       getFonts: async () => [],
       addFont: async () => ({}),
-      getBaseSVG: async () => null
+      getSVG: async () => null
     } as any;
 
     const app = createApp(fakeController);

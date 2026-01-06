@@ -16,7 +16,7 @@ const App = () => {
   const boundUseFonts = () => useFonts(repository);
   
   const preview = usePreview();
-  const { baseSVG } = useSVG(preview.text, preview.selectedFont?.id);
+  const { baseSVG, tightOutlineSVG, outerOutlineSVG } = useSVG(preview.text, preview.selectedFont?.id);
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
@@ -37,7 +37,7 @@ const App = () => {
 
           <section>
             <h2 className="text-xl font-semibold mb-6 text-slate-800 border-b pb-2">Preview</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               <TextPreview 
                 text={preview.text} 
                 setText={preview.setText} 
@@ -46,6 +46,17 @@ const App = () => {
               <SVGPreview 
                 svgString={baseSVG} 
                 label="Base SVG" 
+              />
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t pt-8">
+              <SVGPreview 
+                svgString={tightOutlineSVG} 
+                label="Tight Outline SVG" 
+              />
+              <SVGPreview 
+                svgString={outerOutlineSVG} 
+                label="Outer Outline SVG" 
               />
             </div>
           </section>

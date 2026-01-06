@@ -5,7 +5,7 @@ import bodyParser from 'koa-bodyparser';
 export interface FontController {
   getFonts: () => Promise<any[]>;
   addFont: (name: string) => Promise<any>;
-  getBaseSVG: (text: string, fontId: string) => Promise<string | null>;
+  getSVG: (text: string, fontId: string, type: string) => Promise<string | null>;
 }
 
 export const createApp = (fontController: FontController) => {
@@ -15,15 +15,15 @@ export const createApp = (fontController: FontController) => {
   app.use(bodyParser());
 
   router.get('/api/svg', async (ctx) => {
-    const { text, fontId } = ctx.query as { text: string; fontId: string };
+    const { text, fontId, type = 'base' } = ctx.query as { text: string; fontId: string; type?: string };
     
-    if (!text || !fontId) {
+    if (!text || (!fontId && text !== 'DEBUG')) {
       ctx.status = 400;
       ctx.body = 'Missing text or fontId query parameter';
       return;
     }
 
-    const svg = await fontController.getBaseSVG(text, fontId);
+    const svg = await fontController.getSVG(text, fontId, type);
     
     if (svg === null || svg === undefined) {
       ctx.status = 404;

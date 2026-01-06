@@ -6,6 +6,8 @@ import { fontRepository } from './fonts/repositories/fontRepository.ts';
 import { adobeTypekitClient } from './fonts/data/adobeTypekitClient.ts';
 import { SyncFontKit } from './fonts/use-cases/SyncFontKit.ts';
 import { GenerateBaseSVG } from './svg/use-cases/GenerateBaseSVG';
+import { GenerateTightOutlineSVG } from './svg/use-cases/GenerateTightOutlineSVG';
+import { GenerateOuterOutlineSVG } from './svg/use-cases/GenerateOuterOutlineSVG';
 import path from 'path';
 
 const dbPath = path.resolve(process.cwd(), 'src/db/fonts.json');
@@ -25,8 +27,19 @@ SyncFontKit(repository, client, kitId)
   .catch(err => console.error('Failed to sync font kit:', err));
 
 const boundGenerateBaseSVG = (text: string, fontId: string) => GenerateBaseSVG(repository, client, kitId, text, fontId);
+const boundGenerateTightOutlineSVG = (text: string, fontId: string) => GenerateTightOutlineSVG(repository, client, kitId, text, fontId);
+const boundGenerateOuterOutlineSVG = (text: string, fontId: string) => GenerateOuterOutlineSVG(repository, client, kitId, text, fontId);
 
-const controller = fontController(listFontsCommand, AddFont, boundGenerateBaseSVG, repository, client, kitId);
+const controller = fontController(
+  listFontsCommand, 
+  AddFont, 
+  boundGenerateBaseSVG, 
+  boundGenerateTightOutlineSVG,
+  boundGenerateOuterOutlineSVG,
+  repository, 
+  client, 
+  kitId
+);
 
 const app = createApp(controller);
 const port = process.env.PORT || 4000;
