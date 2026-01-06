@@ -66,6 +66,9 @@ N1.4 Canonical examples live in Appendix D.
 N1.5 Test data and stubs must not use the word "mock". Use domain terms for data and "fake" for stubs (e.g., `fakeRepository`, `fakeFonts`).
 N1.6 Do not test for loading state in hook tests.
 N1.7 Treat the System Under Test (SUT) as a black box. Avoid using spies or asserting that internal dependencies were called when the output itself can be asserted.
+N1.7.1 Do not use `jest.fn()` or any testing library "magic" for creating stubs or fakes. Use simple JavaScript functions instead.
+Good: `const fakeRepository = { getFonts: () => fonts };`
+Bad: `const fakeRepository = { getFonts: jest.fn().mockResolvedValue(fonts) };`
 N1.8 Use JSX syntax in React tests. Do not use `React.createElement` in tests.
 Bad: `render(React.createElement(FontSelector, { fonts: fonts, onSelect: () => {} }));`
 Good: `render(<FontSelector fonts={fonts} onSelect={() => {}} />);`
@@ -161,6 +164,7 @@ G1.5 If no task exists in tasks.md, still commit with a meaningful message.
 D1.0 Repo Roots:
 D1.0.1 Client root is `src/client/` (all frontend/client code).
 D1.0.2 Service root is `src/service/` (all server-side/service code).
+D1.0.3 Avoid technical infrastructure folders like `server/` or `web/` within `src/service/`. Service entry points and application setup should reside directly under `src/service/`. Business logic should be organized by domain folders.
 
 D1.1 `domain/` contains pure TypeScript business logic and entity definitions.
 D1.2 `data/` contains IO implementations and adapters (HTTP clients, SDK wrappers, DB drivers, file system access). It is injected into repositories and must not contain domain decisions.

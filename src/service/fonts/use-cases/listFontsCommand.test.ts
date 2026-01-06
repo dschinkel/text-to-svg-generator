@@ -4,8 +4,8 @@ describe('listFontsCommand', () => {
   it('lists fonts', async () => {
     const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
     const fakeRepository = {
-      getAll: jest.fn().mockResolvedValue(fonts),
-      fetch: jest.fn()
+      getAll: async () => fonts,
+      fetch: async () => ({})
     };
 
     const command = listFontsCommand(fakeRepository);
@@ -16,18 +16,22 @@ describe('listFontsCommand', () => {
 
   it('fetches default fonts if repository is empty', async () => {
     const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
+    let state = 'empty';
+    const fetched: string[] = [];
+    
     const fakeRepository = {
-      getAll: jest.fn()
-        .mockResolvedValueOnce([])
-        .mockResolvedValueOnce(fonts),
-      fetch: jest.fn().mockResolvedValue({})
+      getAll: async () => state === 'empty' ? [] : fonts,
+      fetch: async (id: string) => {
+        fetched.push(id);
+        state = 'populated';
+      }
     };
 
     const command = listFontsCommand(fakeRepository);
     const result = await command.execute();
 
-    expect(fakeRepository.fetch).toHaveBeenCalledWith('octin-sports');
-    expect(fakeRepository.fetch).toHaveBeenCalledWith('campus-mn');
+    expect(fetched).toContain('octin-sports');
+    expect(fetched).toContain('campus-mn');
     expect(result).toEqual(fonts);
   });
 });

@@ -5,10 +5,10 @@ import '@testing-library/jest-dom';
 
 describe('App', () => {
   beforeEach(() => {
-    global.fetch = jest.fn().mockResolvedValue({
+    global.fetch = (() => Promise.resolve({
       ok: true,
       json: async () => [{ id: 'octin-sports', name: 'Octin Sports' }]
-    });
+    })) as any;
   });
 
   it('shows font selector', async () => {

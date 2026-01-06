@@ -8,7 +8,7 @@ describe('server', () => {
   it('lists fonts', async () => {
     const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
     const fakeController = {
-      getFonts: jest.fn().mockResolvedValue(fonts)
+      getFonts: async () => fonts
     };
 
     const app = createApp(fakeController);

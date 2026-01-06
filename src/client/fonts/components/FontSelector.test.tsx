@@ -11,7 +11,7 @@ describe('FontSelector', () => {
     ];
     
     const fakeRepository = {
-      getFonts: jest.fn().mockResolvedValue(fonts)
+      getFonts: async () => fonts
     };
 
     const useFonts = () => ({

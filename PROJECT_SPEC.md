@@ -101,7 +101,7 @@ The system generates all three SVG outputs for the selected font + text:
 ### 4.5 Testing
 - Use Jest, React Testing Library, and React Hook Testing Library as appropriate.
 - Tests are written first (TDD), one at a time, per `GUIDELINES.md`.
-- Test naming and variables must use domain language. Do not use technical terms like "mock". Use domain terms for test data and "fake" for stubs (e.g., `fakeRepository` instead of `mockRepository`).
+- Test naming and variables must use domain language. Do not use technical terms like "mock". Use domain terms for test data and "fake" for stubs (e.g., `fakeRepository` instead of `mockRepository`). Do not use `jest.fn()` for stubs; use simple functions.
 - Do not test for loading state in hook tests.
 - Treat the System Under Test (SUT) as a black box. Avoid using spies or asserting that internal dependencies were called when the output itself can be asserted.
 - UI tests must use `data-testid` instead of finding elements by text (e.g., `getByText`, `findByText`). Data test IDs must represent domain concepts (e.g., `data-testid="font-selection"`).

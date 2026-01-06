@@ -4,7 +4,7 @@ describe('fontController', () => {
   it('lists fonts', async () => {
     const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
     const fakeListFontsCommand = {
-      execute: jest.fn().mockResolvedValue(fonts)
+      execute: async () => fonts
     };
 
     const controller = fontController(fakeListFontsCommand);

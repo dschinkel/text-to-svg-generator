@@ -5,7 +5,7 @@ describe('useFonts', () => {
   it('provides available fonts', async () => {
     const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
     const fakeRepository = {
-      getFonts: jest.fn().mockResolvedValue(fonts)
+      getFonts: async () => fonts
     };
 
     const { result } = renderHook(() => useFonts(fakeRepository));
