@@ -3,9 +3,10 @@ import React from 'react';
 export interface SVGPreviewProps {
   svgString: string | null;
   label: string;
+  onDownload?: () => void;
 }
 
-export const SVGPreview = ({ svgString, label }: SVGPreviewProps) => {
+export const SVGPreview = ({ svgString, label, onDownload }: SVGPreviewProps) => {
   if (!svgString) {
     return (
       <div className="flex flex-col items-center justify-center p-8 bg-slate-100 rounded-lg border-2 border-dashed border-slate-300 min-h-[200px]">
@@ -17,11 +18,20 @@ export const SVGPreview = ({ svgString, label }: SVGPreviewProps) => {
 
   return (
     <div className="flex flex-col space-y-2">
-      <span className="text-sm font-medium text-slate-500 uppercase tracking-wider">{label}</span>
+      <div className="flex justify-between items-center">
+        <span className="text-sm font-medium text-slate-500 uppercase tracking-wider">{label}</span>
+        {svgString && (
+          <span className="text-[10px] text-slate-400 font-bold bg-slate-100 px-1.5 py-0.5 rounded">CLICK TO DOWNLOAD</span>
+        )}
+      </div>
       <div 
-        className="p-4 bg-white rounded-lg border border-slate-200 shadow-sm flex items-center justify-center min-h-[200px]"
+        className={`p-4 bg-white rounded-lg border border-slate-200 shadow-sm flex items-center justify-center min-h-[200px] transition-all ${
+          onDownload ? 'cursor-pointer hover:border-green-500 hover:shadow-md' : ''
+        }`}
         dangerouslySetInnerHTML={{ __html: svgString }}
+        onClick={onDownload}
         data-testid={`${label.toLowerCase().replace(/ /g, '-')}-preview`}
+        title={onDownload ? `Click to download ${label}` : undefined}
       />
     </div>
   );

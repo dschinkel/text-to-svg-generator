@@ -10,6 +10,7 @@ import { TextPreview } from './components/TextPreview/TextPreview';
 import { usePreview } from './components/TextPreview/usePreview';
 import { SVGPreview } from './components/SVGPreview';
 import { useSVG } from './components/useSVG';
+import { downloadSVG } from './domain/downloadService';
 
 const App = () => {
   const repository = fontRepository();
@@ -17,6 +18,13 @@ const App = () => {
   
   const preview = usePreview();
   const { baseSVG, tightOutlineSVG, outerOutlineSVG } = useSVG(preview.text, preview.selectedFont?.id);
+
+  const handleDownload = (svg: string | null, label: string) => {
+    if (!svg) return;
+    const textSlug = preview.text.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 30) || 'untitled';
+    const labelSlug = label.toLowerCase().replace(/ /g, '-');
+    downloadSVG(svg, `${textSlug}-${labelSlug}.svg`);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
@@ -46,6 +54,7 @@ const App = () => {
               <SVGPreview 
                 svgString={baseSVG} 
                 label="Base SVG" 
+                onDownload={() => handleDownload(baseSVG, 'Base')}
               />
             </div>
             
@@ -53,10 +62,12 @@ const App = () => {
               <SVGPreview 
                 svgString={tightOutlineSVG} 
                 label="Tight Outline SVG" 
+                onDownload={() => handleDownload(tightOutlineSVG, 'Tight Outline')}
               />
               <SVGPreview 
                 svgString={outerOutlineSVG} 
                 label="Outer Outline SVG" 
+                onDownload={() => handleDownload(outerOutlineSVG, 'Outer Outline')}
               />
             </div>
           </section>

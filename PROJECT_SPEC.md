@@ -70,8 +70,7 @@ The system generates all three SVG outputs for the selected font + text:
 - SVG image of the text plus a larger outer outline/contour outside the tight outline.
 
 **FR.4 — Download**
-**FR.4.1** The UI shows 3 preview thumbnails.
-**FR.4.2**  Clicking a thumbnail downloads the full-resolution SVG file.
+**FR.4.1**  Clicking a Base, Tight, or Outer thumbnail downloads its full-resolution SVG file.
 
 ---
 

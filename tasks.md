@@ -119,3 +119,10 @@ Acceptance:
 Given I have a tight outline SVG
 When the system applies a larger outer contour
 Then I see a preview thumbnail of the text with a large outer outline.
+
+## Task: FR.4.1 [COMPLETED]
+### Goal: Clicking a Base, Tight, or Outer thumbnail downloads its full-resolution SVG file.
+Acceptance:
+- Given I see the three SVG previews
+- When I click a preview thumbnail
+- Then the corresponding full-resolution SVG file is downloaded to my computer.

@@ -1,0 +1,12 @@
+graph TD
+    subgraph Frontend
+        Step1[Step 1: downloadService Domain]
+        Step2[Step 2: SVGPreview Component Update]
+        Step3[Step 3: App Integration]
+    end
+
+    Step3 --> Step2
+    Step2 --> Step1
+
+    classDef tdd fill:#f9f,stroke:#333,stroke-width:2px;
+    class Step1 tdd;
