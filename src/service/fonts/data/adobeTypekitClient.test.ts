@@ -3,7 +3,7 @@
  */
 import { adobeTypekitClient } from './adobeTypekitClient';
 
-describe('adobeTypekitClient (integration)', () => {
+describe('Adobe Typekit Client', () => {
   const token = process.env.ADOBE_TYPEKIT_TOKEN || '';
   const kitId = 'jzl6jgi'; // Using the user's kit ID
 

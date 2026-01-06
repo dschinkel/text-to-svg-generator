@@ -1,6 +1,6 @@
 import { fontRepository } from './fontRepository';
 
-describe('fontRepository', () => {
+describe('Font Repository', () => {
   it('fetches fonts', async () => {
     const fakeFonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
     let calledUrl = '';
@@ -18,5 +18,29 @@ describe('fontRepository', () => {
 
     expect(fonts).toEqual(fakeFonts);
     expect(calledUrl).toBe('/api/fonts');
+  });
+
+  it('adds a font', async () => {
+    const newFont = { id: 'campus-mn', name: 'Campus MN' };
+    let calledUrl = '';
+    let calledOptions: any = {};
+    
+    global.fetch = (async (url: string, options: any) => {
+      calledUrl = url;
+      calledOptions = options;
+      return {
+        ok: true,
+        json: async () => newFont
+      };
+    }) as any;
+
+    const repository = fontRepository();
+    const result = await repository.addFont('Campus MN');
+
+    expect(result).toEqual(newFont);
+    expect(calledUrl).toBe('/api/fonts');
+    expect(calledOptions.method).toBe('POST');
+    expect(calledOptions.headers['Content-Type']).toBe('application/json');
+    expect(calledOptions.body).toBe(JSON.stringify({ name: 'Campus MN' }));
   });
 });

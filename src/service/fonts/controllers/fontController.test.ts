@@ -1,15 +1,30 @@
 import { fontController } from './fontController';
 
-describe('fontController', () => {
+describe('Font Controller', () => {
   it('lists fonts', async () => {
     const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
-    const fakeListFontsCommand = {
-      execute: async () => fonts
-    };
+    const fakeListFonts = async () => fonts;
+    const fakeAddFont = async () => ({});
+    const fakeRepository = {};
 
-    const controller = fontController(fakeListFontsCommand);
+    const controller = fontController(fakeListFonts, fakeAddFont, fakeRepository);
     const result = await controller.getFonts();
 
     expect(result).toEqual(fonts);
+  });
+
+  it('adds a font', async () => {
+    const newFont = { id: 'campus-mn', name: 'Campus MN' };
+    const fakeAddFont = async (repo: any, name: string) => {
+      if (name === 'Campus MN') return newFont;
+      return null;
+    };
+    const fakeListFonts = async () => [];
+    const fakeRepository = {};
+
+    const controller = fontController(fakeListFonts, fakeAddFont, fakeRepository);
+    const result = await controller.addFont('Campus MN');
+
+    expect(result).toEqual(newFont);
   });
 });

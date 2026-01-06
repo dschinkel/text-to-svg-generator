@@ -1,6 +1,6 @@
 import { listFontsCommand } from './listFontsCommand';
 
-describe('listFontsCommand', () => {
+describe('List Fonts', () => {
   it('lists fonts', async () => {
     const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
     const fakeRepository = {
@@ -8,8 +8,7 @@ describe('listFontsCommand', () => {
       fetch: async () => ({})
     };
 
-    const command = listFontsCommand(fakeRepository);
-    const result = await command.execute();
+    const result = await listFontsCommand(fakeRepository);
 
     expect(result).toEqual(fonts);
   });
@@ -27,8 +26,7 @@ describe('listFontsCommand', () => {
       }
     };
 
-    const command = listFontsCommand(fakeRepository);
-    const result = await command.execute();
+    const result = await listFontsCommand(fakeRepository);
 
     expect(fetched).toContain('octin-sports');
     expect(fetched).toContain('campus-mn');

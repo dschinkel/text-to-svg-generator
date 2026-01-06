@@ -62,9 +62,11 @@ T1.12 Always follow an outside-in TDD approach. Start implementation at the high
 
 ## N1. Test Naming (non-negotiable; applies when tests are being written)
 
-N1.1 Tests must describe business behavior in clear prose.
-N1.2 Do not include function names, endpoints, browser/view terms, or technical sources in test names.
-N1.3 Avoid “should” and avoid overly-specific phrasing. Prefer short domain behavior labels. All test names must be written in all lowercase.
+N1.1 Tests and test suites (describes) must describe business behavior in clear prose.
+N1.2 Do not include function names, endpoints, browser/view terms, or technical sources in test or describe names. This keeps them decoupled from the actual implementation.
+N1.3 Avoid “should” and avoid overly-specific phrasing. Prefer short domain behavior labels. 
+N1.3.1 Test names (`it`, `test`) must be written in all lowercase.
+N1.3.2 Describe names (`describe`) should be written in normal case (sentence case or title case) with spaces.
 N1.4 Canonical examples live in Appendix D.
 N1.5 Test data and stubs must not use the word "mock". Use domain terms for data and "fake" for stubs (e.g., `fakeRepository`, `fakeFonts`).
 N1.6 Do not test for loading state in hook tests.
@@ -375,6 +377,8 @@ TEST OUTPUT: GREEN - All tests passing
 
 Bad examples (do not use):
 ```
+describe('AdobeTypekitClient', () => {
+describe('addFontCommand', () => {
 test('Should correctly parse tags from the OpenAI response')
 test('myFunction should be called with correct arguments')
 test('renders slider and handles value change')
@@ -384,6 +388,8 @@ test('GET /api/scoring creates [store]-seo-scores.json = {} if missing')
 
 Good examples (use this style):
 ```
+describe('Adobe Typekit Client', () => {
+describe('Add Font', () => {
 test('parses tags')
 test('lists new cars for sale')
 test('shows prompt temperature slider')
