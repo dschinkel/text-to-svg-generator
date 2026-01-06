@@ -19,27 +19,61 @@ describe('SVG Generator Domain', () => {
     expect(svg).toContain('</svg>');
   });
 
-  it('generates tight outline svg from text', async () => {
+  it('generates tight outline as a filled path without strokes', async () => {
     const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
     const font = await opentype.load(fontPath);
     
-    const text = 'Hello';
-    const svg = svgGenerator(text, font, { type: 'tight' });
+    const text = 'H';
+    const baseSvg = svgGenerator(text, font, { type: 'base' });
+    const tightSvg = svgGenerator(text, font, { type: 'tight' });
 
-    expect(svg).toContain('<svg');
-    expect(svg).toContain('stroke="black"');
-    expect(svg).toContain('stroke-width="8"');
+    expect(tightSvg).toContain('fill="black"');
+    expect(tightSvg).not.toContain('stroke=');
+    expect(tightSvg).not.toContain('stroke-width=');
+    
+    const basePathMatch = baseSvg.match(/d="([^"]+)"/);
+    const tightPathMatch = tightSvg.match(/d="([^"]+)"/);
+    
+    expect(basePathMatch).not.toBeNull();
+    expect(tightPathMatch).not.toBeNull();
+    expect(tightPathMatch![1]).not.toBe(basePathMatch![1]);
   });
 
-  it('generates outer outline svg from text', async () => {
+  it('generates outer outline as a filled path without strokes', async () => {
     const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
     const font = await opentype.load(fontPath);
     
-    const text = 'Hello';
-    const svg = svgGenerator(text, font, { type: 'outer' });
+    const text = 'H';
+    const baseSvg = svgGenerator(text, font, { type: 'base' });
+    const outerSvg = svgGenerator(text, font, { type: 'outer' });
 
-    expect(svg).toContain('<svg');
-    expect(svg).toContain('stroke="black"');
-    expect(svg).toContain('stroke-width="16"');
+    expect(outerSvg).toContain('fill="black"');
+    expect(outerSvg).not.toContain('stroke=');
+    expect(outerSvg).not.toContain('stroke-width=');
+    
+    const basePathMatch = baseSvg.match(/d="([^"]+)"/);
+    const outerPathMatch = outerSvg.match(/d="([^"]+)"/);
+    
+    expect(basePathMatch).not.toBeNull();
+    expect(outerPathMatch).not.toBeNull();
+    expect(outerPathMatch![1]).not.toBe(basePathMatch![1]);
+  });
+
+  it('fills internal gaps for outer outline', async () => {
+    const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
+    const font = await opentype.load(fontPath);
+    
+    const text = 'O';
+    const outerSvg = svgGenerator(text, font, { type: 'outer' });
+    
+    // An 'O' typically has 2 paths in SVG (outer and inner hole).
+    // If gaps are filled, it should only have 1 'M' command (or fewer than the base).
+    const pathMatch = outerSvg.match(/d="([^"]+)"/);
+    expect(pathMatch).not.toBeNull();
+    const d = pathMatch![1];
+    const mCommands = d.match(/M/g) || [];
+    
+    // We expect only one closed path for 'O' if the hole is filled.
+    expect(mCommands.length).toBe(1);
   });
 });

@@ -1175,3 +1175,35 @@ TEST OUTPUT: GREEN - All tests passing
 === COMMIT (CLEANUP) ===
 PROPOSED COMMIT: feat: FR.4.1: cleanup: svg download functionality
 USER DECISION: commit
+
+GOAL: generates tight outline as real path geometry
+PLAN STEP: 1.1
+
+---
+=== RED PHASE ===
+TEST ADDED: src/service/svg/domain/svgGenerator.test.ts - generates tight outline as a filled path without strokes
+COMMANDS RUN: yarn test src/service/svg/domain/svgGenerator.test.ts
+TEST OUTPUT: RED - tightSvg contains stroke="black" and stroke-width="8"
+NEXT STEP: Update svgGenerator.ts to generate a new path with offset geometry
+=== GREEN PHASE ===
+- Implemented real path geometry (offset contours) using clipper-lib in svgGenerator.ts
+- Updated svgGenerator.test.ts to verify filled paths instead of strokes
+COMMANDS RUN: yarn test src/service/svg/domain/svgGenerator.test.ts
+TEST OUTPUT: GREEN - All tests passing
+=== REFACTOR PHASE ===
+- Extracted getOffsetPath logic into src/service/svg/domain/pathOffsetter.ts
+COMMANDS RUN: yarn test src/service/svg/domain/svgGenerator.test.ts
+TEST OUTPUT: GREEN - All tests passing
+=== CLEANUP & VERIFICATION ===
+- Ran full test suite
+- Fixed TS error in src/client/App.tsx and src/client/hooks/useDownload.ts
+- Updated tasks.md to mark FR.3.2 and FR.3.3 as [COMPLETED]
+- Verified tsc --noEmit passes
+
+=== COMMIT (CLEANUP) ===
+PROPOSED COMMIT: feat: FR.3.2: cleanup: tight and outer outline generation
+=== GREEN PHASE ===
+- Updated getOffsetPath in src/service/svg/domain/pathOffsetter.ts to support hole filtering
+- Enabled hole filtering for "outer" outlines in src/service/svg/domain/svgGenerator.ts
+COMMANDS RUN: yarn test src/service/svg/domain/svgGenerator.test.ts
+TEST OUTPUT: GREEN - All tests passing

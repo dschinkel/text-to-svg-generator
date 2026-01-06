@@ -1,4 +1,5 @@
 import { Font } from 'opentype.js';
+import { getOffsetPath } from './pathOffsetter';
 
 export interface SVGGeneratorOptions {
   type?: 'base' | 'tight' | 'outer';
@@ -8,9 +9,9 @@ export const svgGenerator = (text: string, font: Font, options: SVGGeneratorOpti
   const fontSize = 72;
   
   const typeConfigs = {
-    base: { padding: 30, stroke: 0, offset: 0 },
-    tight: { padding: 30, stroke: 8, offset: 3 },
-    outer: { padding: 30, stroke: 16, offset: 6 }
+    base: { padding: 30, offset: 0 },
+    tight: { padding: 30, offset: 4 },
+    outer: { padding: 30, offset: 8 }
   };
 
   const config = typeConfigs[options.type || 'base'];
@@ -25,12 +26,10 @@ export const svgGenerator = (text: string, font: Font, options: SVGGeneratorOpti
   const ty = padding - box.y1;
 
   const path = font.getPath(text, tx, ty, fontSize);
-  const d = path.toPathData(2);
+  const baseD = path.toPathData(2);
   
-  let content = `<path d="${d}" fill="black" />`;
-  if (config.stroke > 0) {
-    content = `<path d="${d}" fill="black" stroke="black" stroke-width="${config.stroke}" stroke-linejoin="round" />`;
-  }
+  const d = getOffsetPath(baseD, config.offset, options.type === 'outer');
+  const content = `<path d="${d}" fill="black" />`;
 
   const totalWidth = width + 2 * padding;
   const totalHeight = height + 2 * padding;
