@@ -73,7 +73,7 @@ N1.3 Avoid “should” and avoid overly-specific phrasing. Prefer short domain 
 N1.3.1 Test names (`it`, `test`) must be written in all lowercase.
 N1.3.2 Describe names (`describe`) should be written in normal case (sentence case or title case) with spaces.
 N1.4 Canonical examples live in Appendix D.
-N1.5 Test data and stubs must not use the word "mock". Use domain terms for data and "fake" for stubs (e.g., `fakeRepository`, `fakeFonts`).
+N1.5 Test data and stubs must not use the word "mock". Use domain terms for data and "fake" if it's a JS object and you're stubbing something inside it, OR call it a stub if it's JUST a function not wrapped in anything else (e.g., `fakeRepository`, `fakeFonts`, `fakeReader`).
 N1.6 Do not test for loading state in hook tests.
 N1.7 Treat the System Under Test (SUT) as a black box. Avoid using spies or asserting that internal dependencies were called when the output itself can be asserted.
 N1.7.1 Do not use `jest.fn()` or any testing library "magic" for creating stubs or fakes. Use simple JavaScript functions instead.

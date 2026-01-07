@@ -7,13 +7,13 @@ describe('Image Upload Hook', () => {
     
     const file = new File(['fake-image-content'], 'test.png', { type: 'image/png' });
     
-    // We need to mock FileReader since it's a browser API
-    const mockReader = {
-      readAsDataURL: jest.fn(function(this: any) {
+    // We need to fake FileReader since it's a browser API
+    const fakeReader = {
+      readAsDataURL: function(this: any) {
         this.onload({ target: { result: 'data:image/png;base64,fake-content' } });
-      }),
+      },
     };
-    window.FileReader = jest.fn(() => mockReader) as any;
+    window.FileReader = (function() { return fakeReader; }) as any;
 
     await act(async () => {
       result.current.handleImageSelect(file);

@@ -5,6 +5,11 @@ export const useImageConverter = () => {
   const [isConverting, setIsConverting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const reset = useCallback(() => {
+    setSvgResult(null);
+    setError(null);
+  }, []);
+
   const convertImage = useCallback(async (imageData: string) => {
     setIsConverting(true);
     setError(null);
@@ -34,6 +39,7 @@ export const useImageConverter = () => {
     svgResult,
     isConverting,
     error,
-    convertImage
+    convertImage,
+    reset
   };
 };

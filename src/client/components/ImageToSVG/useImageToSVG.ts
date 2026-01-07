@@ -3,8 +3,14 @@ import { useImageUpload } from './useImageUpload';
 import { useImageConverter } from './useImageConverter';
 
 export const useImageToSVG = () => {
-  const { imageSrc, handleImageSelect } = useImageUpload();
-  const { svgResult, isConverting, convertImage, error } = useImageConverter();
+  const { imageSrc, handleImageSelect, reset: resetUpload } = useImageUpload();
+  const { svgResult, isConverting, convertImage, error, reset: resetConverter } = useImageConverter();
+
+  const onImageSelect = (file: File) => {
+    resetUpload();
+    resetConverter();
+    handleImageSelect(file);
+  };
 
   useEffect(() => {
     if (imageSrc && !svgResult && !isConverting) {
@@ -17,6 +23,6 @@ export const useImageToSVG = () => {
     svgResult,
     isConverting,
     error,
-    onImageSelect: handleImageSelect
+    onImageSelect
   };
 };

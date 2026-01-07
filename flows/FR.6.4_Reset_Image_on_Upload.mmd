@@ -1,0 +1,6 @@
+graph TD
+    User([User]) --> Select[Select New Image]
+    Select --> Reset[Reset Previous SVG & Error State]
+    Reset --> Upload[Process New Image]
+    Upload --> Convert[Trigger Auto-Conversion]
+    Convert --> Result[Display New SVG Result]

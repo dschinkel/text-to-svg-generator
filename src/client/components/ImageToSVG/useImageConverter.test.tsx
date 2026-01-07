@@ -4,12 +4,17 @@ import { useImageConverter } from './useImageConverter';
 describe('Image Converter Hook', () => {
   it('converts image to svg', async () => {
     const fakeSVG = '<svg><path d="M0 0H1V1H0Z"/></svg>';
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
+    let fetchCalledWith: any = null;
+    let fetchOptions: any = null;
+
+    global.fetch = (async (url: string, options: any) => {
+      fetchCalledWith = url;
+      fetchOptions = options;
+      return {
         ok: true,
-        text: () => Promise.resolve(fakeSVG),
-      })
-    ) as any;
+        text: async () => fakeSVG,
+      };
+    }) as any;
 
     const { result } = renderHook(() => useImageConverter());
 
@@ -18,9 +23,8 @@ describe('Image Converter Hook', () => {
     });
 
     expect(result.current.svgResult).toBe(fakeSVG);
-    expect(global.fetch).toHaveBeenCalledWith('/api/image-to-svg', expect.objectContaining({
-      method: 'POST',
-      body: JSON.stringify({ imageData: 'data:image/png;base64,fake-content' }),
-    }));
+    expect(fetchCalledWith).toBe('/api/image-to-svg');
+    expect(fetchOptions.method).toBe('POST');
+    expect(fetchOptions.body).toBe(JSON.stringify({ imageData: 'data:image/png;base64,fake-content' }));
   });
 });
