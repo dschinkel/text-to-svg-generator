@@ -2,13 +2,24 @@ import React from 'react';
 import { SVGUploader } from './SVGUploader';
 import { SVGPreviewArea } from './SVGPreviewArea';
 import { SVGPreview } from '../SVGPreview';
+import { SVGLayeredPreview } from './SVGLayeredPreview';
 import { useDownload } from '../../hooks/useDownload';
 import { downloadSVG } from '../../domain/downloadService';
 
 import { useSVGToOutline } from './useSVGToOutline';
 
 export const SVGToOutlineSection: React.FC = () => {
-  const { svgContent, previewUrl, tightOutlineSVG, onSVGSelect, onDownload, isProcessing, error } = useSVGToOutline();
+  const { 
+    svgContent, 
+    previewUrl, 
+    tightOutlineSVG, 
+    originalLayer, 
+    tightLayer, 
+    onSVGSelect, 
+    onDownload, 
+    isProcessing, 
+    error 
+  } = useSVGToOutline();
 
   return (
     <section className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 h-full flex flex-col">
@@ -36,6 +47,12 @@ export const SVGToOutlineSection: React.FC = () => {
             svgString={tightOutlineSVG} 
             label="Tight Outline SVG" 
             onDownload={onDownload}
+          />
+
+          <SVGLayeredPreview 
+            originalLayer={originalLayer}
+            tightLayer={tightLayer}
+            label="Layered Preview"
           />
         </div>
       )}
