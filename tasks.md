@@ -172,7 +172,7 @@ Acceptance:
 - And the Tight Outline SVG can be downloaded.
 - And the Tight Outline SVG imports into TinkerCad as a filled outline.
 
-## Task: FR.7.1 [IN PROGRESS]
+## Task: FR.7.1 [COMPLETED]
 ### Goal: Upload and Preview existing SVG
 Acceptance:
 - User can select a local SVG file.

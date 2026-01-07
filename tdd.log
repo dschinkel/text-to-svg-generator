@@ -1317,3 +1317,12 @@ TEST OUTPUT: GREEN - All tests passing
 === COMMIT ===
 PROPOSED COMMIT: feat: FR.7.1: Step 3: Frontend: Hook: resets state on new upload
 USER DECISION: commit
+=== CLEANUP & VERIFICATION ===
+- Connected hooks to UI components in SVGToOutlineSection.tsx
+- Adjusted UI: Widened main container to 1600px and reduced padding in uploader to prevent text wrapping
+- Ran all tests: 27 passed, 1 skipped
+- Verified tsc --noEmit passes
+- Marked Task FR.7.1 [COMPLETED] in tasks.md
+
+=== COMMIT (CLEANUP) ===
+PROPOSED COMMIT: feat: FR.7.1: cleanup: svg upload and preview
