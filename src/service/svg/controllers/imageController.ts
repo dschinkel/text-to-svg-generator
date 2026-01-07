@@ -1,7 +1,7 @@
-import { ConvertImageToSVGRequest } from '../use-cases/ConvertImageToSVG';
+import { ConvertImageToSVGRequest, ConvertImageToSVGResponse } from '../use-cases/ConvertImageToSVG';
 
 export const imageController = (
-  convertImageToSVG: (request: ConvertImageToSVGRequest) => Promise<string>
+  convertImageToSVG: (request: ConvertImageToSVGRequest) => Promise<ConvertImageToSVGResponse>
 ) => {
   const convert = async (ctx: any): Promise<void> => {
     const request = ctx.request.body as ConvertImageToSVGRequest;
@@ -13,10 +13,9 @@ export const imageController = (
     }
 
     try {
-      const svg = await convertImageToSVG(request);
+      const result = await convertImageToSVG(request);
       ctx.status = 200;
-      ctx.type = 'image/svg+xml';
-      ctx.body = svg;
+      ctx.body = result;
     } catch (error: any) {
       ctx.status = 500;
       ctx.body = { error: error.message };
