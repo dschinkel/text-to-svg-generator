@@ -1,0 +1,9 @@
+graph TD
+    User([User]) --> Upload[Upload Image File]
+    Upload --> Converter[useImageToSVG: Trigger Conversion]
+    Converter --> Base[Generate Base SVG]
+    Converter --> Tight[Generate Tight Outline SVG]
+    Base --> PreviewBase[Display Base SVG Preview]
+    Tight --> PreviewTight[Display Tight Outline SVG Preview]
+    PreviewBase --> DownloadBase[Download Base SVG]
+    PreviewTight --> DownloadTight[Download Tight Outline SVG]

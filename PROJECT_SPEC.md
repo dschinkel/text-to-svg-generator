@@ -76,6 +76,21 @@ The system generates all three SVG outputs for the selected font + text:
 **FR.5 — Layered Preview**
 **FR.5.1** A combined preview showing all three layers (Base, Tight, Outer) stacked together with different colors.
 
+**FR.6 — Image to SVG Conversion**
+**FR.6.1** Upload a flat image (PNG/JPEG) and see a preview of the uploaded image.
+
+**FR.6.2** Automatic conversion of the uploaded image to SVG on the server and see an SVG preview.
+
+**FR.6.3** Ability to download the converted SVG.
+
+**FR.6.4** Automatic reset of the UI state (previous preview and SVG result) when a new image is selected.
+
+**FR.6.5** Robustness: support large images and handle conversion errors gracefully.
+
+**FR.6.6** Generate Tight Outline SVG for Image.
+- The system generates a tight outer outline/contour around the vectorized image paths.
+- The resulting SVG is suitable for TinkerCad (real path geometry).
+
 ---
 
 ## 4. Technical Requirements (TR.*)

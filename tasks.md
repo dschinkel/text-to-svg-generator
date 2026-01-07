@@ -155,3 +155,19 @@ Acceptance:
 - Large images do not cause the server to hang (increased body size limits).
 - Failed conversions do not cause infinite retry loops.
 - Robust parsing of base64 image data on the server.
+
+## Task: TinkerCad Scaling [COMPLETED]
+### Goal: Ensure generated SVGs fit within TinkerCad's 2000 mm³ workspace limit.
+Acceptance:
+- Both text-to-SVG and image-to-SVG outputs are scaled if their dimensions exceed a safe threshold (e.g., 1000 units).
+- Scaling preserves aspect ratio.
+- Verified with unit tests.
+
+## Task: FR.6.6 [IN PROGRESS]
+### Goal: Generate Tight Outline SVG for uploaded images.
+Acceptance:
+- Given I have uploaded an image
+- When the conversion is complete
+- Then I see both the base vectorized SVG and a Tight Outline SVG preview.
+- And the Tight Outline SVG can be downloaded.
+- And the Tight Outline SVG imports into TinkerCad as a filled outline.
