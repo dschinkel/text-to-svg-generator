@@ -1306,3 +1306,14 @@ TEST OUTPUT: GREEN - All tests passing
 === COMMIT ===
 PROPOSED COMMIT: feat: FR.7.1: Step 2: Frontend: Hook: stores uploaded svg content
 USER DECISION: commit
+=== GREEN PHASE ===
+CHANGESET:
+- Created useSVGToOutline.ts orchestrator
+- Added reset function to useSVGUpload.ts and returned it
+
+COMMANDS RUN: yarn test src/client/components/SVGToOutline/useSVGToOutline.test.tsx
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.7.1: Step 3: Frontend: Hook: resets state on new upload
+USER DECISION: commit

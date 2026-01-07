@@ -3,6 +3,10 @@ import { useState, useCallback } from 'react';
 export const useSVGUpload = () => {
   const [svgContent, setSVGContent] = useState<string | null>(null);
 
+  const reset = useCallback(() => {
+    setSVGContent(null);
+  }, []);
+
   const handleSVGSelect = useCallback((file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -14,5 +18,6 @@ export const useSVGUpload = () => {
   return {
     svgContent,
     handleSVGSelect,
+    reset,
   };
 };
