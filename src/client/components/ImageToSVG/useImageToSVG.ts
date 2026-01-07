@@ -13,10 +13,10 @@ export const useImageToSVG = () => {
   };
 
   useEffect(() => {
-    if (imageSrc && !svgResult && !isConverting) {
+    if (imageSrc && !svgResult && !isConverting && !error) {
       convertImage(imageSrc);
     }
-  }, [imageSrc, svgResult, isConverting, convertImage]);
+  }, [imageSrc, svgResult, isConverting, convertImage, error]);
 
   return {
     imageSrc,

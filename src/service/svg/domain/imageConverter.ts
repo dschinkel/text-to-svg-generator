@@ -6,7 +6,11 @@ export const traceImage = (buffer: Buffer): Promise<string> => {
       if (err) {
         return reject(err);
       }
-      resolve(svg);
+      // Remove width and height to let it scale within container, but keep viewBox
+      const cleanedSvg = svg
+        .replace(/width="[^"]+"/, '')
+        .replace(/height="[^"]+"/, '');
+      resolve(cleanedSvg);
     });
   });
 };

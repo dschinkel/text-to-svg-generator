@@ -7,6 +7,19 @@ export interface SVGPreviewProps {
 }
 
 export const SVGPreview = ({ svgString, label, onDownload }: SVGPreviewProps) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (containerRef.current) {
+      const svgElement = containerRef.current.querySelector('svg');
+      if (svgElement) {
+        svgElement.style.maxWidth = '100%';
+        svgElement.style.height = 'auto';
+        svgElement.style.display = 'block';
+      }
+    }
+  }, [svgString]);
+
   if (!svgString) {
     return (
       <div className="flex flex-col items-center justify-center p-8 bg-slate-100 rounded-lg border-2 border-dashed border-slate-300 min-h-[200px]">
@@ -25,6 +38,7 @@ export const SVGPreview = ({ svgString, label, onDownload }: SVGPreviewProps) =>
         )}
       </div>
       <div 
+        ref={containerRef}
         className={`p-4 bg-white rounded-lg border border-slate-200 shadow-sm flex items-center justify-center min-h-[200px] transition-all ${
           onDownload ? 'cursor-pointer hover:border-green-500 hover:shadow-md' : ''
         }`}
@@ -32,6 +46,11 @@ export const SVGPreview = ({ svgString, label, onDownload }: SVGPreviewProps) =>
         onClick={onDownload}
         data-testid={`${label.toLowerCase().replace(/ /g, '-')}-preview`}
         title={onDownload ? `Click to download ${label}` : undefined}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       />
     </div>
   );

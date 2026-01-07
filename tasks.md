@@ -148,3 +148,10 @@ Acceptance:
 ### Goal: Ability to download the converted SVG.
 Acceptance:
 - Clicking the SVG preview or a download button triggers a download of the .svg file.
+
+## Task: FR.6.5 [COMPLETED]
+### Goal: Fix stalling in Image to SVG generation.
+Acceptance:
+- Large images do not cause the server to hang (increased body size limits).
+- Failed conversions do not cause infinite retry loops.
+- Robust parsing of base64 image data on the server.

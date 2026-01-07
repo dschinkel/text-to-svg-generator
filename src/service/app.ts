@@ -16,7 +16,10 @@ export const createApp = (fontController: FontController, imageController: Image
   const app = new Koa();
   const router = new Router();
 
-  app.use(bodyParser());
+  app.use(bodyParser({
+    jsonLimit: '10mb',
+    formLimit: '10mb'
+  }));
 
   router.get('/api/svg', async (ctx) => {
     const { text, fontId, type = 'base' } = ctx.query as { text: string; fontId: string; type?: string };
