@@ -89,6 +89,34 @@ describe('SVG Upload Hook', () => {
     expect(result.current.svgContent).not.toContain('viewBox="-111.5');
     expect(result.current.svgContent).toContain('viewBox="-90.2225 27.6175 111.815 17.065"');
   });
+
+  it('handles complex Tinkercad SVG with specific styling', async () => {
+    const { result } = renderHook(() => useSVGUpload());
+    
+    const rawSvg = `<?xml version="1.0" standalone="no"?>
+<svg width="129.9mm" height="44.0mm" viewBox="-111.5 30.0 129.9 44.0" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<path d="M 16.48 39.5 L 16.51 39.6 L -85.14 32.7 z" fill="none" stroke="rgb(255,0,0)" stroke-width="0.001mm" />
+</svg>`;
+    const file = new File([rawSvg], 'tinkercad.svg', { type: 'image/svg+xml' });
+    
+    const fakeReader = {
+      readAsText: function(this: any) {
+        this.onload({ target: { result: rawSvg } });
+      },
+    };
+    window.FileReader = (function() { return fakeReader; }) as any;
+    
+    global.URL.createObjectURL = () => 'blob:test-url';
+
+    await act(async () => {
+      result.current.handleSVGSelect(file);
+    });
+
+    // Should have colors preserved but fill applied for visibility
+    expect(result.current.svgContent).toContain('fill="rgb(255,0,0)"');
+    expect(result.current.svgContent).toContain('fill-opacity="0.4"');
+    expect(result.current.svgContent).toContain('stroke-width="1"');
+  });
   
   it('colorizes different elements with different colors', async () => {
     const { result } = renderHook(() => useSVGUpload());
@@ -110,6 +138,7 @@ describe('SVG Upload Hook', () => {
     });
 
     // #3b82f6 is first color, #ef4444 is second
+    // They also get fill-opacity applied
     expect(result.current.svgContent).toContain('fill="#3b82f6"');
     expect(result.current.svgContent).toContain('fill="#ef4444"');
   });

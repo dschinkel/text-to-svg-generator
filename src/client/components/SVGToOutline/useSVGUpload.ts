@@ -25,7 +25,7 @@ export const useSVGUpload = () => {
         content = content.substring(svgStart, svgEnd + 6);
       }
 
-      // Attempt to normalize complex SVGs for better previewing
+      // Normalize SVG for preview visibility
       try {
         const parser = new DOMParser();
         const doc = parser.parseFromString(content, 'image/svg+xml');
@@ -38,8 +38,6 @@ export const useSVGUpload = () => {
 
           // Force a clean viewBox and aspect ratio for the preview
           svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-          
-          // Remove potential fixed sizing that conflicts with fluid preview
           svg.removeAttribute('width');
           svg.removeAttribute('height');
 
@@ -54,20 +52,13 @@ export const useSVGUpload = () => {
             maxY = Math.max(maxY, y + h);
           };
 
-          const getDPoints = (d: string) => {
-            // More robust path point extraction
-            return d.match(/([-+]?\d*\.?\d+(?:[eE][-+]?\d+)?)/g)?.map(parseFloat) || [];
-          };
-
           const parseTransform = (transform: string) => {
             let tx = 0, ty = 0, sx = 1, sy = 1;
-            // Handle translate(x, y) or translate(x)
             const translates = [...transform.matchAll(/translate\(([^,)\s]+)[,\s]*([^,)\s]*)\)/g)];
             translates.forEach(m => {
               tx += parseFloat(m[1]);
               ty += parseFloat(m[2] || '0');
             });
-            // Handle scale(sx, sy) or scale(s)
             const scales = [...transform.matchAll(/scale\(([^,)\s]+)[,\s]*([^,)\s]*)\)/g)];
             scales.forEach(m => {
               const s1 = parseFloat(m[1]);
@@ -75,13 +66,8 @@ export const useSVGUpload = () => {
               sx *= s1;
               sy *= s2;
             });
-            // Handle matrix(a, b, c, d, e, f) - very common in exported SVGs
             const matrices = [...transform.matchAll(/matrix\(([^,)\s]+)[,\s]+([^,)\s]+)[,\s]+([^,)\s]+)[,\s]+([^,)\s]+)[,\s]+([^,)\s]+)[,\s]+([^,)\s]+)\)/g)];
             matrices.forEach(m => {
-              // For bounds calculation, we simplified: we mostly care about translation and scaling
-              // a c e
-              // b d f
-              // 0 0 1
               const a = parseFloat(m[1]);
               const d = parseFloat(m[4]);
               const e = parseFloat(m[5]);
@@ -93,6 +79,12 @@ export const useSVGUpload = () => {
             });
             return { tx, ty, sx, sy };
           };
+
+          const colors = [
+            '#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', 
+            '#06b6d4', '#ec4899', '#f97316', '#84cc16', '#6366f1', '#d946ef',
+          ];
+          let elementCount = 0;
 
           const traverse = (element: Element, currentTX = 0, currentTY = 0, currentSX = 1, currentSY = 1) => {
             const transform = element.getAttribute('transform') || '';
@@ -107,17 +99,37 @@ export const useSVGUpload = () => {
             const getAttr = (name: string) => parseFloat(element.getAttribute(name) || '0');
 
             if (['path', 'rect', 'circle', 'ellipse', 'polygon', 'polyline', 'line'].includes(tag)) {
-              // Ensure visibility for preview (force solid colors)
-              element.setAttribute('fill', '#334155'); // Slate-700
-              element.removeAttribute('stroke');
-              element.removeAttribute('stroke-width');
-              element.removeAttribute('fill-opacity');
-              element.removeAttribute('stroke-opacity');
-              element.removeAttribute('opacity');
+              // 1. Ensure visibility (fix 0.001mm strokes)
+              const strokeWidth = element.getAttribute('stroke-width');
+              if (strokeWidth && (parseFloat(strokeWidth) < 0.1 || strokeWidth.includes('mm'))) {
+                element.setAttribute('stroke-width', '1');
+              }
 
+              // 2. Colorization Logic (Non-destructive)
+              let fill = element.getAttribute('fill');
+              let stroke = element.getAttribute('stroke');
+              const style = element.getAttribute('style') || '';
+              
+              // If it's black or none, consider it "uncolored"
+              const isUncolored = (val: string | null) => !val || val === 'none' || val === 'black' || val === '#000000' || val === 'rgb(0,0,0)';
+              
+              if (isUncolored(fill) && isUncolored(stroke) && !style.includes('fill') && !style.includes('stroke')) {
+                const color = colors[elementCount % colors.length];
+                elementCount++;
+                element.setAttribute('fill', color);
+                element.setAttribute('fill-opacity', '0.6');
+                element.setAttribute('stroke', '#000000');
+                element.setAttribute('stroke-width', '1');
+              } else if (isUncolored(fill) && stroke && stroke !== 'none') {
+                // If it has a stroke but no fill, make it solid for "layer" contrast
+                element.setAttribute('fill', stroke);
+                element.setAttribute('fill-opacity', '0.4');
+              }
+
+              // 3. Extract bounds
               if (tag === 'path') {
                 const d = element.getAttribute('d') || '';
-                const coords = getDPoints(d);
+                const coords = d.match(/([-+]?\d*\.?\d+(?:[eE][-+]?\d+)?)/g)?.map(parseFloat) || [];
                 for (let i = 0; i < coords.length; i += 2) {
                   if (coords[i+1] !== undefined) {
                     updateBounds(coords[i] * nextSX + nextTX, coords[i+1] * nextSY + nextTY);
@@ -131,17 +143,6 @@ export const useSVGUpload = () => {
                 const rx = tag === 'circle' ? getAttr('r') : getAttr('rx');
                 const ry = tag === 'circle' ? rx : getAttr('ry');
                 updateBounds((cx - rx) * nextSX + nextTX, (cy - ry) * nextSY + nextTY, rx * 2 * nextSX, ry * 2 * nextSY);
-              } else if (tag === 'polygon' || tag === 'polyline') {
-                const points = element.getAttribute('points') || '';
-                const coords = points.match(/([-+]?\d*\.?\d+(?:[eE][-+]?\d+)?)/g)?.map(parseFloat) || [];
-                for (let i = 0; i < coords.length; i += 2) {
-                  if (coords[i+1] !== undefined) {
-                    updateBounds(coords[i] * nextSX + nextTX, coords[i+1] * nextSY + nextTY);
-                  }
-                }
-              } else if (tag === 'line') {
-                updateBounds(getAttr('x1') * nextSX + nextTX, getAttr('y1') * nextSY + nextTY);
-                updateBounds(getAttr('x2') * nextSX + nextTX, getAttr('y2') * nextSY + nextTY);
               }
             }
 
@@ -158,72 +159,6 @@ export const useSVGUpload = () => {
             svg.setAttribute('viewBox', `${round(minX - padding)} ${round(minY - padding)} ${round(w + padding * 2)} ${round(h + padding * 2)}`);
           }
 
-          // Ensure visibility for preview (force distinct colors for contrast)
-          // We apply colors based on depth/hierarchy to distinguish layers
-          const colors = [
-            '#3b82f6', // blue-500
-            '#ef4444', // red-500
-            '#10b981', // emerald-500
-            '#f59e0b', // amber-500
-            '#8b5cf6', // violet-500
-            '#06b6d4', // cyan-500
-            '#ec4899', // pink-500
-            '#f97316', // orange-500
-            '#84cc16', // lime-500
-            '#06b6d4', // cyan-500
-            '#6366f1', // indigo-500
-            '#d946ef', // fuchsia-500
-          ];
-
-          let elementCount = 0;
-          const colorize = (element: Element, depth: number) => {
-            const tag = element.tagName.toLowerCase();
-            
-            // If it's a container element, we might want to apply some base styles or just recurse
-            if (['g', 'svg', 'a'].includes(tag)) {
-              // Ensure container doesn't have opacity that hides children
-              element.removeAttribute('opacity');
-              element.removeAttribute('fill-opacity');
-              element.removeAttribute('stroke-opacity');
-              const style = element.getAttribute('style') || '';
-              const cleanStyle = style.replace(/(?:opacity|fill-opacity|stroke-opacity)\s*:[^;]+;?/gi, '');
-              if (cleanStyle) {
-                element.setAttribute('style', cleanStyle);
-              } else {
-                element.removeAttribute('style');
-              }
-            }
-
-            if (['path', 'rect', 'circle', 'ellipse', 'polygon', 'polyline', 'line'].includes(tag)) {
-              // Cycle through colors based on element sequence
-              const color = colors[elementCount % colors.length];
-              elementCount++;
-              
-              element.setAttribute('fill', color);
-              element.setAttribute('stroke', '#000000');
-              element.setAttribute('stroke-width', '1'); // Increased stroke width for better visibility
-              element.setAttribute('fill-opacity', '0.8'); // Slightly more opaque
-              element.removeAttribute('stroke-opacity');
-              element.removeAttribute('opacity');
-              
-              // Also remove inline styles that might override attributes
-              const style = element.getAttribute('style') || '';
-              // Remove anything that could interfere with our coloring
-              const cleanStyle = style.replace(/(?:fill|stroke|opacity|fill-opacity|stroke-opacity|stroke-width|display|visibility)\s*:[^;]+;?/gi, '');
-              if (cleanStyle) {
-                element.setAttribute('style', cleanStyle);
-              } else {
-                element.removeAttribute('style');
-              }
-            }
-            Array.from(element.children).forEach(child => colorize(child, depth + 1));
-          };
-
-          colorize(svg, 0);
-
-          // Style for responsiveness
-          svg.setAttribute('style', 'width: 100%; height: auto; display: block;');
-          
           content = new XMLSerializer().serializeToString(doc);
         }
       } catch (err) {
@@ -231,12 +166,10 @@ export const useSVGUpload = () => {
       }
 
       setSVGContent(content);
-      console.log('SVG Normalized content length:', content.length);
       
       // Create a Blob URL for the most compatible preview rendering
       const blob = new Blob([content], { type: 'image/svg+xml' });
       const url = URL.createObjectURL(blob);
-      console.log('Created preview Blob URL:', url);
       setPreviewUrl(url);
     };
     reader.readAsText(file);
