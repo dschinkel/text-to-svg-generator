@@ -1279,3 +1279,30 @@ PROPOSED COMMIT: feat: FR.6.6: Step 3: Service: Domain: image tight outline fill
 
 === COMMIT (CLEANUP) ===
 PROPOSED COMMIT: feat: FR.6.6: cleanup: filled image tight outline
+=== GREEN PHASE ===
+CHANGESET:
+import { useState, useCallback } from 'react';
+
+export const useSVGUpload = () => {
+  const [svgContent, setSVGContent] = useState<string | null>(null);
+
+  const handleSVGSelect = useCallback((file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setSVGContent(e.target?.result as string);
+    };
+    reader.readAsText(file);
+  }, []);
+
+  return {
+    svgContent,
+    handleSVGSelect,
+  };
+};
+
+COMMANDS RUN: yarn test src/client/components/SVGToOutline/useSVGUpload.test.tsx
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.7.1: Step 2: Frontend: Hook: stores uploaded svg content
+USER DECISION: commit
