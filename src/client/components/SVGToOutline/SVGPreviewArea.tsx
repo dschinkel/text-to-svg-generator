@@ -5,6 +5,20 @@ interface SVGPreviewAreaProps {
 }
 
 export const SVGPreviewArea: React.FC<SVGPreviewAreaProps> = ({ svgContent }) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (containerRef.current) {
+      const svgElement = containerRef.current.querySelector('svg');
+      if (svgElement) {
+        svgElement.style.maxWidth = '100%';
+        svgElement.style.maxHeight = '300px';
+        svgElement.style.height = 'auto';
+        svgElement.style.display = 'block';
+      }
+    }
+  }, [svgContent]);
+
   if (!svgContent) return null;
 
   return (
@@ -13,6 +27,7 @@ export const SVGPreviewArea: React.FC<SVGPreviewAreaProps> = ({ svgContent }) =>
         <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Original SVG Preview</span>
       </div>
       <div 
+        ref={containerRef}
         className="p-4 flex justify-center items-center min-h-[200px]"
         dangerouslySetInnerHTML={{ __html: svgContent }}
         data-testid="svg-preview-area"
