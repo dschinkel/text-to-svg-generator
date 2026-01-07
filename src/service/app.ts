@@ -12,7 +12,15 @@ export interface ImageController {
   convert: (ctx: any) => Promise<void>;
 }
 
-export const createApp = (fontController: FontController, imageController: ImageController) => {
+export interface SVGToOutlineController {
+  generate: (ctx: any) => Promise<void>;
+}
+
+export const createApp = (
+  fontController: FontController, 
+  imageController: ImageController,
+  svgToOutlineController: SVGToOutlineController
+) => {
   const app = new Koa();
   const router = new Router();
 
@@ -61,6 +69,10 @@ export const createApp = (fontController: FontController, imageController: Image
   
   router.post('/api/image-to-svg', async (ctx) => {
     await imageController.convert(ctx);
+  });
+
+  router.post('/api/svg-to-outline', async (ctx) => {
+    await svgToOutlineController.generate(ctx);
   });
 
   app.use(router.routes()).use(router.allowedMethods());

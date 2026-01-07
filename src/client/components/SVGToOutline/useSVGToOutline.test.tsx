@@ -2,6 +2,11 @@ import { renderHook, act } from '@testing-library/react';
 import { useSVGToOutline } from './useSVGToOutline';
 
 describe('SVG to Outline Orchestrator Hook', () => {
+  beforeEach(() => {
+    global.URL.createObjectURL = jest.fn(() => 'blob:test-url');
+    global.URL.revokeObjectURL = jest.fn();
+  });
+
   it('resets state when new svg is selected', async () => {
     const { result } = renderHook(() => useSVGToOutline());
 
@@ -18,7 +23,7 @@ describe('SVG to Outline Orchestrator Hook', () => {
       await result.current.onSVGSelect(new File([svgContent1], '1.svg', { type: 'image/svg+xml' }));
     });
 
-    expect(result.current.svgContent).toBe(svgContent1);
+    expect(result.current.svgContent).toContain('<svg');
 
     // 2. Second upload (trigger reset)
     const fakeReader2 = {

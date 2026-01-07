@@ -9,6 +9,10 @@ describe('Server', () => {
     convert: async (ctx: any) => {}
   };
 
+  const fakeSVGToOutlineController = {
+    generate: async (ctx: any) => {}
+  };
+
   it('lists fonts', async () => {
     const fonts = [{ id: 'octin-sports', name: 'Octin Sports' }];
     const fakeController = {
@@ -17,7 +21,7 @@ describe('Server', () => {
       getSVG: async () => null
     };
 
-    const app = createApp(fakeController, fakeImageController);
+    const app = createApp(fakeController, fakeImageController, fakeSVGToOutlineController);
     const response = await request(app.callback()).get('/api/fonts');
 
     expect(response.status).toBe(200);
@@ -35,7 +39,7 @@ describe('Server', () => {
       getSVG: async () => null
     };
 
-    const app = createApp(fakeController, fakeImageController);
+    const app = createApp(fakeController, fakeImageController, fakeSVGToOutlineController);
     const response = await request(app.callback())
       .post('/api/fonts')
       .send({ name: 'Campus MN' });
@@ -55,7 +59,7 @@ describe('Server', () => {
       }
     } as any;
 
-    const app = createApp(fakeController, fakeImageController);
+    const app = createApp(fakeController, fakeImageController, fakeSVGToOutlineController);
     const response = await request(app.callback())
       .get('/api/svg')
       .query({ text: 'Hello', fontId: 'octin-sports' });
@@ -72,7 +76,7 @@ describe('Server', () => {
       getSVG: async () => null
     } as any;
 
-    const app = createApp(fakeController, fakeImageController);
+    const app = createApp(fakeController, fakeImageController, fakeSVGToOutlineController);
     const response = await request(app.callback())
       .get('/api/svg')
       .query({ text: 'Unknown', fontId: 'none' });
@@ -87,7 +91,7 @@ describe('Server', () => {
       getSVG: async () => null
     } as any;
 
-    const app = createApp(fakeController, fakeImageController);
+    const app = createApp(fakeController, fakeImageController, fakeSVGToOutlineController);
     const response = await request(app.callback())
       .get('/api/svg')
       .query({ fontId: 'octin-sports' });

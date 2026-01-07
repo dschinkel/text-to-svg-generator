@@ -9,7 +9,9 @@ import { GenerateBaseSVG } from './svg/use-cases/GenerateBaseSVG';
 import { GenerateTightOutlineSVG } from './svg/use-cases/GenerateTightOutlineSVG';
 import { GenerateOuterOutlineSVG } from './svg/use-cases/GenerateOuterOutlineSVG';
 import { ConvertImageToSVG } from './svg/use-cases/ConvertImageToSVG';
+import { GenerateSVGOutline } from './svg/use-cases/GenerateSVGOutline';
 import { imageController } from './svg/controllers/imageController';
+import { svgToOutlineController } from './svg/controllers/svgToOutlineController';
 import { traceImage, generateImageTightOutline } from './svg/domain/imageConverter';
 import path from 'path';
 
@@ -48,7 +50,9 @@ const imgConverter = { traceImage, generateImageTightOutline };
 const boundConvertImageToSVG = (request: any) => ConvertImageToSVG(imgConverter, request);
 const imgController = imageController(boundConvertImageToSVG);
 
-const app = createApp(controller, imgController);
+const svgToOutController = svgToOutlineController(GenerateSVGOutline);
+
+const app = createApp(controller, imgController, svgToOutController);
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => {

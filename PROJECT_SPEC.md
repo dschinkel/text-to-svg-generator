@@ -91,7 +91,7 @@ The system generates all three SVG outputs for the selected font + text:
 - The system generates a tight outer outline/contour around the vectorized image paths.
 - The resulting SVG is suitable for TinkerCad (real path geometry).
 
-**FR.7 — SVG to Tight Outline**
+**FR.7** SVG to Tight Outline
 **FR.7.1** Upload an SVG file and see a preview of it.
 - A new section to the right of "Image to SVG" for SVG uploading.
 

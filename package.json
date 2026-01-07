@@ -13,10 +13,12 @@
     "test": "jest"
   },
   "dependencies": {
+    "@types/jsdom": "^21.0.0",
     "@types/potrace": "^2.1.5",
     "class-variance-authority": "^0.7.1",
     "clipper-lib": "^6.4.2",
     "clsx": "^2.1.1",
+    "jsdom": "^25.0.0",
     "koa": "^3.1.1",
     "koa-bodyparser": "^4.4.1",
     "koa-router": "^14.0.0",
@@ -25,6 +27,8 @@
     "potrace": "^2.1.8",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
+    "react-svg": "^16.3.0",
+    "svg-path-properties": "^1.1.0",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {

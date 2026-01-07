@@ -179,7 +179,7 @@ Acceptance:
 - The selected SVG is displayed in a preview area to the right of "Image to SVG".
 - The UI state resets when a new SVG is selected.
 
-## Task: FR.7.2
+## Task: FR.7.2 [COMPLETED]
 ### Goal: Generate Tight Outline SVG for uploaded SVG
 Acceptance:
 - The system extracts path data from the uploaded SVG.
