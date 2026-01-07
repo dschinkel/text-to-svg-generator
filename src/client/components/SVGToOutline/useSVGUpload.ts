@@ -17,33 +17,226 @@ export const useSVGUpload = () => {
     reader.onload = (e) => {
       let content = e.target?.result as string;
       
+      // Clean up the content before parsing
+      content = content.trim();
+      const svgStart = content.indexOf('<svg');
+      const svgEnd = content.lastIndexOf('</svg>');
+      if (svgStart !== -1 && svgEnd !== -1) {
+        content = content.substring(svgStart, svgEnd + 6);
+      }
+
       // Attempt to normalize complex SVGs for better previewing
-      if (content.includes('transform') || content.includes('<g')) {
-        try {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(content, 'image/svg+xml');
-          const svg = doc.querySelector('svg');
-          if (svg) {
-            // Force a clean viewBox and aspect ratio for the preview
-            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-            // If it has no viewBox, try to create one from width/height
-            if (!svg.getAttribute('viewBox')) {
-              const w = svg.getAttribute('width');
-              const h = svg.getAttribute('height');
-              if (w && h) svg.setAttribute('viewBox', `0 0 ${parseFloat(w)} ${parseFloat(h)}`);
-            }
-            content = new XMLSerializer().serializeToString(doc);
+      try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, 'image/svg+xml');
+        const svg = doc.querySelector('svg');
+        if (svg) {
+          // Ensure mandatory namespaces
+          if (!svg.getAttribute('xmlns')) {
+            svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
           }
-        } catch (err) {
-          console.warn('SVG Normalization failed:', err);
+
+          // Force a clean viewBox and aspect ratio for the preview
+          svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+          
+          // Remove potential fixed sizing that conflicts with fluid preview
+          svg.removeAttribute('width');
+          svg.removeAttribute('height');
+
+          // Recursively traverse to find all points and re-calculate viewBox
+          let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+          
+          const updateBounds = (x: number, y: number, w: number = 0, h: number = 0) => {
+            if (isNaN(x) || isNaN(y)) return;
+            minX = Math.min(minX, x);
+            minY = Math.min(minY, y);
+            maxX = Math.max(maxX, x + w);
+            maxY = Math.max(maxY, y + h);
+          };
+
+          const getDPoints = (d: string) => {
+            // More robust path point extraction
+            return d.match(/([-+]?\d*\.?\d+(?:[eE][-+]?\d+)?)/g)?.map(parseFloat) || [];
+          };
+
+          const parseTransform = (transform: string) => {
+            let tx = 0, ty = 0, sx = 1, sy = 1;
+            // Handle translate(x, y) or translate(x)
+            const translates = [...transform.matchAll(/translate\(([^,)\s]+)[,\s]*([^,)\s]*)\)/g)];
+            translates.forEach(m => {
+              tx += parseFloat(m[1]);
+              ty += parseFloat(m[2] || '0');
+            });
+            // Handle scale(sx, sy) or scale(s)
+            const scales = [...transform.matchAll(/scale\(([^,)\s]+)[,\s]*([^,)\s]*)\)/g)];
+            scales.forEach(m => {
+              const s1 = parseFloat(m[1]);
+              const s2 = parseFloat(m[2] || m[1]);
+              sx *= s1;
+              sy *= s2;
+            });
+            // Handle matrix(a, b, c, d, e, f) - very common in exported SVGs
+            const matrices = [...transform.matchAll(/matrix\(([^,)\s]+)[,\s]+([^,)\s]+)[,\s]+([^,)\s]+)[,\s]+([^,)\s]+)[,\s]+([^,)\s]+)[,\s]+([^,)\s]+)\)/g)];
+            matrices.forEach(m => {
+              // For bounds calculation, we simplified: we mostly care about translation and scaling
+              // a c e
+              // b d f
+              // 0 0 1
+              const a = parseFloat(m[1]);
+              const d = parseFloat(m[4]);
+              const e = parseFloat(m[5]);
+              const f = parseFloat(m[6]);
+              sx *= a;
+              sy *= d;
+              tx += e;
+              ty += f;
+            });
+            return { tx, ty, sx, sy };
+          };
+
+          const traverse = (element: Element, currentTX = 0, currentTY = 0, currentSX = 1, currentSY = 1) => {
+            const transform = element.getAttribute('transform') || '';
+            const { tx, ty, sx, sy } = parseTransform(transform);
+            
+            const nextSX = currentSX * sx;
+            const nextSY = currentSY * sy;
+            const nextTX = currentTX + tx * currentSX;
+            const nextTY = currentTY + ty * currentSY;
+
+            const tag = element.tagName.toLowerCase();
+            const getAttr = (name: string) => parseFloat(element.getAttribute(name) || '0');
+
+            if (['path', 'rect', 'circle', 'ellipse', 'polygon', 'polyline', 'line'].includes(tag)) {
+              // Ensure visibility for preview (force solid colors)
+              element.setAttribute('fill', '#334155'); // Slate-700
+              element.removeAttribute('stroke');
+              element.removeAttribute('stroke-width');
+              element.removeAttribute('fill-opacity');
+              element.removeAttribute('stroke-opacity');
+              element.removeAttribute('opacity');
+
+              if (tag === 'path') {
+                const d = element.getAttribute('d') || '';
+                const coords = getDPoints(d);
+                for (let i = 0; i < coords.length; i += 2) {
+                  if (coords[i+1] !== undefined) {
+                    updateBounds(coords[i] * nextSX + nextTX, coords[i+1] * nextSY + nextTY);
+                  }
+                }
+              } else if (tag === 'rect') {
+                const x = getAttr('x'), y = getAttr('y'), w = getAttr('width'), h = getAttr('height');
+                updateBounds(x * nextSX + nextTX, y * nextSY + nextTY, w * nextSX, h * nextSY);
+              } else if (tag === 'circle' || tag === 'ellipse') {
+                const cx = getAttr('cx'), cy = getAttr('cy');
+                const rx = tag === 'circle' ? getAttr('r') : getAttr('rx');
+                const ry = tag === 'circle' ? rx : getAttr('ry');
+                updateBounds((cx - rx) * nextSX + nextTX, (cy - ry) * nextSY + nextTY, rx * 2 * nextSX, ry * 2 * nextSY);
+              } else if (tag === 'polygon' || tag === 'polyline') {
+                const points = element.getAttribute('points') || '';
+                const coords = points.match(/([-+]?\d*\.?\d+(?:[eE][-+]?\d+)?)/g)?.map(parseFloat) || [];
+                for (let i = 0; i < coords.length; i += 2) {
+                  if (coords[i+1] !== undefined) {
+                    updateBounds(coords[i] * nextSX + nextTX, coords[i+1] * nextSY + nextTY);
+                  }
+                }
+              } else if (tag === 'line') {
+                updateBounds(getAttr('x1') * nextSX + nextTX, getAttr('y1') * nextSY + nextTY);
+                updateBounds(getAttr('x2') * nextSX + nextTX, getAttr('y2') * nextSY + nextTY);
+              }
+            }
+
+            Array.from(element.children).forEach(child => traverse(child, nextTX, nextTY, nextSX, nextSY));
+          };
+
+          traverse(svg);
+
+          if (minX !== Infinity) {
+            const w = maxX - minX;
+            const h = maxY - minY;
+            const padding = Math.max(w, h, 10) * 0.05; 
+            const round = (n: number) => Math.round(n * 10000) / 10000;
+            svg.setAttribute('viewBox', `${round(minX - padding)} ${round(minY - padding)} ${round(w + padding * 2)} ${round(h + padding * 2)}`);
+          }
+
+          // Ensure visibility for preview (force distinct colors for contrast)
+          // We apply colors based on depth/hierarchy to distinguish layers
+          const colors = [
+            '#3b82f6', // blue-500
+            '#ef4444', // red-500
+            '#10b981', // emerald-500
+            '#f59e0b', // amber-500
+            '#8b5cf6', // violet-500
+            '#06b6d4', // cyan-500
+            '#ec4899', // pink-500
+            '#f97316', // orange-500
+            '#84cc16', // lime-500
+            '#06b6d4', // cyan-500
+            '#6366f1', // indigo-500
+            '#d946ef', // fuchsia-500
+          ];
+
+          let elementCount = 0;
+          const colorize = (element: Element, depth: number) => {
+            const tag = element.tagName.toLowerCase();
+            
+            // If it's a container element, we might want to apply some base styles or just recurse
+            if (['g', 'svg', 'a'].includes(tag)) {
+              // Ensure container doesn't have opacity that hides children
+              element.removeAttribute('opacity');
+              element.removeAttribute('fill-opacity');
+              element.removeAttribute('stroke-opacity');
+              const style = element.getAttribute('style') || '';
+              const cleanStyle = style.replace(/(?:opacity|fill-opacity|stroke-opacity)\s*:[^;]+;?/gi, '');
+              if (cleanStyle) {
+                element.setAttribute('style', cleanStyle);
+              } else {
+                element.removeAttribute('style');
+              }
+            }
+
+            if (['path', 'rect', 'circle', 'ellipse', 'polygon', 'polyline', 'line'].includes(tag)) {
+              // Cycle through colors based on element sequence
+              const color = colors[elementCount % colors.length];
+              elementCount++;
+              
+              element.setAttribute('fill', color);
+              element.setAttribute('stroke', '#000000');
+              element.setAttribute('stroke-width', '1'); // Increased stroke width for better visibility
+              element.setAttribute('fill-opacity', '0.8'); // Slightly more opaque
+              element.removeAttribute('stroke-opacity');
+              element.removeAttribute('opacity');
+              
+              // Also remove inline styles that might override attributes
+              const style = element.getAttribute('style') || '';
+              // Remove anything that could interfere with our coloring
+              const cleanStyle = style.replace(/(?:fill|stroke|opacity|fill-opacity|stroke-opacity|stroke-width|display|visibility)\s*:[^;]+;?/gi, '');
+              if (cleanStyle) {
+                element.setAttribute('style', cleanStyle);
+              } else {
+                element.removeAttribute('style');
+              }
+            }
+            Array.from(element.children).forEach(child => colorize(child, depth + 1));
+          };
+
+          colorize(svg, 0);
+
+          // Style for responsiveness
+          svg.setAttribute('style', 'width: 100%; height: auto; display: block;');
+          
+          content = new XMLSerializer().serializeToString(doc);
         }
+      } catch (err) {
+        console.warn('SVG Normalization failed:', err);
       }
 
       setSVGContent(content);
+      console.log('SVG Normalized content length:', content.length);
       
       // Create a Blob URL for the most compatible preview rendering
       const blob = new Blob([content], { type: 'image/svg+xml' });
       const url = URL.createObjectURL(blob);
+      console.log('Created preview Blob URL:', url);
       setPreviewUrl(url);
     };
     reader.readAsText(file);

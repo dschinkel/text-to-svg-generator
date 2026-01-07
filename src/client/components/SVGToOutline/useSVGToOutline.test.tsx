@@ -3,8 +3,8 @@ import { useSVGToOutline } from './useSVGToOutline';
 
 describe('SVG to Outline Orchestrator Hook', () => {
   beforeEach(() => {
-    global.URL.createObjectURL = jest.fn(() => 'blob:test-url');
-    global.URL.revokeObjectURL = jest.fn();
+    global.URL.createObjectURL = () => 'blob:test-url';
+    global.URL.revokeObjectURL = () => {};
   });
 
   it('resets state when new svg is selected', async () => {

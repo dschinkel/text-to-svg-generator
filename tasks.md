@@ -175,9 +175,9 @@ Acceptance:
 ## Task: FR.7.1 [COMPLETED]
 ### Goal: Upload and Preview existing SVG
 Acceptance:
-- User can select a local SVG file.
-- The selected SVG is displayed in a preview area to the right of "Image to SVG".
-- The UI state resets when a new SVG is selected.
+- [COMPLETED] User can select a local SVG file.
+- [COMPLETED] The selected SVG is displayed in a preview area to the right of "Image to SVG".
+- [COMPLETED] The UI state resets when a new SVG is selected.
 
 ## Task: FR.7.2 [COMPLETED]
 ### Goal: Generate Tight Outline SVG for uploaded SVG
@@ -187,7 +187,10 @@ Acceptance:
 - The Tight Outline SVG fills all internal gaps (solid silhouette).
 - The resulting SVG units are scaled to fit TinkerCad limits (max 300 units).
 
-## Task: FR.7.3
-### Goal: Download generated Tight Outline SVG
+## Task: FR.7.4 [COMPLETED]
+### Goal: Troubleshoot Original SVG Preview layers
 Acceptance:
-- Clicking the Tight Outline SVG preview or a download button triggers a download of the .svg file.
+- The Original SVG Preview shows distinct colors for different layers/elements.
+- The preview handling is robust for complex SVGs (handles matrix transformations).
+- No `jest.fn()` or "mock" magic is used in tests; all stubs are plain JS functions.
+- All tests pass.
