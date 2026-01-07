@@ -172,11 +172,22 @@ Acceptance:
 - And the Tight Outline SVG can be downloaded.
 - And the Tight Outline SVG imports into TinkerCad as a filled outline.
 
-## Task: FR.7 [IN PROGRESS]
-### Goal: SVG to Tight Outline
+## Task: FR.7.1 [IN PROGRESS]
+### Goal: Upload and Preview existing SVG
 Acceptance:
-- User can upload an existing SVG file.
-- The system displays a preview of the uploaded SVG in a new section to the right of "Image to SVG".
-- The system automatically generates a Tight Outline SVG for the uploaded SVG.
-- The Tight Outline SVG fills all internal gaps and is suitable for TinkerCad (real path geometry).
-- The user can download the generated Tight Outline SVG.
+- User can select a local SVG file.
+- The selected SVG is displayed in a preview area to the right of "Image to SVG".
+- The UI state resets when a new SVG is selected.
+
+## Task: FR.7.2
+### Goal: Generate Tight Outline SVG for uploaded SVG
+Acceptance:
+- The system extracts path data from the uploaded SVG.
+- The system automatically generates a Tight Outline SVG (offset geometry).
+- The Tight Outline SVG fills all internal gaps (solid silhouette).
+- The resulting SVG units are scaled to fit TinkerCad limits (max 300 units).
+
+## Task: FR.7.3
+### Goal: Download generated Tight Outline SVG
+Acceptance:
+- Clicking the Tight Outline SVG preview or a download button triggers a download of the .svg file.
