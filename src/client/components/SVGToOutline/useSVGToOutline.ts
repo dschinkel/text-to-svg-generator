@@ -1,11 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSVGUpload } from './useSVGUpload';
+import { applyColorToSVG } from '../../domain/svgColorService';
 
 export const useSVGToOutline = () => {
   const { svgContent, previewUrl, handleSVGSelect, reset } = useSVGUpload();
   const [tightOutlineSVG, setTightOutlineSVG] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const { originalLayer, tightLayer } = useMemo(() => {
+    return {
+      originalLayer: svgContent ? applyColorToSVG(svgContent, '#000000') : null,
+      tightLayer: tightOutlineSVG ? applyColorToSVG(tightOutlineSVG, '#22c55e') : null,
+    };
+  }, [svgContent, tightOutlineSVG]);
 
   const onSVGSelect = (file: File) => {
     reset();
@@ -49,6 +57,8 @@ export const useSVGToOutline = () => {
     svgContent,
     previewUrl,
     tightOutlineSVG,
+    originalLayer,
+    tightLayer,
     isProcessing,
     error,
     onSVGSelect,

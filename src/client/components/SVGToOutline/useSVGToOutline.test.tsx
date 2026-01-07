@@ -40,4 +40,34 @@ describe('SVG to Outline Orchestrator Hook', () => {
     // Verify it was reset
     expect(result.current.svgContent).toBeNull();
   });
+
+  it('provides layered svg data', async () => {
+    const { result } = renderHook(() => useSVGToOutline());
+
+    // 1. Mock file upload
+    const rawSvg = '<svg><path d="M0 0 L10 10" /></svg>';
+    const fakeReader = {
+      readAsText: function(this: any) {
+        this.onload({ target: { result: rawSvg } });
+      },
+    };
+    window.FileReader = (function() { return fakeReader; }) as any;
+
+    // 2. Mock API response
+    const outlineSvg = '<svg><path d="M-1 -1 L11 11" /></svg>';
+    global.fetch = (() => Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({ outlineSvg })
+    })) as any;
+
+    await act(async () => {
+      await result.current.onSVGSelect(new File([rawSvg], 'test.svg', { type: 'image/svg+xml' }));
+    });
+
+    // 3. Verify layered data is provided
+    // originalLayer should have black color applied
+    // tightLayer should have green color applied
+    expect(result.current.originalLayer).toContain('fill="#000000"');
+    expect(result.current.tightLayer).toContain('fill="#22c55e"');
+  });
 });

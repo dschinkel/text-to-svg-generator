@@ -1326,3 +1326,42 @@ USER DECISION: commit
 
 === COMMIT (CLEANUP) ===
 PROPOSED COMMIT: feat: FR.7.1: cleanup: svg upload and preview
+
+PLAN:
+1. Component layer
+   - Goal: Create a new SVGLayeredPreview component that can display two SVGs stacked on top of each other.
+   - Changes: Create src/client/components/SVGToOutline/SVGLayeredPreview.tsx.
+   - Verification: Manual check once integrated.
+   - Note: This is a non-TDD scaffold step.
+
+2. Hook layer (useSVGToOutline)
+   RED:
+   - Test name: provides layered svg data
+   - Location: src/client/components/SVGToOutline/useSVGToOutline.test.tsx
+   - Intent: Ensure the hook provides the processed layered SVG strings (original and tight outline) for the preview.
+
+   GREEN:
+   - Minimal implementation: Update useSVGToOutline.ts to process and return originalLayer and tightLayer using applyColorToSVG.
+   - Files expected to change: src/client/components/SVGToOutline/useSVGToOutline.ts.
+
+   COMMIT:
+   - Proposed message: feat: FR.7.5: Step 2: Frontend: Hook: provides layered svg data
+
+   REFACTOR:
+   - Candidate refactors: None anticipated.
+   - Files expected to change: None.
+
+3. Integration layer (SVGToOutlineSection)
+   - Goal: Integrate the SVGLayeredPreview into the main section.
+   - Changes: Update src/client/components/SVGToOutline/SVGToOutlineSection.tsx.
+   - Verification: Manual verification of the UI.
+
+   COMMIT:
+   - Proposed message: feat: FR.7.5: Step 3: Frontend: Component: integrate SVGLayeredPreview
+
+4. Cleanup & Verification
+   - Run all tests
+   - Fix linting errors
+   - Mark task FR.7.5 as [COMPLETED] in tasks.md
+   COMMIT:
+   - Proposed message: feat: FR.7.5: cleanup: finalize layered preview

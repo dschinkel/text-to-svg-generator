@@ -102,6 +102,10 @@ The system generates all three SVG outputs for the selected font + text:
 
 **FR.7.3** Ability to download the generated Tight Outline SVG.
 
+**FR.7.5** Layered Preview for SVG to Tight Outline.
+- Display a combined preview where the Original SVG is layered on top of the generated Tight Outline SVG.
+- Provide visual feedback on how the outline aligns with the original geometry.
+
 ---
 
 ## 4. Technical Requirements (TR.*)

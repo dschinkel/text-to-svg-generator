@@ -1,0 +1,22 @@
+graph TD
+    User([User])
+    SVGSection[SVGToOutlineSection]
+    Hook[useSVGToOutline Hook]
+    Uploader[SVGUploader]
+    PreviewArea[SVGPreviewArea]
+    LayeredPreview[SVGLayeredPreview]
+    Server[API: /api/svg-to-outline]
+
+    User -->|Selects SVG| Uploader
+    Uploader -->|handleSVGSelect| Hook
+    Hook -->|svgContent| PreviewArea
+    Hook -->|POST svgContent| Server
+    Server -->|tightOutlineSVG| Hook
+    
+    Hook -->|originalSVG + tightOutlineSVG| LayeredPreview
+    SVGSection --> LayeredPreview
+    
+    subgraph SVGLayeredPreview
+        Base[Original SVG Layer - Top]
+        Outline[Tight Outline Layer - Bottom]
+    end

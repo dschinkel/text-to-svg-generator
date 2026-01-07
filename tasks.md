@@ -196,3 +196,11 @@ Acceptance:
 - [COMPLETED] Layers without fill are given semi-transparent fills for visual contrast.
 - [COMPLETED] No `jest.fn()` or "mock" magic is used in tests; all stubs are plain JS functions.
 - [COMPLETED] All tests pass.
+
+## Task: FR.7.5 [IN PROGRESS]
+### Goal: Implement Layered Preview for SVG to Tight Outline
+Acceptance:
+- A new preview area shows the Original SVG layered on top of the generated Tight Outline SVG.
+- The Tight Outline SVG acts as a base layer (usually in a contrasting color or silhouette).
+- The Original SVG is rendered on top to show alignment.
+- The UI follows the same pattern as the text Layered Preview.
