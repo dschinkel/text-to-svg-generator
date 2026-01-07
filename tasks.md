@@ -190,7 +190,9 @@ Acceptance:
 ## Task: FR.7.4 [COMPLETED]
 ### Goal: Troubleshoot Original SVG Preview layers
 Acceptance:
-- The Original SVG Preview shows distinct colors for different layers/elements.
-- The preview handling is robust for complex SVGs (handles matrix transformations).
-- No `jest.fn()` or "mock" magic is used in tests; all stubs are plain JS functions.
-- All tests pass.
+- [COMPLETED] The Original SVG Preview shows distinct colors for different layers/elements.
+- [COMPLETED] The preview handling is robust for complex SVGs (handles matrix transformations).
+- [COMPLETED] Original colors are preserved but visibility is enhanced (fixes 0.001mm strokes).
+- [COMPLETED] Layers without fill are given semi-transparent fills for visual contrast.
+- [COMPLETED] No `jest.fn()` or "mock" magic is used in tests; all stubs are plain JS functions.
+- [COMPLETED] All tests pass.
