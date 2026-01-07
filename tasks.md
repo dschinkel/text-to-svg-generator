@@ -131,10 +131,20 @@ Acceptance:
 - When I click a preview thumbnail
 - Then the corresponding full-resolution SVG file is downloaded to my computer.
 
-## Task: FR.5.1 [COMPLETED]
-### Goal: Show one final preview of all 3 images (Base, Tight, and Outer) layered on top of each other.
+## Task: FR.6.1 [COMPLETED]
+### Goal: Upload a flat image (PNG/JPEG) and see a preview of the uploaded image.
 Acceptance:
-- Given I have generated all three SVGs
-- When I look at the result panel
-- Then I see a fourth preview box showing all three layers stacked
-- And each layer has a distinct color
+- User can select a local image file.
+- The selected image is displayed in a preview area to the right of the Text Generator.
+
+## Task: FR.6.2
+### Goal: Convert the uploaded image to SVG on the server and see an SVG preview.
+Acceptance:
+- Pressing a "Convert" button sends the image to the server.
+- The server processes the image and returns SVG data.
+- The SVG result is displayed as a preview.
+
+## Task: FR.6.3
+### Goal: Ability to download the converted SVG.
+Acceptance:
+- Clicking the SVG preview or a download button triggers a download of the .svg file.

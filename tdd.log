@@ -1244,3 +1244,11 @@ TEST OUTPUT: GREEN - All tests passing
 
 === COMMIT ===
 PROPOSED COMMIT: feat: FR.6.1: Step 2: Frontend: Hook: stores uploaded image
+
+=== CLEANUP & VERIFICATION ===
+- Ran full test suite
+- Verified tsc --noEmit passes
+- Confirmed image upload and preview functionality
+
+=== COMMIT (CLEANUP) ===
+PROPOSED COMMIT: feat: FR.6.1: cleanup: image upload and preview
