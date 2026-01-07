@@ -197,10 +197,10 @@ Acceptance:
 - [COMPLETED] No `jest.fn()` or "mock" magic is used in tests; all stubs are plain JS functions.
 - [COMPLETED] All tests pass.
 
-## Task: FR.7.5 [IN PROGRESS]
+## Task: FR.7.5 [COMPLETED]
 ### Goal: Implement Layered Preview for SVG to Tight Outline
 Acceptance:
-- A new preview area shows the Original SVG layered on top of the generated Tight Outline SVG.
-- The Tight Outline SVG acts as a base layer (usually in a contrasting color or silhouette).
-- The Original SVG is rendered on top to show alignment.
-- The UI follows the same pattern as the text Layered Preview.
+- [COMPLETED] A new preview area shows the Original SVG layered on top of the generated Tight Outline SVG.
+- [COMPLETED] The Tight Outline SVG acts as a base layer (usually in a contrasting color or silhouette).
+- [COMPLETED] The Original SVG is rendered on top to show alignment.
+- [COMPLETED] The UI follows the same pattern as the text Layered Preview.
