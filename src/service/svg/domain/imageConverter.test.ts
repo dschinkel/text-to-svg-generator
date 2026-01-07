@@ -30,6 +30,20 @@ describe('Image Converter', () => {
     expect(tightSvg).not.toContain('stroke=');
   });
 
+  it('fills internal gaps for image tight outline', async () => {
+    // A square with a hole: Outer M 0 0 L 100 0 L 100 100 L 0 100 Z, Inner M 25 25 L 25 75 L 75 75 L 75 25 Z
+    const baseSvg = '<svg viewBox="0 0 100 100"><path d="M0 0 L100 0 L100 100 L0 100 Z M25 25 L25 75 L75 75 L75 25 Z"/></svg>';
+    const tightSvg = await generateImageTightOutline(baseSvg);
+    
+    const pathMatch = tightSvg.match(/d="([^"]+)"/);
+    expect(pathMatch).not.toBeNull();
+    const d = pathMatch![1];
+    const mCommands = d.match(/M/g) || [];
+    
+    // We expect only one closed path if the hole is filled.
+    expect(mCommands.length).toBe(1);
+  });
+
   it('scales image svg down if it exceeds max dimensions', async () => {
     // We'll mock potrace.trace to return a large SVG
     // Actually potrace is already installed, so we can try to find a way to test it.

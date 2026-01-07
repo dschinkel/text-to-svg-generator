@@ -1252,3 +1252,22 @@ PROPOSED COMMIT: feat: FR.6.1: Step 2: Frontend: Hook: stores uploaded image
 
 === COMMIT (CLEANUP) ===
 PROPOSED COMMIT: feat: FR.6.1: cleanup: image upload and preview
+
+=== GREEN PHASE ===
+CHANGESET:
+export const generateImageTightOutline = (baseSvg: string): string => {
+  const TIGHT_OFFSET = 4;
+  
+  const processedSvg = baseSvg.replace(/d=\"([^\"]+)\"/g, (match, d) => {
+    const tightD = getOffsetPath(d, TIGHT_OFFSET, true);
+    return `d=\"${tightD}\"`;
+  });
+
+  return processedSvg;
+};
+
+COMMANDS RUN: yarn jest src/service/svg/domain/imageConverter.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.6.6: Step 3: Service: Domain: image tight outline fills gaps

@@ -55,7 +55,7 @@ export const generateImageTightOutline = (baseSvg: string): string => {
   const TIGHT_OFFSET = 4;
   
   const processedSvg = baseSvg.replace(/d="([^"]+)"/g, (match, d) => {
-    const tightD = getOffsetPath(d, TIGHT_OFFSET);
+    const tightD = getOffsetPath(d, TIGHT_OFFSET, true);
     return `d="${tightD}"`;
   });
 
