@@ -3,14 +3,17 @@ import { useImageToSVG } from './useImageToSVG';
 
 describe('Image to SVG Orchestrator Hook', () => {
   it('triggers conversion automatically after image select', async () => {
-    const fakeSVG = '<svg>result</svg>';
+    const fakeResult = {
+      baseSVG: '<svg>result</svg>',
+      tightOutlineSVG: '<svg>tight</svg>'
+    };
     let fetchCalledWith: any = null;
     
     global.fetch = (async (url: string, options: any) => {
       fetchCalledWith = url;
       return {
         ok: true,
-        text: async () => fakeSVG,
+        json: async () => fakeResult,
       };
     }) as any;
 
@@ -31,7 +34,8 @@ describe('Image to SVG Orchestrator Hook', () => {
     });
 
     expect(result.current.imageSrc).toBe('data:image/png;base64,fake-content');
-    expect(result.current.svgResult).toBe(fakeSVG);
+    expect(result.current.svgResult).toBe(fakeResult.baseSVG);
+    expect(result.current.tightOutlineSVG).toBe(fakeResult.tightOutlineSVG);
     expect(fetchCalledWith).toBe('/api/image-to-svg');
   });
 
@@ -41,7 +45,10 @@ describe('Image to SVG Orchestrator Hook', () => {
       fetchCount++;
       return {
         ok: true,
-        text: async () => `<svg>${fetchCount}</svg>`,
+        json: async () => ({
+          baseSVG: `<svg>${fetchCount}</svg>`,
+          tightOutlineSVG: `<svg>tight-${fetchCount}</svg>`
+        }),
       };
     }) as any;
 

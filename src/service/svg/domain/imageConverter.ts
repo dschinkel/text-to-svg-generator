@@ -14,7 +14,7 @@ export const traceImage = (buffer: Buffer): Promise<string> => {
       if (viewBoxMatch) {
         const width = parseInt(viewBoxMatch[1], 10);
         const height = parseInt(viewBoxMatch[2], 10);
-        const MAX_DIMENSION = 1000;
+        const MAX_DIMENSION = 300;
 
         if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
           const scaleFactor = Math.min(MAX_DIMENSION / width, MAX_DIMENSION / height);

@@ -1,12 +1,17 @@
 import { useState, useCallback } from 'react';
 
+export interface ImageConversionResult {
+  baseSVG: string;
+  tightOutlineSVG: string;
+}
+
 export const useImageConverter = () => {
-  const [svgResult, setSvgResult] = useState<string | null>(null);
+  const [result, setResult] = useState<ImageConversionResult | null>(null);
   const [isConverting, setIsConverting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const reset = useCallback(() => {
-    setSvgResult(null);
+    setResult(null);
     setError(null);
   }, []);
 
@@ -26,8 +31,8 @@ export const useImageConverter = () => {
         throw new Error('Failed to convert image');
       }
 
-      const svg = await response.text();
-      setSvgResult(svg);
+      const data = await response.json();
+      setResult(data);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -36,7 +41,9 @@ export const useImageConverter = () => {
   }, []);
 
   return {
-    svgResult,
+    result,
+    svgResult: result?.baseSVG || null,
+    tightOutlineSVG: result?.tightOutlineSVG || null,
     isConverting,
     error,
     convertImage,

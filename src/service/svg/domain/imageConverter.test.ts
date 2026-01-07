@@ -54,12 +54,12 @@ describe('Image Converter', () => {
       const width = parseFloat(widthMatch![1]);
       const height = parseFloat(heightMatch![1]);
       
-      expect(width).toBeLessThanOrEqual(1000);
-      expect(height).toBeLessThanOrEqual(1000);
-      // For 3000x2000, scale factor should be 1000/3000 = 1/3.
-      // 3000 * 1/3 = 1000, 2000 * 1/3 = 666.66...
-      expect(width).toBe(1000);
-      expect(height).toBeCloseTo(666.666, 1);
+      expect(width).toBeLessThanOrEqual(300);
+      expect(height).toBeLessThanOrEqual(300);
+      // For 3000x2000, scale factor should be 300/3000 = 0.1
+      // 3000 * 0.1 = 300, 2000 * 0.1 = 200
+      expect(width).toBe(300);
+      expect(height).toBe(200);
     } finally {
       // @ts-ignore
       potrace.default.trace = originalTrace;

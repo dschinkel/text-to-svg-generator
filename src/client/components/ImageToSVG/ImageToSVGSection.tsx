@@ -7,7 +7,14 @@ import { useDownload } from '../../hooks/useDownload';
 import { downloadSVG } from '../../domain/downloadService';
 
 export const ImageToSVGSection: React.FC = () => {
-  const { imageSrc, svgResult, isConverting, error, onImageSelect } = useImageToSVG();
+  const { 
+    imageSrc, 
+    svgResult, 
+    tightOutlineSVG, 
+    isConverting, 
+    error, 
+    onImageSelect 
+  } = useImageToSVG();
   const { handleDownload } = useDownload(downloadSVG);
 
   return (
@@ -26,12 +33,19 @@ export const ImageToSVGSection: React.FC = () => {
       <ImagePreview imageSrc={imageSrc} />
 
       {svgResult && (
-        <div className="mt-8 pt-8 border-t border-slate-200">
+        <div className="mt-8 pt-8 border-t border-slate-200 space-y-8">
           <SVGPreview 
             svgString={svgResult} 
-            label="Converted SVG" 
-            onDownload={() => handleDownload(svgResult, 'Converted', 'image')}
+            label="Base Vectorized SVG" 
+            onDownload={() => handleDownload(svgResult, 'Base', 'image')}
           />
+          {tightOutlineSVG && (
+            <SVGPreview 
+              svgString={tightOutlineSVG} 
+              label="Tight Outline SVG" 
+              onDownload={() => handleDownload(tightOutlineSVG, 'Tight Outline', 'image')}
+            />
+          )}
         </div>
       )}
     </section>

@@ -4,7 +4,14 @@ import { useImageConverter } from './useImageConverter';
 
 export const useImageToSVG = () => {
   const { imageSrc, handleImageSelect, reset: resetUpload } = useImageUpload();
-  const { svgResult, isConverting, convertImage, error, reset: resetConverter } = useImageConverter();
+  const { 
+    svgResult, 
+    tightOutlineSVG, 
+    isConverting, 
+    convertImage, 
+    error, 
+    reset: resetConverter 
+  } = useImageConverter();
 
   const onImageSelect = (file: File) => {
     resetUpload();
@@ -21,6 +28,7 @@ export const useImageToSVG = () => {
   return {
     imageSrc,
     svgResult,
+    tightOutlineSVG,
     isConverting,
     error,
     onImageSelect

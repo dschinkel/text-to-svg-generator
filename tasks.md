@@ -163,7 +163,7 @@ Acceptance:
 - Scaling preserves aspect ratio.
 - Verified with unit tests.
 
-## Task: FR.6.6 [IN PROGRESS]
+## Task: FR.6.6 [COMPLETED]
 ### Goal: Generate Tight Outline SVG for uploaded images.
 Acceptance:
 - Given I have uploaded an image
