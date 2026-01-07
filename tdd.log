@@ -1218,3 +1218,29 @@ TEST OUTPUT: GREEN - All tests passing
 
 === COMMIT (CLEANUP) ===
 PROPOSED COMMIT: feat: FR.3.3: cleanup: filled outer outline
+=== GREEN PHASE ===
+CHANGESET:
+import { useState, useCallback } from 'react';
+
+export const useImageUpload = () => {
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+  const handleImageSelect = useCallback((file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setImageSrc(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+  }, []);
+
+  return {
+    imageSrc,
+    handleImageSelect
+  };
+};
+
+COMMANDS RUN: yarn jest src/client/components/ImageToSVG/useImageUpload.test.tsx
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.6.1: Step 2: Frontend: Hook: stores uploaded image
