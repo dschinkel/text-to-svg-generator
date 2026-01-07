@@ -59,6 +59,22 @@ describe('SVG Generator Domain', () => {
     expect(outerPathMatch![1]).not.toBe(basePathMatch![1]);
   });
 
+  it('fills internal gaps for tight outline', async () => {
+    const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
+    const font = await opentype.load(fontPath);
+    
+    const text = 'O';
+    const tightSvg = svgGenerator(text, font, { type: 'tight' });
+    
+    const pathMatch = tightSvg.match(/d="([^"]+)"/);
+    expect(pathMatch).not.toBeNull();
+    const d = pathMatch![1];
+    const mCommands = d.match(/M/g) || [];
+    
+    // We expect only one closed path for 'O' if the hole is filled.
+    expect(mCommands.length).toBe(1);
+  });
+
   it('fills internal gaps for outer outline', async () => {
     const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
     const font = await opentype.load(fontPath);
