@@ -7,6 +7,9 @@ export interface AdobeTypekitClient {
 export const fontRepository = (dbPath: string, client: AdobeTypekitClient) => {
   const fetch = async (familyId: string): Promise<any> => {
     const family = await client.getFamily(familyId);
+    if (!family) {
+      return null;
+    }
     if (family.css_stack === 'sans-serif') {
       family.css_stack = `"${family.slug}", sans-serif`;
     }

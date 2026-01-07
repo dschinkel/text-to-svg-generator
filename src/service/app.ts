@@ -8,7 +8,11 @@ export interface FontController {
   getSVG: (text: string, fontId: string, type: string) => Promise<string | null>;
 }
 
-export const createApp = (fontController: FontController) => {
+export interface ImageController {
+  convert: (ctx: any) => Promise<void>;
+}
+
+export const createApp = (fontController: FontController, imageController: ImageController) => {
   const app = new Koa();
   const router = new Router();
 
@@ -43,8 +47,17 @@ export const createApp = (fontController: FontController) => {
   router.post('/api/fonts', async (ctx) => {
     const { name } = ctx.request.body as { name: string };
     const font = await fontController.addFont(name);
+    if (!font) {
+      ctx.status = 404;
+      ctx.body = { error: `Font "${name}" not found in Adobe library` };
+      return;
+    }
     ctx.status = 201;
     ctx.body = font;
+  });
+  
+  router.post('/api/image-to-svg', async (ctx) => {
+    await imageController.convert(ctx);
   });
 
   app.use(router.routes()).use(router.allowedMethods());

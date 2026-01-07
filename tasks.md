@@ -137,14 +137,14 @@ Acceptance:
 - User can select a local image file.
 - The selected image is displayed in a preview area to the right of the Text Generator.
 
-## Task: FR.6.2
+## Task: FR.6.2 [COMPLETED]
 ### Goal: Convert the uploaded image to SVG on the server and see an SVG preview.
 Acceptance:
 - Pressing a "Convert" button sends the image to the server.
 - The server processes the image and returns SVG data.
 - The SVG result is displayed as a preview.
 
-## Task: FR.6.3
+## Task: FR.6.3 [COMPLETED]
 ### Goal: Ability to download the converted SVG.
 Acceptance:
 - Clicking the SVG preview or a download button triggers a download of the .svg file.

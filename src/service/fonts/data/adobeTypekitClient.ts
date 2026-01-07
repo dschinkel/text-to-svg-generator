@@ -21,8 +21,15 @@ export const adobeTypekitClient = (token: string) => {
 
   return {
     getFamily: async (familyId: string): Promise<any> => {
-      const data = await request(`/families/${familyId}`);
-      return data.family;
+      try {
+        const data = await request(`/families/${familyId}`);
+        return data.family;
+      } catch (error: any) {
+        if (error.message.includes('Not Found')) {
+          return null;
+        }
+        throw error;
+      }
     },
 
     addFamilyToKit: async (kitId: string, familyId: string): Promise<any> => {

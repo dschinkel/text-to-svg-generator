@@ -8,6 +8,9 @@ import { SyncFontKit } from './fonts/use-cases/SyncFontKit.ts';
 import { GenerateBaseSVG } from './svg/use-cases/GenerateBaseSVG';
 import { GenerateTightOutlineSVG } from './svg/use-cases/GenerateTightOutlineSVG';
 import { GenerateOuterOutlineSVG } from './svg/use-cases/GenerateOuterOutlineSVG';
+import { ConvertImageToSVG } from './svg/use-cases/ConvertImageToSVG';
+import { imageController } from './svg/controllers/imageController';
+import { traceImage } from './svg/domain/imageConverter';
 import path from 'path';
 
 const dbPath = path.resolve(process.cwd(), 'src/db/fonts.json');
@@ -41,7 +44,11 @@ const controller = fontController(
   kitId
 );
 
-const app = createApp(controller);
+const imgConverter = { traceImage };
+const boundConvertImageToSVG = (request: any) => ConvertImageToSVG(imgConverter, request);
+const imgController = imageController(boundConvertImageToSVG);
+
+const app = createApp(controller, imgController);
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => {

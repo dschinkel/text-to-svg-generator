@@ -1,0 +1,7 @@
+graph TD
+    User([User]) --> Upload[Upload Image File]
+    Upload --> Preview[Display Image Preview]
+    Preview --> Convert[Press Convert]
+    Convert --> Server[Server: Process Image]
+    Server --> SVGPreview[Display SVG Preview]
+    SVGPreview --> Download[Download SVG]

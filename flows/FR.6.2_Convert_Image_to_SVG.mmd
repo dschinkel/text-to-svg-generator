@@ -1,0 +1,8 @@
+graph TD
+    User([User]) --> Upload[Upload Image File]
+    Upload --> Preview[Display Image Preview]
+    Preview --> Convert[Press Convert]
+    Convert --> Controller[Server: ImageController]
+    Controller --> Command[Server: ConvertImageToSVGCommand]
+    Command --> Logic[Server: ImageProcessor (Business Logic)]
+    Logic --> SVGPreview[Display SVG Preview]

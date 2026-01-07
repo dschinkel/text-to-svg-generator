@@ -204,5 +204,165 @@
         "fvd": "n8"
       }
     ]
+  },
+  {
+    "id": "hscm",
+    "name": "Erbaum",
+    "slug": "erbaum",
+    "web_link": "http://fonts.adobe.com/fonts/erbaum",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "sans-serif"
+      ],
+      "contrast": [
+        "low"
+      ],
+      "language": [],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "heavy",
+        "light",
+        "regular"
+      ],
+      "width": [
+        "extended"
+      ],
+      "x_height": [
+        "high"
+      ]
+    },
+    "css_stack": "\"erbaum\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Inhouse Type Foundry",
+      "slug": "inhouse-type-foundry"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "hscm:n1",
+        "link": "/api/v1/json/families/hscm/n1",
+        "name": "Erbaum Thin",
+        "fvd": "n1"
+      },
+      {
+        "id": "hscm:n2",
+        "link": "/api/v1/json/families/hscm/n2",
+        "name": "Erbaum Light",
+        "fvd": "n2"
+      },
+      {
+        "id": "hscm:n3",
+        "link": "/api/v1/json/families/hscm/n3",
+        "name": "Erbaum Book",
+        "fvd": "n3"
+      },
+      {
+        "id": "hscm:n4",
+        "link": "/api/v1/json/families/hscm/n4",
+        "name": "Erbaum Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "hscm:n5",
+        "link": "/api/v1/json/families/hscm/n5",
+        "name": "Erbaum Medium",
+        "fvd": "n5"
+      },
+      {
+        "id": "hscm:n7",
+        "link": "/api/v1/json/families/hscm/n7",
+        "name": "Erbaum Bold",
+        "fvd": "n7"
+      },
+      {
+        "id": "hscm:n9",
+        "link": "/api/v1/json/families/hscm/n9",
+        "name": "Erbaum Black",
+        "fvd": "n9"
+      }
+    ]
+  },
+  {
+    "id": "rvyw",
+    "name": "Graduate",
+    "slug": "graduate",
+    "web_link": "http://fonts.adobe.com/fonts/graduate",
+    "browse_info": {
+      "capitals": [
+        "all-or-small-caps"
+      ],
+      "classification": [
+        "slab-serif"
+      ],
+      "contrast": [
+        "low"
+      ],
+      "language": [
+        "ca",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "it",
+        "nl",
+        "pt",
+        "sv"
+      ],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "regular"
+      ],
+      "width": [
+        "regular"
+      ],
+      "x_height": []
+    },
+    "css_stack": "serif",
+    "description": null,
+    "foundry": {
+      "name": "Google",
+      "slug": "google"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "trial",
+        "link": "/api/v1/json/libraries/trial",
+        "name": "Trial Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "rvyw:n4",
+        "link": "/api/v1/json/families/rvyw/n4",
+        "name": "Graduate Regular",
+        "fvd": "n4"
+      }
+    ]
   }
 ]
