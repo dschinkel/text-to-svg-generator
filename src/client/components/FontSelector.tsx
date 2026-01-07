@@ -30,8 +30,8 @@ export const FontSelector = ({ useFonts, onSelect, selectedFont }: FontSelectorP
   return (
     <div className="w-full max-w-sm" ref={state.containerRef}>
       <FontLoading loading={state.loading} />
-      <FontError error={state.error} />
       <FontSelection {...state} onSelect={onSelect} selectedFont={selectedFont} />
+      <FontError error={state.error} />
     </div>
   );
 };
@@ -43,7 +43,7 @@ const FontLoading = ({ loading }: { loading: boolean }) => {
 
 const FontError = ({ error }: { error: Error | null }) => {
   if (!error) return null;
-  return <div data-testid="font-error" className="text-sm text-red-500 mb-2">Error: {error.message}</div>;
+  return <div data-testid="font-error" className="text-sm text-red-500 mt-2">Error: {error.message}</div>;
 };
 
 const FontList = ({ 
@@ -119,7 +119,7 @@ const FontSelection = ({
   onSelect,
   selectedFont
 }: any) => {
-  if (loading || error) return null;
+  if (loading) return null;
 
   return (
     <div className="relative">
