@@ -55,6 +55,16 @@ A user can:
 
 **FR.1.3** Listed fonts show up rendered in their actual typeface (where feasible).
 
+**FR.1.4 — Font Variations Support**
+- **FR.1.4.1** Support installing and selecting specific variations of a font (e.g., Ultra Bold, Italic).
+- **FR.1.4.2** Show font variations indented under the main font name in the selection list.
+- **FR.1.4.3** Robust CSS parsing to ensure correct font file selection for variations sharing the same family name.
+- **FR.1.4.4** Optimization: Avoid redundant Adobe Typekit API calls when selecting variations already in the kit.
+
+**FR.1.5 — Improved Font Selection UI**
+- **FR.1.5.1** Replace font selection dropdown with a static, scrollable selection box for better visibility.
+- **FR.1.5.2** The font list must be sorted in ascending order (ASC) by font name.
+
 **FR.2 — Add Text for Font**
 **FR.2.1** User enters text and sees a preview of the text rendered in the selected font.
 
@@ -105,6 +115,10 @@ The system generates all three SVG outputs for the selected font + text:
 **FR.7.5** Layered Preview for SVG to Tight Outline.
 - Display a combined preview where the Original SVG is layered on top of the generated Tight Outline SVG.
 - Provide visual feedback on how the outline aligns with the original geometry.
+
+**FR.8 — CAD Compatibility & Scaling**
+- **FR.8.1** Automatic scaling of SVGs to fit within TinkerCad's workspace limits (e.g., max 300-1000 units).
+- **FR.8.2** Ensure all outlines are real path geometry (closed filled paths), not strokes.
 
 ---
 

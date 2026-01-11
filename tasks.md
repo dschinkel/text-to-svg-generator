@@ -156,7 +156,7 @@ Acceptance:
 - Failed conversions do not cause infinite retry loops.
 - Robust parsing of base64 image data on the server.
 
-## Task: TinkerCad Scaling [COMPLETED]
+## Task: FR.8.1 [COMPLETED]
 ### Goal: Ensure generated SVGs fit within TinkerCad's 2000 mm³ workspace limit.
 Acceptance:
 - Both text-to-SVG and image-to-SVG outputs are scaled if their dimensions exceed a safe threshold (e.g., 1000 units).
@@ -205,7 +205,7 @@ Acceptance:
 - [COMPLETED] The Original SVG is rendered on top to show alignment.
 - [COMPLETED] The UI follows the same pattern as the text Layered Preview.
 
-## Task: 90: Specific Font Variation Installation [COMPLETED]
+## Task: FR.1.4.1 (Task 90) [COMPLETED]
 ### Goal: Support installing specific variations of a font (e.g., Cholla Wide OT Ultra Bold).
 Acceptance:
 - [COMPLETED] User can search for a font and see its variations if multiple exist.
@@ -215,14 +215,14 @@ Acceptance:
 - [COMPLETED] Repository integration test verifies variation storage.
 - [COMPLETED] All tests pass.
 
-## Task: 89: Fix Cholla Font Pull [COMPLETED]
+## Task: FR.1.2.1 (Task 89) [COMPLETED]
 ### Goal: Pull the font 'Cholla' from Adobe Typekit.
 Acceptance:
 - [COMPLETED] Successfully fetching 'Cholla' (or its variation like 'Cholla Sans') from Adobe Typekit API.
 - [COMPLETED] Robust family slug resolution in `fontRepository`.
 - [COMPLETED] All tests pass.
 
-## Task: 91: Indented Font Variations in List [COMPLETED]
+## Task: FR.1.4.2 (Task 91) [COMPLETED]
 ### Goal: Show font variations indented under the main font name in the list, always visible, and ensuring previews work when selected.
 Acceptance:
 - [COMPLETED] Font variations are indented in the `FontSelector` list.
@@ -232,7 +232,7 @@ Acceptance:
 - [COMPLETED] Integration test verifies the full flow.
 - [COMPLETED] All tests pass.
 
-## Task: 92: Fix Font Variation Previews [COMPLETED]
+## Task: FR.1.4.3 (Task 92) [COMPLETED]
 ### Goal: Ensure selecting a font variation (e.g., Bungee Hairline) correctly updates the SVG previews.
   The Fix:
 - [COMPLETED] Selecting a variation correctly fetches the specific font file for that variation.
@@ -240,7 +240,7 @@ Acceptance:
 - [COMPLETED] Robust CSS parsing handles multiple variations with the same font-family name.
 - [COMPLETED] All tests pass.
 
-## Task: 93: Optimize Font Variation Selection Speed [COMPLETED]
+## Task: FR.1.4.4 (Task 93) [COMPLETED]
 ### Goal: Reduce the time it takes to see the variation selected by avoiding redundant Adobe Typekit API calls.
 The Fix:
 - [COMPLETED] `AddFont` use case checks the local repository before calling Adobe's `fetch`.
@@ -248,7 +248,14 @@ The Fix:
 - [COMPLETED] `SyncFontKit` avoids redundant `publishKit` calls on startup.
 - [COMPLETED] All tests pass.
 
-## Task: 95: Scrollable Font Selection Box [COMPLETED]
+## Task: FR.1.4.5 (Task 94) [COMPLETED]
+### Goal: Fix Cholla Wide Ultra Bold 404 error.
+Acceptance:
+- [COMPLETED] Improved font metadata lookup to search within variations when family ID prefix doesn't match.
+- [COMPLETED] Added unit test `src/service/svg/use-cases/fontLoader.test.ts`.
+- [COMPLETED] All tests pass.
+
+## Task: FR.1.5.1 (Task 95) [COMPLETED]
 ### Goal: Replace the font selection dropdown with a scrollable box where users can directly see and select fonts.
 Acceptance:
 - [COMPLETED] Font selection is no longer a dropdown.
@@ -258,7 +265,7 @@ Acceptance:
 - [COMPLETED] All tests pass.
 - [COMPLETED] UI is simplified by removing dropdown-specific logic (e.g. click outside to close).
 
-## Task: 96: Sort Font List ASC [COMPLETED]
+## Task: FR.1.5.2 (Task 96) [COMPLETED]
 ### Goal: Sort the font list in ascending order by name.
 Acceptance:
 - [COMPLETED] Font list is sorted alphabetically by font name.
