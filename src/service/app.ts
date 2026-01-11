@@ -5,6 +5,7 @@ import bodyParser from 'koa-bodyparser';
 export interface FontController {
   getFonts: () => Promise<any[]>;
   addFont: (name: string, variationId?: string) => Promise<any>;
+  removeFont: (id: string) => Promise<void>;
   getSVG: (text: string, fontId: string, type: string) => Promise<string | null>;
 }
 
@@ -65,6 +66,12 @@ export const createApp = (
     }
     ctx.status = 201;
     ctx.body = font;
+  });
+
+  router.delete('/api/fonts/:id', async (ctx) => {
+    const { id } = ctx.params;
+    await fontController.removeFont(id);
+    ctx.status = 204;
   });
   
   router.post('/api/image-to-svg', async (ctx) => {

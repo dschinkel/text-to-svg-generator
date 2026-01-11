@@ -48,6 +48,25 @@ describe('Server', () => {
     expect(response.body).toEqual(newFont);
   });
 
+  it('removes a font', async () => {
+    let removedId = '';
+    const fakeController = {
+      getFonts: async () => [],
+      addFont: async () => ({}),
+      removeFont: async (id: string) => {
+        removedId = id;
+      },
+      getSVG: async () => null
+    } as any;
+
+    const app = createApp(fakeController, fakeImageController, fakeSVGToOutlineController);
+    const response = await request(app.callback())
+      .delete('/api/fonts/octin-sports');
+
+    expect(response.status).toBe(204);
+    expect(removedId).toBe('octin-sports');
+  });
+
   it('returns base svg', async () => {
     const fakeSVG = '<svg>test</svg>';
     const fakeController = {
