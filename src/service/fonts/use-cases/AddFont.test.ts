@@ -145,4 +145,39 @@ describe('Add Font', () => {
     
     expect(fetchCalled).toBe(false);
   });
+
+  it('does not add a font if it already exists by name or slug', async () => {
+    const family = { id: 'bungee', name: 'Bungee', slug: 'bungee' };
+    const kitId = 'jzl6jgi';
+    let fetchCalled = false;
+
+    const fakeRepository = {
+      getAll: async () => [family],
+      fetch: async () => { 
+        fetchCalled = true;
+        return family;
+      }
+    };
+
+    const fakeClient = {
+      getKit: async () => ({ families: [{ id: 'bungee' }] }),
+      addFamilyToKit: async () => {},
+      publishKit: async () => {}
+    };
+
+    // Case insensitive match
+    const result = await AddFont(fakeRepository as any, fakeClient as any, kitId, 'bungee');
+    expect(result).toEqual(family);
+    expect(fetchCalled).toBe(false);
+
+    // Slug match
+    const result2 = await AddFont(fakeRepository as any, fakeClient as any, kitId, 'Bungee');
+    expect(result2).toEqual(family);
+    expect(fetchCalled).toBe(false);
+
+    // Trim match
+    const result3 = await AddFont(fakeRepository as any, fakeClient as any, kitId, ' Bungee ');
+    expect(result3).toEqual(family);
+    expect(fetchCalled).toBe(false);
+  });
 });

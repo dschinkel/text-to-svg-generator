@@ -1,9 +1,10 @@
 export const AddFont = async (repository: any, client: any, kitId: string, name: string, variationId?: string): Promise<any> => {
-  const slug = name.toLowerCase().replace(/ /g, '-');
+  const normalizedName = name.trim();
+  const slug = normalizedName.toLowerCase().replace(/ /g, '-');
   
   // Optimization: Check local repository first
   const existingFonts = await repository.getAll();
-  let font = existingFonts.find((f: any) => f.slug === slug || f.name === name);
+  let font = existingFonts.find((f: any) => f.slug === slug || f.name.toLowerCase() === normalizedName.toLowerCase());
 
   if (!font) {
     font = await repository.fetch(slug);
