@@ -61,9 +61,16 @@ export const fontRepository = (dbPath: string, client: AdobeTypekitClient) => {
     return JSON.parse(data);
   };
 
+  const remove = async (id: string): Promise<void> => {
+    const fonts = await getAll();
+    const filtered = fonts.filter(f => f.id !== id);
+    fs.writeFileSync(dbPath, JSON.stringify(filtered, null, 2));
+  };
+
   return {
     getAll,
     save,
-    fetch
+    fetch,
+    remove
   };
 };

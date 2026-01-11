@@ -66,5 +66,18 @@ describe('Font Repository Integration', () => {
           name: 'Cholla Sans  Bold'
         }));
       });
+
+      it('removes a font', async () => {
+        const client = adobeTypekitClient(token);
+        const repository = fontRepository(dbPath, client);
+
+        await repository.save({ id: 'to-be-removed', name: 'Remove Me' });
+        let fonts = await repository.getAll();
+        expect(fonts).toContainEqual(expect.objectContaining({ id: 'to-be-removed' }));
+
+        await repository.remove('to-be-removed');
+        fonts = await repository.getAll();
+        expect(fonts).not.toContainEqual(expect.objectContaining({ id: 'to-be-removed' }));
+      });
   });
 });
