@@ -232,6 +232,14 @@ Acceptance:
 - [COMPLETED] Integration test verifies the full flow.
 - [COMPLETED] All tests pass.
 
+## Task: 93: Optimize Font Variation Selection Speed [COMPLETED]
+### Goal: Reduce the time it takes to see the variation selected by avoiding redundant Adobe Typekit API calls.
+Acceptance:
+- [COMPLETED] `AddFont` use case checks the local repository before calling Adobe's `fetch`.
+- [COMPLETED] `AddFont` checks the current kit families and avoids `publishKit` if the family is already present.
+- [COMPLETED] `SyncFontKit` avoids redundant `publishKit` calls on startup.
+- [COMPLETED] All tests pass.
+
 ## Task: 92: Fix Font Variation Previews [COMPLETED]
 ### Goal: Ensure selecting a font variation (e.g., Bungee Hairline) correctly updates the SVG previews.
 Acceptance:
