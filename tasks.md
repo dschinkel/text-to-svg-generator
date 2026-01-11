@@ -205,9 +205,29 @@ Acceptance:
 - [COMPLETED] The Original SVG is rendered on top to show alignment.
 - [COMPLETED] The UI follows the same pattern as the text Layered Preview.
 
+## Task: 90: Specific Font Variation Installation [COMPLETED]
+### Goal: Support installing specific variations of a font (e.g., Cholla Wide OT Ultra Bold).
+Acceptance:
+- [COMPLETED] User can search for a font and see its variations if multiple exist.
+- [COMPLETED] User can select a specific variation to install.
+- [COMPLETED] The system correctly adds the specific variation to the Adobe Kit.
+- [COMPLETED] TDD workflow followed with RED/GREEN/REFACTOR cycles.
+- [COMPLETED] Repository integration test verifies variation storage.
+- [COMPLETED] All tests pass.
+
 ## Task: 89: Fix Cholla Font Pull [COMPLETED]
 ### Goal: Pull the font 'Cholla' from Adobe Typekit.
 Acceptance:
 - [COMPLETED] Successfully fetching 'Cholla' (or its variation like 'Cholla Sans') from Adobe Typekit API.
 - [COMPLETED] Robust family slug resolution in `fontRepository`.
+- [COMPLETED] All tests pass.
+
+## Task: 91: Indented Font Variations in List [COMPLETED]
+### Goal: Show font variations indented under the main font name in the list, always visible, and ensuring previews work when selected.
+Acceptance:
+- [COMPLETED] Font variations are indented in the `FontSelector` list.
+- [COMPLETED] Variations are visible even when not searching.
+- [COMPLETED] Selecting a variation correctly updates the UI and SVG previews.
+- [COMPLETED] Fixed `AddFont` use case to correctly handle `variationId`.
+- [COMPLETED] Integration test verifies the full flow.
 - [COMPLETED] All tests pass.

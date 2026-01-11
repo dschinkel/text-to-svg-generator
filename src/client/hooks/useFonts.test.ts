@@ -81,4 +81,36 @@ describe('Use Fonts', () => {
 
     expect(result.current.isOpen).toBe(false);
   });
+
+  it('handles installing multiple variants of a font', async () => {
+    const family = { 
+      id: 'cholla-wide', 
+      name: 'Cholla Wide',
+      variations: [
+        { id: 'cholla-wide-ot-ultra-bold', name: 'Cholla Wide OT Ultra Bold' },
+        { id: 'cholla-wide-ot-bold', name: 'Cholla Wide OT Bold' }
+      ]
+    };
+    const newVariation = { id: 'cholla-wide-ot-ultra-bold', name: 'Cholla Wide OT Ultra Bold' };
+    
+    let addedVariationId = '';
+    const fakeRepository = {
+      getFonts: async () => [family],
+      addFont: async (name: string, variationId?: string) => {
+        addedVariationId = variationId || '';
+        return newVariation;
+      }
+    };
+
+    const { result } = renderHook(() => useFonts(fakeRepository as any));
+    
+    await waitFor(() => expect(result.current.fonts).toEqual([family]));
+
+    await act(async () => {
+      await result.current.handleVariationSelect(family, 'cholla-wide-ot-ultra-bold');
+    });
+
+    expect(addedVariationId).toBe('cholla-wide-ot-ultra-bold');
+    expect(result.current.fonts).toContainEqual(newVariation);
+  });
 });

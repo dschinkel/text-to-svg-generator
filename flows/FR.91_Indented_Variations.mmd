@@ -1,0 +1,8 @@
+graph TD
+A[FontList] --> B{Map Fonts}
+B --> C[Main Font Item]
+C --> D{Has Variations?}
+D -- Yes --> E[Indented Variation Items]
+D -- No --> F[Next Font]
+E --> G[Indentation & Visual Connector]
+G --> F

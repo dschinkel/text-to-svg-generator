@@ -1293,3 +1293,56 @@ PLAN:
    - Mark task FR.7.5 as [COMPLETED] in tasks.md
    COMMIT:
    - Proposed message: feat: FR.7.5: cleanup: finalize layered preview
+=== RED PHASE ===
+TEST ADDED: src/client/components/FontSelector.test.tsx - displays variations indented under parent font
+CHANGESET:
++    expect(variationFont).toHaveClass('pl-10');
+
+COMMANDS RUN: npm test src/client/components/FontSelector.test.tsx
+TEST OUTPUT: RED - expect(element).toHaveClass("pl-10")
+
+NEXT STEP: Change px-6 to pl-10 pr-6 in FontSelector.tsx
+
+=== GREEN PHASE ===
+CHANGESET:
+-                className="px-6 py-2 hover:bg-slate-50 cursor-pointer text-left text-lg text-slate-600 italic border-l-2 border-slate-200"
++                className="pl-10 pr-6 py-2 hover:bg-slate-50 cursor-pointer text-left text-lg text-slate-600 italic border-l-2 border-slate-200"
+
+COMMANDS RUN: npm test src/client/components/FontSelector.test.tsx
+TEST OUTPUT: GREEN - All tests passing
+=== RED PHASE ===
+TEST ADDED: src/client/components/FontSelector.test.tsx - displays variations even when not searching
+CHANGESET:
++    const variationFont = screen.getByTestId('font-variation');
++    expect(variationFont).toBeInTheDocument();
+
+COMMANDS RUN: npm test src/client/components/FontSelector.test.tsx
+TEST OUTPUT: RED - TestingLibraryElementError: Unable to find an element by: [data-testid="font-variation"]
+
+NEXT STEP: Remove search dependency from shouldShowVariations in FontSelector.tsx
+
+=== GREEN PHASE ===
+CHANGESET:
+-        const isSearchedFamily = newFontName && font.name.toLowerCase().includes(newFontName.toLowerCase());
+-        const shouldShowVariations = hasVariations && isSearchedFamily;
++        const shouldShowVariations = hasVariations;
+
+COMMANDS RUN: npm test src/client/components/FontSelector.test.tsx
+TEST OUTPUT: GREEN - All tests passing
+=== RED PHASE ===
+TEST ADDED: src/service/fonts/use-cases/AddFont.test.ts - adds specific variation by family id to kit
+CHANGESET:
++    expect(addedFamilyId).toBe('ymsq');
+
+COMMANDS RUN: npm test src/service/fonts/use-cases/AddFont.test.ts
+TEST OUTPUT: RED - Expected: "ymsq", Received: "ymsq:n7"
+
+NEXT STEP: Update AddFont.ts to split variationId by ':'
+
+=== GREEN PHASE ===
+CHANGESET:
+-    const idToAdd = variationId || font.id;
++    const idToAdd = variationId ? variationId.split(':')[0] : font.id;
+
+COMMANDS RUN: npm test src/service/fonts/use-cases/AddFont.test.ts
+TEST OUTPUT: GREEN - All tests passing

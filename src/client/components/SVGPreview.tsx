@@ -4,9 +4,10 @@ export interface SVGPreviewProps {
   svgString: string | null;
   label: string;
   onDownload?: () => void;
+  'data-testid'?: string;
 }
 
-export const SVGPreview = ({ svgString, label, onDownload }: SVGPreviewProps) => {
+export const SVGPreview = ({ svgString, label, onDownload, 'data-testid': testId }: SVGPreviewProps) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -22,7 +23,10 @@ export const SVGPreview = ({ svgString, label, onDownload }: SVGPreviewProps) =>
 
   if (!svgString) {
     return (
-      <div className="flex flex-col items-center justify-center p-8 bg-slate-100 rounded-lg border-2 border-dashed border-slate-300 min-h-[200px]">
+      <div 
+        className="flex flex-col items-center justify-center p-8 bg-slate-100 rounded-lg border-2 border-dashed border-slate-300 min-h-[200px]"
+        data-testid={testId}
+      >
         <span className="text-slate-400 font-medium">{label} Preview</span>
         <span className="text-slate-300 text-sm mt-2">No preview available</span>
       </div>
@@ -44,7 +48,7 @@ export const SVGPreview = ({ svgString, label, onDownload }: SVGPreviewProps) =>
         }`}
         dangerouslySetInnerHTML={{ __html: svgString }}
         onClick={onDownload}
-        data-testid={`${label.toLowerCase().replace(/ /g, '-')}-preview`}
+        data-testid={testId}
         title={onDownload ? `Click to download ${label}` : undefined}
         style={{
           display: 'flex',

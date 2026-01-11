@@ -60,4 +60,33 @@ describe('Add Font', () => {
     expect(addedToKit).toBe(true);
     expect(published).toBe(true);
   });
+
+  it('adds specific variation by family id to kit', async () => {
+    const family = { 
+      id: 'ymsq', 
+      name: 'Cholla Sans', 
+      slug: 'cholla-sans',
+      variations: [
+        { id: 'ymsq:n7', name: 'Cholla Sans Bold' }
+      ]
+    };
+    const kitId = 'jzl6jgi';
+    let addedFamilyId = '';
+
+    const fakeRepository = {
+      fetch: async () => family
+    };
+
+    const fakeClient = {
+      addFamilyToKit: async (kid: string, fid: string) => {
+        addedFamilyId = fid;
+      },
+      publishKit: async () => {}
+    };
+
+    const result = await AddFont(fakeRepository as any, fakeClient as any, kitId, 'Cholla Sans', 'ymsq:n7');
+
+    expect(result).toEqual(family);
+    expect(addedFamilyId).toBe('ymsq'); // Should extract family id from ymsq:n7
+  });
 });

@@ -537,5 +537,158 @@
         "fvd": "i7"
       }
     ]
+  },
+  {
+    "id": "cholla-wide",
+    "name": "Cholla-wide",
+    "slug": "cholla-wide",
+    "web_link": "http://fonts.adobe.com/fonts/cholla-wide",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "sans-serif"
+      ],
+      "contrast": [
+        "regular"
+      ],
+      "language": [],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [
+        "headings",
+        "paragraphs"
+      ],
+      "weight": [],
+      "width": [
+        "regular"
+      ],
+      "x_height": [
+        "regular"
+      ]
+    },
+    "css_stack": "\"cholla-wide\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Emigre",
+      "slug": "emigre"
+    },
+    "libraries": [
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      },
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "zgyk:n4",
+        "link": "/api/v1/json/families/zgyk/n4",
+        "name": "Cholla Wide Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "zgyk:i4",
+        "link": "/api/v1/json/families/zgyk/i4",
+        "name": "Cholla Wide Regular Italic",
+        "fvd": "i4"
+      },
+      {
+        "id": "zgyk:n7",
+        "link": "/api/v1/json/families/zgyk/n7",
+        "name": "Cholla Wide Bold",
+        "fvd": "n7"
+      },
+      {
+        "id": "zgyk:i7",
+        "link": "/api/v1/json/families/zgyk/i7",
+        "name": "Cholla Wide Bold Italic",
+        "fvd": "i7"
+      },
+      {
+        "id": "zgyk:n8",
+        "link": "/api/v1/json/families/zgyk/n8",
+        "name": "Cholla Wide Ultra Bold",
+        "fvd": "n8"
+      }
+    ]
+  },
+  {
+    "id": "octin-sports",
+    "name": "Octin-sports",
+    "slug": "octin-sports",
+    "web_link": "http://fonts.adobe.com/fonts/octin-sports",
+    "browse_info": {
+      "capitals": [
+        "all-or-small-caps"
+      ],
+      "classification": [
+        "decorative"
+      ],
+      "contrast": [
+        "low"
+      ],
+      "language": [
+        "ca",
+        "cs",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "hu",
+        "it",
+        "mt",
+        "nl",
+        "pl",
+        "pt",
+        "sl",
+        "sv",
+        "tr"
+      ],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "regular"
+      ],
+      "width": [
+        "regular"
+      ],
+      "x_height": []
+    },
+    "css_stack": "\"octin-sports\", sans-serif",
+    "description": "Octin Sports isn’t just for sports; it’s also great for school, construction, prison, police or military themes.",
+    "foundry": {
+      "name": "Typodermic",
+      "slug": "typodermic"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "tgkh:n4",
+        "link": "/api/v1/json/families/tgkh/n4",
+        "name": "Octin Sports Regular",
+        "fvd": "n4"
+      }
+    ]
   }
 ]

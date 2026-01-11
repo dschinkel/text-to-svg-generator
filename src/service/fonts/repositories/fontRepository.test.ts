@@ -46,5 +46,25 @@ describe('Font Repository Integration', () => {
         expect(font).toBeDefined();
         expect(font?.slug).toBe('cholla-sans');
       });
+
+      it('fetches family with multiple variations', async () => {
+        const client = adobeTypekitClient(token);
+        const repository = fontRepository(dbPath, client);
+
+        const font = await repository.fetch('cholla');
+        
+        expect(font).toBeDefined();
+        expect(font.name).toBe('Cholla');
+        expect(font.variations).toBeDefined();
+        // Should contain variations from both Cholla Sans (ymsq) and Cholla Wide (zgyk)
+        expect(font.variations).toContainEqual(expect.objectContaining({
+          id: 'zgyk:n8',
+          name: 'Cholla Wide Ultra Bold'
+        }));
+        expect(font.variations).toContainEqual(expect.objectContaining({
+          id: 'ymsq:n7',
+          name: 'Cholla Sans  Bold'
+        }));
+      });
   });
 });

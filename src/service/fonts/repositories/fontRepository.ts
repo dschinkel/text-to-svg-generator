@@ -6,22 +6,40 @@ export interface AdobeTypekitClient {
 
 export const fontRepository = (dbPath: string, client: AdobeTypekitClient) => {
   const fetch = async (familyId: string): Promise<any> => {
-    const variations = [familyId, `${familyId}-sans`, `${familyId}-wide` ];
-    let family = null;
+    const variationsToTry = [familyId, `${familyId}-sans`, `${familyId}-wide` ];
+    const families = [];
 
-    for (const v of variations) {
-      family = await client.getFamily(v);
-      if (family) break;
+    for (const v of variationsToTry) {
+      const family = await client.getFamily(v);
+      if (family) {
+        families.push(family);
+      }
     }
 
-    if (!family) {
+    if (families.length === 0) {
       return null;
     }
-    if (family.css_stack === 'sans-serif') {
-      family.css_stack = `"${family.slug}", sans-serif`;
+
+    // Merge all matches into a single virtual family for the UI
+    const primaryFamily = families[0];
+    const allVariations = families.flatMap(f => f.variations || []);
+    
+    // De-duplicate variations by ID
+    const uniqueVariations = Array.from(new Map(allVariations.map(v => [v.id, v])).values());
+
+    const mergedFamily = {
+      ...primaryFamily,
+      id: familyId, // Use the searched ID as the family ID
+      name: familyId.charAt(0).toUpperCase() + familyId.slice(1),
+      variations: uniqueVariations
+    };
+
+    if (mergedFamily.css_stack === 'sans-serif') {
+      mergedFamily.css_stack = `"${primaryFamily.slug}", sans-serif`;
     }
-    await save(family);
-    return family;
+
+    await save(mergedFamily);
+    return mergedFamily;
   };
 
   const save = async (family: any): Promise<void> => {

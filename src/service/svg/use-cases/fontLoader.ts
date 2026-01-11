@@ -7,8 +7,9 @@ export const loadFontForSVG = async (
   kitId: string, 
   fontId: string
 ): Promise<opentype.Font | null> => {
+  const familyId = fontId.split(':')[0];
   const fonts = await repository.getAll();
-  const fontMetadata = fonts.find((f: any) => f.id === fontId);
+  const fontMetadata = fonts.find((f: any) => f.id === familyId);
 
   if (!fontMetadata) {
     return null;
@@ -16,7 +17,9 @@ export const loadFontForSVG = async (
 
   try {
     // Try to get font URL from kit CSS
-    const fontUrl = await client.getFontFileUrlFromCss(kitId, fontMetadata.slug);
+    // Use the specific variation ID (fontId) if it exists, otherwise use the family slug
+    // We need to escape the variation ID because it contains a colon which might be differently represented in CSS
+    const fontUrl = await client.getFontFileUrlFromCss(kitId, fontId.includes(':') ? fontId : fontMetadata.slug);
 
     if (fontUrl) {
       const buffer = await client.getFontFileBinary(fontUrl);

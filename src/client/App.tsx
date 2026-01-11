@@ -2,29 +2,27 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { FontSelector } from './components/FontSelector';
-import { useFonts } from './hooks/useFonts';
-import { fontRepository } from './repositories/fontRepository';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { TextPreview } from './components/TextPreview/TextPreview';
-import { usePreview } from './components/TextPreview/usePreview';
 import { SVGPreview } from './components/SVGPreview';
-import { useSVG } from './components/useSVG';
-import { downloadSVG } from './domain/downloadService';
-import { useLayeredSVG } from './components/useLayeredSVG';
 import { LayeredPreview } from './components/LayeredPreview';
-import { useDownload } from './hooks/useDownload';
+import { useApp } from './hooks/useApp';
 import { ImageToSVGSection } from './components/ImageToSVG/ImageToSVGSection';
 import { SVGToOutlineSection } from './components/SVGToOutline/SVGToOutlineSection';
 
 const App = () => {
-  const repository = fontRepository();
-  const boundUseFonts = () => useFonts(repository);
-  
-  const preview = usePreview();
-  const { baseSVG, tightOutlineSVG, outerOutlineSVG } = useSVG(preview.text, preview.selectedFont?.id);
-  const { baseLayer, tightLayer, outerLayer } = useLayeredSVG(baseSVG, tightOutlineSVG, outerOutlineSVG);
-  const { handleDownload, handleLayeredDownload } = useDownload(downloadSVG);
+  const {
+    boundUseFonts,
+    preview,
+    baseSVG,
+    tightOutlineSVG,
+    outerOutlineSVG,
+    baseLayer,
+    tightLayer,
+    outerLayer,
+    handleDownload
+  } = useApp();
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
@@ -54,21 +52,24 @@ const App = () => {
                 />
                 <SVGPreview 
                   svgString={baseSVG} 
-                  label="Base SVG" 
+                  label="Base" 
                   onDownload={() => handleDownload(baseSVG, 'Base', preview.text)}
+                  data-testid="base-preview"
                 />
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t pt-8">
                 <SVGPreview 
                   svgString={tightOutlineSVG} 
-                  label="Tight Outline SVG" 
+                  label="Tight Outline" 
                   onDownload={() => handleDownload(tightOutlineSVG, 'Tight Outline', preview.text)}
+                  data-testid="tight-outline-preview"
                 />
                 <SVGPreview 
                   svgString={outerOutlineSVG} 
-                  label="Outer Outline SVG" 
+                  label="Outer Outline" 
                   onDownload={() => handleDownload(outerOutlineSVG, 'Outer Outline', preview.text)}
+                  data-testid="outer-outline-preview"
                 />
               </div>
 

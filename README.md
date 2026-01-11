@@ -42,3 +42,7 @@ For generating the "Tight" and "Outer" outline layers, this project uses `clippe
 
 - **TinkerCad Compatibility**: TinkerCad's SVG importer only supports real path geometry (closed filled paths). It ignores SVG `stroke-width` attributes.
 - **Real Geometry**: `clipper-lib` is used to calculate offset contours from the base font paths, creating new path data for the outlines. This ensures that when the SVG is imported into TinkerCad, the outlines appear as solid, extruded objects rather than collapsing back to the original font size.
+
+### Misc
+Killing the port
+`lsof -ti:4000 | xargs kill -9`

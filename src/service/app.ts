@@ -4,7 +4,7 @@ import bodyParser from 'koa-bodyparser';
 
 export interface FontController {
   getFonts: () => Promise<any[]>;
-  addFont: (name: string) => Promise<any>;
+  addFont: (name: string, variationId?: string) => Promise<any>;
   getSVG: (text: string, fontId: string, type: string) => Promise<string | null>;
 }
 
@@ -56,8 +56,8 @@ export const createApp = (
   });
 
   router.post('/api/fonts', async (ctx) => {
-    const { name } = ctx.request.body as { name: string };
-    const font = await fontController.addFont(name);
+    const { name, variationId } = ctx.request.body as { name: string; variationId?: string };
+    const font = await fontController.addFont(name, variationId);
     if (!font) {
       ctx.status = 404;
       ctx.body = { error: `Font "${name}" not found in Adobe library` };

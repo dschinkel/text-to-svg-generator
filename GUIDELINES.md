@@ -55,6 +55,7 @@ T1.3.5 Allowed by default: in-process “integration” tests that do not requir
 T1.3.6 Service Data Layer Integration: Tests located in `src/service/<domain>/data/` MUST be integration tests that hit real external services, databases, or file systems. They must not use fakes or mocks for the primary IO target of that module.
 T1.4 In GREEN, write only the minimum production code required to pass the single failing test; no extra functionality.
 T1.5 After GREEN, you MUST explicitly ask for permission to commit using: `feat: <task-id>: <behavior>`. After the commit, ask whether to push or continue.
+T1.5.1 After tests run GREEN, you MUST restart the website and services using `yarn dev` in the background and verify no errors are outputted. Fix any errors that occur during startup or runtime.
 T1.6 In REFACTOR, refactor only while tests are green. Make one refactoring change at a time and run tests after each small refactor (TCR).
 T1.7 If refactoring occurred, you MUST explicitly ask for permission to commit using: `feat: <task-id>: refactor: <behavior>`. After the commit, ask whether to push or continue.
 T1.8 Cleanup & Verification must include running tests and fixing lint warnings/errors. Then prompt the user to commit using: `feat: <task-id>: cleanup: <behavior>`.
@@ -142,7 +143,7 @@ R1.8 Tests: default to hook-layer tests (React Hook Testing Library) and then un
 
 ## Q1. Code Quality
 
-Q1.1 No comments in production or test code unless it is a linter suppression. If you want to comment, extract a named function/component instead.
+Q1.1 NO COMMENTS in production or test code under ANY circumstances (unless it is a mandatory linter suppression). If you want to comment, extract a named function/component instead. You MUST NOT add explanatory comments, TODOs, or any other form of documentation inside code files.
 Q1.2 File size limits:
 Q1.2.1 Non-React files must not exceed 150 lines.
 Q1.2.2 React component files must not exceed 200 lines.
