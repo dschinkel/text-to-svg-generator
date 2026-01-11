@@ -65,6 +65,11 @@ A user can:
 - **FR.1.5.1** Replace font selection dropdown with a static, scrollable selection box for better visibility.
 - **FR.1.5.2** The font list must be sorted in ascending order (ASC) by font name.
 
+**FR.1.6 — Remove Font**
+- **FR.1.6.1** Ability to remove an installed font easily from the list.
+- **FR.1.6.2** Removing a font should update the UI list immediately.
+- **FR.1.6.3** Removing a font should delete it from the local persistence (`fonts.json`).
+
 **FR.2 — Add Text for Font**
 **FR.2.1** User enters text and sees a preview of the text rendered in the selected font.
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card } from './ui/card';
 
 export interface LayeredPreviewProps {
   baseLayer: string | null;
@@ -15,8 +16,8 @@ export const LayeredPreview = ({ baseLayer, tightLayer, outerLayer, label }: Lay
       <div className="flex justify-between items-center">
         <span className="text-sm font-medium text-slate-500 uppercase tracking-wider">{label}</span>
       </div>
-      <div 
-        className="p-4 bg-white rounded-lg border border-slate-200 shadow-sm relative min-h-[300px] flex items-center justify-center overflow-hidden transition-all"
+      <Card 
+        className="p-4 relative min-h-[300px] flex items-center justify-center overflow-hidden transition-all border-slate-200"
         data-testid="layered-preview"
       >
         {!isReady ? (
@@ -42,7 +43,7 @@ export const LayeredPreview = ({ baseLayer, tightLayer, outerLayer, label }: Lay
             />
           </>
         )}
-      </div>
+      </Card>
     </div>
   );
 };

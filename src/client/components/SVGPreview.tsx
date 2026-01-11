@@ -1,4 +1,6 @@
 import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { cn } from '@/client/lib/utils';
 
 export interface SVGPreviewProps {
   svgString: string | null;
@@ -23,13 +25,13 @@ export const SVGPreview = ({ svgString, label, onDownload, 'data-testid': testId
 
   if (!svgString) {
     return (
-      <div 
-        className="flex flex-col items-center justify-center p-8 bg-slate-100 rounded-lg border-2 border-dashed border-slate-300 min-h-[200px]"
+      <Card 
+        className="flex flex-col items-center justify-center p-8 bg-slate-100 border-2 border-dashed border-slate-300 min-h-[200px]"
         data-testid={testId}
       >
         <span className="text-slate-400 font-medium">{label} Preview</span>
         <span className="text-slate-300 text-sm mt-2">No preview available</span>
-      </div>
+      </Card>
     );
   }
 
@@ -41,20 +43,16 @@ export const SVGPreview = ({ svgString, label, onDownload, 'data-testid': testId
           <span className="text-[10px] text-slate-400 font-bold bg-slate-100 px-1.5 py-0.5 rounded">CLICK TO DOWNLOAD</span>
         )}
       </div>
-      <div 
+      <Card 
         ref={containerRef}
-        className={`p-4 bg-white rounded-lg border border-slate-200 shadow-sm flex items-center justify-center min-h-[200px] transition-all ${
-          onDownload ? 'cursor-pointer hover:border-green-500 hover:shadow-md' : ''
-        }`}
+        className={cn(
+          "p-4 flex items-center justify-center min-h-[200px] transition-all",
+          onDownload && "cursor-pointer hover:border-primary hover:shadow-md"
+        )}
         dangerouslySetInnerHTML={{ __html: svgString }}
         onClick={onDownload}
         data-testid={testId}
         title={onDownload ? `Click to download ${label}` : undefined}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
       />
     </div>
   );

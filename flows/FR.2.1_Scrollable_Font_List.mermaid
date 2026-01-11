@@ -1,0 +1,9 @@
+graph TD
+    A[User types in Search Box] --> B{Search Term Matches?}
+    B -- Yes --> C[Display Filtered Font List in Scrollable Box]
+    B -- No --> D[Display 'No fonts found' / 'Add new font' option]
+    E[User scrolls through Font List] --> F[User clicks on a Font or Variation]
+    F --> G[Update Selected Font]
+    G --> H[Update SVG Previews]
+    I[User clicks 'Add font' if available] --> J[Install new font from Adobe]
+    J --> C

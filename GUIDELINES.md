@@ -63,13 +63,14 @@ T1.9 `tdd.log` must relate every RED | GREEN | REFACTOR entry to its correspondi
 T1.10 When fixing a defect or implementing a feature with a clear external contract, first write an “API-level” failing test. In this repo, “API-level” means the public boundary for the behavior (typically the hook public API or the domain service function), not an HTTP endpoint or end-to-end test unless explicitly requested.
 T1.11 When tests fail, fix implementation first, not the test, unless the test clearly contradicts the spec.
 T1.12 Always follow an outside-in TDD approach. Start implementation at the highest permitted layer (e.g., UI components or Hooks for frontend, Controllers or API routes for backend) and work your way down to the lower-level collaborators (repositories, commands, domain logic). When a dependency is needed but has not been implemented yet, provide a simple custom stub (a "fake") for that dependency to satisfy the current test and allow the current step to go GREEN.
+T1.13 The backend / service code should also be implemented outside-in. This means starting from the entry point (Controller/App route) and working down through the use cases to the data layer, ensuring each layer is defined by a test before its implementation and dependencies are built.
 
 ---
 
 ## N1. Test Naming (non-negotiable; applies when tests are being written)
 
 N1.1 Tests and test suites (describes) must describe business behavior in clear prose.
-N1.2 Do not include function names, endpoints, browser/view terms, or technical sources in test or describe names. This keeps them decoupled from the actual implementation.
+N1.2 Do not include function names, endpoints, browser/view terms, or technical sources in test or describe names. This keeps them decoupled from the actual implementation. Test names do not need to specify their parent names or unnecessary technical words (e.g., use "removes a font" instead of "removes a font use case" or "RemoveFontCommand removes a font").
 N1.3 Avoid “should” and avoid overly-specific phrasing. Prefer short domain behavior labels. 
 N1.3.1 Test names (`it`, `test`) must be written in all lowercase.
 N1.3.2 Describe names (`describe`) should be written in normal case (sentence case or title case) with spaces.

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { applyColorToSVG } from '../domain/svgColorService';
+import { applyColorToSVG } from '../domain/svgColorService.ts';
 
 export const useLayeredSVG = (
   baseSVG: string | null,

@@ -690,5 +690,378 @@
         "fvd": "n4"
       }
     ]
+  },
+  {
+    "id": "campus-mn",
+    "name": "Campus-mn",
+    "slug": "campus-mn",
+    "web_link": "http://fonts.adobe.com/fonts/campus-mn",
+    "browse_info": {
+      "capitals": [],
+      "classification": [],
+      "contrast": [],
+      "language": [],
+      "number_style": [],
+      "recommended_for": [],
+      "weight": [],
+      "width": [],
+      "x_height": []
+    },
+    "css_stack": "\"campus-mn\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Mecanorma Collection",
+      "slug": "mecanorma-collection"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "rcld:n4",
+        "link": "/api/v1/json/families/rcld/n4",
+        "name": "Campus MN Regular",
+        "fvd": "n4"
+      }
+    ]
+  },
+  {
+    "id": "sporty-pro",
+    "name": "Sporty-pro",
+    "slug": "sporty-pro",
+    "web_link": "http://fonts.adobe.com/fonts/sporty-pro",
+    "browse_info": {
+      "capitals": [
+        "all-or-small-caps"
+      ],
+      "classification": [
+        "sans-serif"
+      ],
+      "contrast": [
+        "low"
+      ],
+      "language": [],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [
+        "headings",
+        "paragraphs"
+      ],
+      "weight": [
+        "heavy",
+        "light",
+        "regular"
+      ],
+      "width": [
+        "extended"
+      ],
+      "x_height": []
+    },
+    "css_stack": "\"sporty-pro\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Sudtipos",
+      "slug": "sudtipos"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "grrl:n1",
+        "link": "/api/v1/json/families/grrl/n1",
+        "name": "Sporty Pro Thin",
+        "fvd": "n1"
+      },
+      {
+        "id": "grrl:n2",
+        "link": "/api/v1/json/families/grrl/n2",
+        "name": "Sporty Pro XLight",
+        "fvd": "n2"
+      },
+      {
+        "id": "grrl:n3",
+        "link": "/api/v1/json/families/grrl/n3",
+        "name": "Sporty Pro Light",
+        "fvd": "n3"
+      },
+      {
+        "id": "grrl:n4",
+        "link": "/api/v1/json/families/grrl/n4",
+        "name": "Sporty Pro Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "grrl:n5",
+        "link": "/api/v1/json/families/grrl/n5",
+        "name": "Sporty Pro Bold",
+        "fvd": "n5"
+      },
+      {
+        "id": "grrl:n6",
+        "link": "/api/v1/json/families/grrl/n6",
+        "name": "Sporty Pro XBold",
+        "fvd": "n6"
+      },
+      {
+        "id": "grrl:n7",
+        "link": "/api/v1/json/families/grrl/n7",
+        "name": "Sporty Pro Black",
+        "fvd": "n7"
+      },
+      {
+        "id": "grrl:n8",
+        "link": "/api/v1/json/families/grrl/n8",
+        "name": "Sporty Pro Shadow",
+        "fvd": "n8"
+      }
+    ]
+  },
+  {
+    "id": "erbaum",
+    "name": "Erbaum",
+    "slug": "erbaum",
+    "web_link": "http://fonts.adobe.com/fonts/erbaum",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "sans-serif"
+      ],
+      "contrast": [
+        "low"
+      ],
+      "language": [],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "heavy",
+        "light",
+        "regular"
+      ],
+      "width": [
+        "extended"
+      ],
+      "x_height": [
+        "high"
+      ]
+    },
+    "css_stack": "\"erbaum\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Inhouse Type Foundry",
+      "slug": "inhouse-type-foundry"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "hscm:n1",
+        "link": "/api/v1/json/families/hscm/n1",
+        "name": "Erbaum Thin",
+        "fvd": "n1"
+      },
+      {
+        "id": "hscm:n2",
+        "link": "/api/v1/json/families/hscm/n2",
+        "name": "Erbaum Light",
+        "fvd": "n2"
+      },
+      {
+        "id": "hscm:n3",
+        "link": "/api/v1/json/families/hscm/n3",
+        "name": "Erbaum Book",
+        "fvd": "n3"
+      },
+      {
+        "id": "hscm:n4",
+        "link": "/api/v1/json/families/hscm/n4",
+        "name": "Erbaum Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "hscm:n5",
+        "link": "/api/v1/json/families/hscm/n5",
+        "name": "Erbaum Medium",
+        "fvd": "n5"
+      },
+      {
+        "id": "hscm:n7",
+        "link": "/api/v1/json/families/hscm/n7",
+        "name": "Erbaum Bold",
+        "fvd": "n7"
+      },
+      {
+        "id": "hscm:n9",
+        "link": "/api/v1/json/families/hscm/n9",
+        "name": "Erbaum Black",
+        "fvd": "n9"
+      }
+    ]
+  },
+  {
+    "id": "bungee",
+    "name": "Bungee",
+    "slug": "bungee",
+    "web_link": "http://fonts.adobe.com/fonts/bungee",
+    "browse_info": {
+      "capitals": [
+        "all-or-small-caps"
+      ],
+      "classification": [
+        "decorative"
+      ],
+      "contrast": [
+        "low"
+      ],
+      "language": [],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "heavy"
+      ],
+      "width": [
+        "extended"
+      ],
+      "x_height": []
+    },
+    "css_stack": "\"bungee\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "DJR",
+      "slug": "djr"
+    },
+    "libraries": [
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      },
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "trial",
+        "link": "/api/v1/json/libraries/trial",
+        "name": "Trial Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "lydn:n4",
+        "link": "/api/v1/json/families/lydn/n4",
+        "name": "Bungee Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "lydn:n5",
+        "link": "/api/v1/json/families/lydn/n5",
+        "name": "Bungee Hairline",
+        "fvd": "n5"
+      },
+      {
+        "id": "lydn:n6",
+        "link": "/api/v1/json/families/lydn/n6",
+        "name": "Bungee Inline",
+        "fvd": "n6"
+      },
+      {
+        "id": "lydn:n7",
+        "link": "/api/v1/json/families/lydn/n7",
+        "name": "Bungee Outline",
+        "fvd": "n7"
+      },
+      {
+        "id": "lydn:n8",
+        "link": "/api/v1/json/families/lydn/n8",
+        "name": "Bungee Shade",
+        "fvd": "n8"
+      }
+    ]
+  },
+  {
+    "id": "fenway-park-jf",
+    "name": "Fenway-park-jf",
+    "slug": "fenway-park-jf",
+    "web_link": "http://fonts.adobe.com/fonts/fenway-park-jf",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "script"
+      ],
+      "contrast": [
+        "regular"
+      ],
+      "language": [],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [
+        "headings"
+      ],
+      "weight": [
+        "regular"
+      ],
+      "width": [
+        "regular"
+      ],
+      "x_height": [
+        "regular"
+      ]
+    },
+    "css_stack": "\"fenway-park-jf\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Jukebox",
+      "slug": "jukebox"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "wdpc:n4",
+        "link": "/api/v1/json/families/wdpc/n4",
+        "name": "Fenway Park JF Regular",
+        "fvd": "n4"
+      }
+    ]
   }
 ]

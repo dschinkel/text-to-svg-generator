@@ -1,0 +1,10 @@
+graph TD
+    A[User Clicks Remove] --> B[Hook: removeFont]
+    B --> C[Repository: DELETE /api/fonts/:id]
+    C --> D[Controller: handle DELETE]
+    D --> E[Command: RemoveFont]
+    E --> F[Service Repository: remove from fonts.json]
+    F --> G[Service Repository: save file]
+    G --> H[Controller: Return 204/200]
+    H --> I[Hook: Update fonts state]
+    I --> J[UI: List Updates]

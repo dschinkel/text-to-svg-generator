@@ -1,8 +1,8 @@
 import { fontRepository } from '../repositories/fontRepository';
 import { useFonts } from './useFonts';
 import { usePreview } from '../components/TextPreview/usePreview';
-import { useSVG } from '../components/useSVG';
-import { useLayeredSVG } from '../components/useLayeredSVG';
+import { useSVG } from './useSVG.ts';
+import { useLayeredSVG } from './useLayeredSVG.ts';
 import { useDownload } from './useDownload';
 import { downloadSVG } from '../domain/downloadService';
 

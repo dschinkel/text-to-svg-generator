@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { useLayeredSVG } from './useLayeredSVG';
+import { useLayeredSVG } from './useLayeredSVG.ts';
 
 describe('Layered SVG Hook', () => {
   test('provides colored layered svgs', () => {

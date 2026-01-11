@@ -1,4 +1,10 @@
 import * as React from 'react';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { ScrollArea } from './ui/scroll-area';
+import { Label } from './ui/label';
+import { Trash2 } from 'lucide-react';
+import { cn } from '@/client/lib/utils';
 
 export interface FontVariation {
   id: string;
@@ -85,76 +91,79 @@ const FontList = ({
   const showAddOption = newFontName && !fonts.find(f => f.name.toLowerCase() === newFontName.toLowerCase());
 
   return (
-    <ul 
-      className="w-full mt-2 bg-white border border-slate-300 rounded-lg shadow-inner max-h-80 overflow-y-auto"
+    <ScrollArea 
+      className="w-full mt-2 bg-white border border-slate-300 rounded-lg shadow-inner h-80"
       data-testid="font-list"
     >
-      {fonts.map(font => {
-        const isSelected = font.id === selectedFont?.id;
-        const hasVariations = font.variations && font.variations.length > 0;
-        const shouldShowVariations = hasVariations;
+      <ul className="w-full">
+        {fonts.map(font => {
+          const isSelected = font.id === selectedFont?.id;
+          const hasVariations = font.variations && font.variations.length > 0;
+          const shouldShowVariations = hasVariations;
 
-        return (
-          <React.Fragment key={font.id}>
-            <li 
-              data-testid="font"
-              className={`px-3 py-3 hover:bg-slate-100 cursor-pointer text-left text-xl transition-colors flex items-center justify-between group ${
-                isSelected ? 'bg-green-50 border-l-4 border-green-500 font-medium' : ''
-              }`}
-            >
-              <span 
-                className="flex-grow"
-                onClick={() => onSelect(font)}
-                style={{ fontFamily: font.css_stack || font.name }}
+          return (
+            <React.Fragment key={font.id}>
+              <li 
+                data-testid="font"
+                className={cn(
+                  "px-3 py-3 hover:bg-slate-100 cursor-pointer text-left text-xl transition-colors flex items-center justify-between group",
+                  isSelected && "bg-green-50 border-l-4 border-green-500 font-medium"
+                )}
               >
-                {font.name}
-              </span>
-              <button
-                data-testid="remove-font"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onRemove(font.id);
-                }}
-                className="ml-2 p-1 text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-                title="Remove font"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-            </li>
-            {shouldShowVariations && font.variations?.map(v => (
-              <li
-                key={v.id}
-                data-testid="font-variation"
-                onClick={async () => {
-                  const newFont = await onSelectVariation(font, v.id);
-                  if (newFont) {
-                    onSelect({ ...newFont, id: v.id, name: v.name });
-                  }
-                }}
-                className="pl-10 pr-6 py-2 hover:bg-slate-50 cursor-pointer text-left text-lg text-slate-600 italic border-l-2 border-slate-200 transition-colors"
-                style={{ fontFamily: `"${v.name}", "${font.name}", ${font.css_stack || 'sans-serif'}` }}
-              >
-                — {v.name}
+                <span 
+                  className="flex-grow"
+                  onClick={() => onSelect(font)}
+                  style={{ fontFamily: font.css_stack || font.name }}
+                >
+                  {font.name}
+                </span>
+                <Button
+                  data-testid="remove-font"
+                  variant="ghost"
+                  size="icon"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onRemove(font.id);
+                  }}
+                  className="ml-2 h-8 w-8 text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                  title="Remove font"
+                >
+                  <Trash2 className="h-5 w-5" />
+                </Button>
               </li>
-            ))}
-          </React.Fragment>
-        );
-      })}
-      {showAddOption && (
-        <li 
-          onClick={onAdd}
-          className="px-3 py-3 hover:bg-green-50 cursor-pointer text-left text-green-600 border-t border-slate-100 text-xl font-medium"
-          data-testid="add-font-option"
-        >
-          Add "{newFontName}"...
-        </li>
-      )}
-      {fonts.length === 0 && !showAddOption && (
-        <li className="px-3 py-2 text-slate-400 italic">No fonts found</li>
-      )}
-    </ul>
+              {shouldShowVariations && font.variations?.map(v => (
+                <li
+                  key={v.id}
+                  data-testid="font-variation"
+                  onClick={async () => {
+                    const newFont = await onSelectVariation(font, v.id);
+                    if (newFont) {
+                      onSelect({ ...newFont, id: v.id, name: v.name });
+                    }
+                  }}
+                  className="pl-10 pr-6 py-2 hover:bg-slate-50 cursor-pointer text-left text-lg text-slate-600 italic border-l-2 border-slate-200 transition-colors"
+                  style={{ fontFamily: `"${v.name}", "${font.name}", ${font.css_stack || 'sans-serif'}` }}
+                >
+                  — {v.name}
+                </li>
+              ))}
+            </React.Fragment>
+          );
+        })}
+        {showAddOption && (
+          <li 
+            onClick={onAdd}
+            className="px-3 py-3 hover:bg-green-50 cursor-pointer text-left text-green-600 border-t border-slate-100 text-xl font-medium"
+            data-testid="add-font-option"
+          >
+            Add "{newFontName}"...
+          </li>
+        )}
+        {fonts.length === 0 && !showAddOption && (
+          <li className="px-3 py-2 text-slate-400 italic">No fonts found</li>
+        )}
+      </ul>
+    </ScrollArea>
   );
 };
 
@@ -190,8 +199,8 @@ const FontSelection = ({
   return (
     <div className="relative">
       <div className="flex flex-col gap-1">
-        <label className="text-base font-semibold text-slate-700 mb-1">Select a Font</label>
-        <input
+        <Label className="text-base font-semibold text-slate-700 mb-1">Select a Font</Label>
+        <Input
           type="text"
           data-testid="font-input"
           value={newFontName}
@@ -199,7 +208,7 @@ const FontSelection = ({
             setNewFontName(e.target.value);
           }}
           placeholder="Search for a font..."
-          className="border border-slate-300 rounded-lg px-4 py-3 w-full text-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm"
+          className="px-4 py-3 h-auto w-full text-lg focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm"
         />
         {selectedFont && (
           <div className="mt-2 text-sm text-slate-500 font-medium">

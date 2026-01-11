@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { useSVG } from './useSVG';
+import { useSVG } from './useSVG.ts';
 
 describe('SVG Hook', () => {
   test('fetches base svg', async () => {

@@ -5,6 +5,7 @@ import { SVGPreview } from '../SVGPreview';
 import { SVGLayeredPreview } from './SVGLayeredPreview';
 import { useDownload } from '../../hooks/useDownload';
 import { downloadSVG } from '../../domain/downloadService';
+import { Card } from '../ui/card';
 
 import { useSVGToOutline } from './useSVGToOutline';
 
@@ -22,7 +23,7 @@ export const SVGToOutlineSection: React.FC = () => {
   } = useSVGToOutline();
 
   return (
-    <section className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 h-full flex flex-col">
+    <Card className="p-6 h-full flex flex-col border-slate-200 shadow-sm">
       <h2 className="text-xl font-semibold mb-6 text-slate-800 border-b pb-2">SVG to Tight Outline</h2>
       <SVGUploader onSVGSelect={onSVGSelect} />
       
@@ -56,6 +57,6 @@ export const SVGToOutlineSection: React.FC = () => {
           />
         </div>
       )}
-    </section>
+    </Card>
   );
 };

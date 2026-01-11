@@ -13,6 +13,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-scroll-area": "^1.2.10",
+    "@radix-ui/react-slot": "^1.2.4",
     "@types/jsdom": "^21.0.0",
     "@types/potrace": "^2.1.5",
     "class-variance-authority": "^0.7.1",

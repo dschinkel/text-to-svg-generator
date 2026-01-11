@@ -5,6 +5,7 @@ import { useImageToSVG } from './useImageToSVG';
 import { SVGPreview } from '../SVGPreview';
 import { useDownload } from '../../hooks/useDownload';
 import { downloadSVG } from '../../domain/downloadService';
+import { Card } from '../ui/card';
 
 export const ImageToSVGSection: React.FC = () => {
   const { 
@@ -18,7 +19,7 @@ export const ImageToSVGSection: React.FC = () => {
   const { handleDownload } = useDownload(downloadSVG);
 
   return (
-    <section className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 h-full">
+    <Card className="p-8 h-full border-slate-200">
       <h2 className="text-xl font-semibold mb-6 text-slate-800 border-b pb-2">Image to SVG</h2>
       <ImageUploader onImageSelect={onImageSelect} />
       
@@ -48,6 +49,6 @@ export const ImageToSVGSection: React.FC = () => {
           )}
         </div>
       )}
-    </section>
+    </Card>
   );
 };
