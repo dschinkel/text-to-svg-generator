@@ -2,6 +2,7 @@ import { createApp } from './app.ts';
 import { fontController } from './fonts/controllers/fontController.ts';
 import { listFontsCommand } from './fonts/use-cases/listFontsCommand.ts';
 import { AddFont } from './fonts/use-cases/AddFont.ts';
+import { RemoveFont } from './fonts/use-cases/RemoveFont.ts';
 import { fontRepository } from './fonts/repositories/fontRepository.ts';
 import { adobeTypekitClient } from './fonts/data/adobeTypekitClient.ts';
 import { SyncFontKit } from './fonts/use-cases/SyncFontKit.ts';
@@ -38,6 +39,7 @@ const boundGenerateOuterOutlineSVG = (text: string, fontId: string) => GenerateO
 const controller = fontController(
   listFontsCommand, 
   AddFont, 
+  RemoveFont,
   boundGenerateBaseSVG, 
   boundGenerateTightOutlineSVG,
   boundGenerateOuterOutlineSVG,

@@ -25,6 +25,7 @@ export interface FontSelectorProps {
     toggleOpen: () => void;
     handleAdd: () => Promise<void>;
     handleVariationSelect: (font: Font, variationId: string) => Promise<Font | null>;
+    removeFont: (id: string) => Promise<void>;
     containerRef: React.RefObject<HTMLDivElement>;
   };
   onSelect: (font: Font) => void;
@@ -66,7 +67,8 @@ const FontList = ({
   onAdd,
   newFontName,
   selectedFont,
-  onSelectVariation
+  onSelectVariation,
+  onRemove
 }: { 
   fonts: Font[], 
   onSelect: (font: Font) => void,
@@ -75,7 +77,8 @@ const FontList = ({
   onAdd: () => void,
   newFontName: string,
   selectedFont?: Font | null,
-  onSelectVariation: (font: Font, variationId: string) => Promise<Font | null>
+  onSelectVariation: (font: Font, variationId: string) => Promise<Font | null>,
+  onRemove: (id: string) => Promise<void>
 }) => {
   if (!visible) return null;
 
@@ -95,15 +98,30 @@ const FontList = ({
           <React.Fragment key={font.id}>
             <li 
               data-testid="font"
-              onClick={() => {
-                onSelect(font);
-              }}
-              className={`px-3 py-3 hover:bg-slate-100 cursor-pointer text-left text-xl transition-colors ${
+              className={`px-3 py-3 hover:bg-slate-100 cursor-pointer text-left text-xl transition-colors flex items-center justify-between group ${
                 isSelected ? 'bg-green-50 border-l-4 border-green-500 font-medium' : ''
               }`}
-              style={{ fontFamily: font.css_stack || font.name }}
             >
-              {font.name}
+              <span 
+                className="flex-grow"
+                onClick={() => onSelect(font)}
+                style={{ fontFamily: font.css_stack || font.name }}
+              >
+                {font.name}
+              </span>
+              <button
+                data-testid="remove-font"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRemove(font.id);
+                }}
+                className="ml-2 p-1 text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                title="Remove font"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
             </li>
             {shouldShowVariations && font.variations?.map(v => (
               <li
@@ -112,7 +130,7 @@ const FontList = ({
                 onClick={async () => {
                   const newFont = await onSelectVariation(font, v.id);
                   if (newFont) {
-                    onSelect({ ...newFont, id: v.id, name: v.name, family_id: newFont.id });
+                    onSelect({ ...newFont, id: v.id, name: v.name });
                   }
                 }}
                 className="pl-10 pr-6 py-2 hover:bg-slate-50 cursor-pointer text-left text-lg text-slate-600 italic border-l-2 border-slate-200 transition-colors"
@@ -151,7 +169,8 @@ const FontSelection = ({
   handleAdd,
   onSelect,
   selectedFont,
-  onSelectVariation
+  onSelectVariation,
+  removeFont
 }: {
   filteredFonts: Font[],
   loading: boolean,
@@ -163,7 +182,8 @@ const FontSelection = ({
   handleAdd: () => void,
   onSelect: (font: Font) => void,
   selectedFont?: Font | null,
-  onSelectVariation: (font: Font, variationId: string) => Promise<Font | null>
+  onSelectVariation: (font: Font, variationId: string) => Promise<Font | null>,
+  removeFont: (id: string) => Promise<void>
 }) => {
   if (loading) return null;
 
@@ -199,6 +219,7 @@ const FontSelection = ({
         newFontName={newFontName}
         selectedFont={selectedFont}
         onSelectVariation={onSelectVariation}
+        onRemove={removeFont}
       />
     </div>
   );
