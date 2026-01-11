@@ -1,0 +1,12 @@
+graph TD
+    A[User Adds Font] --> B[Frontend Hook: addFont]
+    B --> C[Repository: POST /api/fonts]
+    C --> D[Controller: handle POST]
+    D --> E[Use Case: AddFont]
+    E --> F{Exists in Repository?}
+    F -- Yes --> G[Return Existing Font]
+    F -- No --> H[Fetch from Adobe]
+    H --> I[Save to Repository]
+    I --> G
+    G --> J[Hook: Update State with Deduplication]
+    J --> K[UI: Render Unique Fonts]
