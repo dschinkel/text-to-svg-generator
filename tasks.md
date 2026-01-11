@@ -248,9 +248,12 @@ The Fix:
 - [COMPLETED] `SyncFontKit` avoids redundant `publishKit` calls on startup.
 - [COMPLETED] All tests pass.
 
-## Task: 94: Fix Cholla Wide Ultra Bold 404 [COMPLETED]
-### Goal: Fix 404 error when selecting 'Cholla Wide Ultra Bold' font variation.
-The Fix:
-- [COMPLETED] Robust font metadata lookup in `fontLoader` handles cases where family ID prefix doesn't match the top-level font ID.
-- [COMPLETED] Verified fix with unit test for `fontLoader`.
+## Task: 95: Scrollable Font Selection Box [COMPLETED]
+### Goal: Replace the font selection dropdown with a scrollable box where users can directly see and select fonts.
+Acceptance:
+- [COMPLETED] Font selection is no longer a dropdown.
+- [COMPLETED] Font list is a static, scrollable box within the UI.
+- [COMPLETED] Search box filters the visible font list.
+- [COMPLETED] Variations are visible and selectable within the scrollable box.
 - [COMPLETED] All tests pass.
+- [COMPLETED] UI is simplified by removing dropdown-specific logic (e.g. click outside to close).

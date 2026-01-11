@@ -39,20 +39,8 @@ export const useFonts = (repository: ClientFontRepository) => {
   }, [repository]);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen]);
+    // No longer need to close on click outside as it's not a dropdown
+  }, []);
 
   const addFont = async (name: string, variationId?: string) => {
     try {
@@ -83,6 +71,12 @@ export const useFonts = (repository: ClientFontRepository) => {
   const filteredFonts = fonts.filter(font =>
     font && font.name && font.name.toLowerCase().includes(newFontName.toLowerCase())
   );
+
+  useEffect(() => {
+    if (newFontName && filteredFonts.length === 0) {
+      setIsOpen(true);
+    }
+  }, [newFontName, filteredFonts.length]);
 
   return { 
     fonts, 

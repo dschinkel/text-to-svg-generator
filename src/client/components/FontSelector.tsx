@@ -83,7 +83,7 @@ const FontList = ({
 
   return (
     <ul 
-      className="absolute z-10 w-full mt-1 bg-white border border-slate-300 rounded shadow-lg max-h-60 overflow-auto"
+      className="w-full mt-2 bg-white border border-slate-300 rounded-lg shadow-inner max-h-80 overflow-y-auto"
       data-testid="font-list"
     >
       {fonts.map(font => {
@@ -97,9 +97,8 @@ const FontList = ({
               data-testid="font"
               onClick={() => {
                 onSelect(font);
-                setIsOpen(false);
               }}
-              className={`px-3 py-3 hover:bg-slate-100 cursor-pointer text-left text-xl ${
+              className={`px-3 py-3 hover:bg-slate-100 cursor-pointer text-left text-xl transition-colors ${
                 isSelected ? 'bg-green-50 border-l-4 border-green-500 font-medium' : ''
               }`}
               style={{ fontFamily: font.css_stack || font.name }}
@@ -115,9 +114,8 @@ const FontList = ({
                   if (newFont) {
                     onSelect({ ...newFont, id: v.id, name: v.name, family_id: newFont.id });
                   }
-                  setIsOpen(false);
                 }}
-                className="pl-10 pr-6 py-2 hover:bg-slate-50 cursor-pointer text-left text-lg text-slate-600 italic border-l-2 border-slate-200"
+                className="pl-10 pr-6 py-2 hover:bg-slate-50 cursor-pointer text-left text-lg text-slate-600 italic border-l-2 border-slate-200 transition-colors"
                 style={{ fontFamily: `"${v.name}", "${font.name}", ${font.css_stack || 'sans-serif'}` }}
               >
                 — {v.name}
@@ -179,10 +177,8 @@ const FontSelection = ({
           value={newFontName}
           onChange={(e) => {
             setNewFontName(e.target.value);
-            setIsOpen(true);
           }}
-          onFocus={() => setIsOpen(true)}
-          placeholder="Search or type a new font..."
+          placeholder="Search for a font..."
           className="border border-slate-300 rounded-lg px-4 py-3 w-full text-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm"
         />
         {selectedFont && (
@@ -196,10 +192,9 @@ const FontSelection = ({
         fonts={filteredFonts} 
         onSelect={onSelect} 
         setIsOpen={setIsOpen} 
-        visible={isOpen} 
+        visible={true} 
         onAdd={() => {
           handleAdd();
-          setIsOpen(false);
         }}
         newFontName={newFontName}
         selectedFont={selectedFont}
