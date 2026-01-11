@@ -20,7 +20,7 @@ describe('Font Repository Integration', () => {
   });
 
   describe('integration', () => {
-      it('fetches and persists real fonts from adobe', async () => {
+      it('fetches real fonts from adobe', async () => {
         const client = adobeTypekitClient(token);
         const repository = fontRepository(dbPath, client);
 
@@ -35,6 +35,16 @@ describe('Font Repository Integration', () => {
         expect(savedFonts).toContainEqual(expect.objectContaining({
           slug: 'campus-mn'
         }));
+      });
+
+      it('fetches cholla font from adobe', async () => {
+        const client = adobeTypekitClient(token);
+        const repository = fontRepository(dbPath, client);
+
+        const font = await repository.fetch('cholla');
+        
+        expect(font).toBeDefined();
+        expect(font?.slug).toBe('cholla-sans');
       });
   });
 });

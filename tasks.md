@@ -204,3 +204,10 @@ Acceptance:
 - [COMPLETED] The Tight Outline SVG acts as a base layer (usually in a contrasting color or silhouette).
 - [COMPLETED] The Original SVG is rendered on top to show alignment.
 - [COMPLETED] The UI follows the same pattern as the text Layered Preview.
+
+## Task: 89: Fix Cholla Font Pull [COMPLETED]
+### Goal: Pull the font 'Cholla' from Adobe Typekit.
+Acceptance:
+- [COMPLETED] Successfully fetching 'Cholla' (or its variation like 'Cholla Sans') from Adobe Typekit API.
+- [COMPLETED] Robust family slug resolution in `fontRepository`.
+- [COMPLETED] All tests pass.

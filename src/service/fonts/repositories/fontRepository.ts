@@ -6,7 +6,14 @@ export interface AdobeTypekitClient {
 
 export const fontRepository = (dbPath: string, client: AdobeTypekitClient) => {
   const fetch = async (familyId: string): Promise<any> => {
-    const family = await client.getFamily(familyId);
+    const variations = [familyId, `${familyId}-sans`, `${familyId}-wide` ];
+    let family = null;
+
+    for (const v of variations) {
+      family = await client.getFamily(v);
+      if (family) break;
+    }
+
     if (!family) {
       return null;
     }

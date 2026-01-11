@@ -364,5 +364,178 @@
         "fvd": "n4"
       }
     ]
+  },
+  {
+    "id": "lydn",
+    "name": "Bungee",
+    "slug": "bungee",
+    "web_link": "http://fonts.adobe.com/fonts/bungee",
+    "browse_info": {
+      "capitals": [
+        "all-or-small-caps"
+      ],
+      "classification": [
+        "decorative"
+      ],
+      "contrast": [
+        "low"
+      ],
+      "language": [],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "heavy"
+      ],
+      "width": [
+        "extended"
+      ],
+      "x_height": []
+    },
+    "css_stack": "\"bungee\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "DJR",
+      "slug": "djr"
+    },
+    "libraries": [
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      },
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "trial",
+        "link": "/api/v1/json/libraries/trial",
+        "name": "Trial Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "lydn:n4",
+        "link": "/api/v1/json/families/lydn/n4",
+        "name": "Bungee Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "lydn:n5",
+        "link": "/api/v1/json/families/lydn/n5",
+        "name": "Bungee Hairline",
+        "fvd": "n5"
+      },
+      {
+        "id": "lydn:n6",
+        "link": "/api/v1/json/families/lydn/n6",
+        "name": "Bungee Inline",
+        "fvd": "n6"
+      },
+      {
+        "id": "lydn:n7",
+        "link": "/api/v1/json/families/lydn/n7",
+        "name": "Bungee Outline",
+        "fvd": "n7"
+      },
+      {
+        "id": "lydn:n8",
+        "link": "/api/v1/json/families/lydn/n8",
+        "name": "Bungee Shade",
+        "fvd": "n8"
+      }
+    ]
+  },
+  {
+    "id": "ymsq",
+    "name": "Cholla Sans ",
+    "slug": "cholla-sans",
+    "web_link": "http://fonts.adobe.com/fonts/cholla-sans",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "sans-serif"
+      ],
+      "contrast": [
+        "regular"
+      ],
+      "language": [],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [
+        "headings"
+      ],
+      "weight": [
+        "regular"
+      ],
+      "width": [
+        "condensed"
+      ],
+      "x_height": [
+        "regular"
+      ]
+    },
+    "css_stack": "\"cholla-sans\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Emigre",
+      "slug": "emigre"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "ymsq:n3",
+        "link": "/api/v1/json/families/ymsq/n3",
+        "name": "Cholla Sans  Thin",
+        "fvd": "n3"
+      },
+      {
+        "id": "ymsq:i3",
+        "link": "/api/v1/json/families/ymsq/i3",
+        "name": "Cholla Sans  Thin Italic",
+        "fvd": "i3"
+      },
+      {
+        "id": "ymsq:n4",
+        "link": "/api/v1/json/families/ymsq/n4",
+        "name": "Cholla Sans  Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "ymsq:i4",
+        "link": "/api/v1/json/families/ymsq/i4",
+        "name": "Cholla Sans  Regular Italic",
+        "fvd": "i4"
+      },
+      {
+        "id": "ymsq:n7",
+        "link": "/api/v1/json/families/ymsq/n7",
+        "name": "Cholla Sans  Bold",
+        "fvd": "n7"
+      },
+      {
+        "id": "ymsq:i7",
+        "link": "/api/v1/json/families/ymsq/i7",
+        "name": "Cholla Sans  Bold Italic",
+        "fvd": "i7"
+      }
+    ]
   }
 ]

@@ -1,0 +1,8 @@
+graph TD
+    A[Start: Add Font Cholla] --> B{Try Simple Slug 'cholla'}
+    B -->|Success| C[Add to Kit & Save]
+    B -->|Failure| D[Try Alternative Slugs/Search]
+    D -->|Success| C
+    D -->|Failure| E[Report Error]
+    C --> F[Publish Kit]
+    F --> G[End]
