@@ -1,9 +1,15 @@
 import * as React from 'react';
 
+export interface FontVariation {
+  id: string;
+  name: string;
+}
+
 export interface Font {
   id: string;
   name: string;
   css_stack?: string;
+  variations?: FontVariation[];
 }
 
 export interface FontSelectorProps {
@@ -18,6 +24,7 @@ export interface FontSelectorProps {
     setIsOpen: (isOpen: boolean) => void;
     toggleOpen: () => void;
     handleAdd: () => Promise<void>;
+    handleVariationSelect: (font: Font, variationId: string) => Promise<Font | null>;
     containerRef: React.RefObject<HTMLDivElement>;
   };
   onSelect: (font: Font) => void;
@@ -30,7 +37,12 @@ export const FontSelector = ({ useFonts, onSelect, selectedFont }: FontSelectorP
   return (
     <div className="w-full max-w-sm" ref={state.containerRef}>
       <FontLoading loading={state.loading} />
-      <FontSelection {...state} onSelect={onSelect} selectedFont={selectedFont} />
+      <FontSelection 
+        {...state} 
+        onSelect={onSelect} 
+        selectedFont={selectedFont} 
+        onSelectVariation={state.handleVariationSelect}
+      />
       <FontError error={state.error} />
     </div>
   );
@@ -53,7 +65,8 @@ const FontList = ({
   visible,
   onAdd,
   newFontName,
-  selectedFont
+  selectedFont,
+  onSelectVariation
 }: { 
   fonts: Font[], 
   onSelect: (font: Font) => void,
@@ -61,7 +74,8 @@ const FontList = ({
   visible: boolean,
   onAdd: () => void,
   newFontName: string,
-  selectedFont?: Font | null
+  selectedFont?: Font | null,
+  onSelectVariation: (font: Font, variationId: string) => Promise<Font | null>
 }) => {
   if (!visible) return null;
 
@@ -74,21 +88,42 @@ const FontList = ({
     >
       {fonts.map(font => {
         const isSelected = font.id === selectedFont?.id;
+        const hasVariations = font.variations && font.variations.length > 0;
+        const shouldShowVariations = hasVariations;
+
         return (
-          <li 
-            key={font.id}
-            data-testid="font"
-            onClick={() => {
-              onSelect(font);
-              setIsOpen(false);
-            }}
-            className={`px-3 py-3 hover:bg-slate-100 cursor-pointer text-left text-xl ${
-              isSelected ? 'bg-green-50 border-l-4 border-green-500 font-medium' : ''
-            }`}
-            style={{ fontFamily: font.css_stack || font.name }}
-          >
-            {font.name}
-          </li>
+          <React.Fragment key={font.id}>
+            <li 
+              data-testid="font"
+              onClick={() => {
+                onSelect(font);
+                setIsOpen(false);
+              }}
+              className={`px-3 py-3 hover:bg-slate-100 cursor-pointer text-left text-xl ${
+                isSelected ? 'bg-green-50 border-l-4 border-green-500 font-medium' : ''
+              }`}
+              style={{ fontFamily: font.css_stack || font.name }}
+            >
+              {font.name}
+            </li>
+            {shouldShowVariations && font.variations?.map(v => (
+              <li
+                key={v.id}
+                data-testid="font-variation"
+                onClick={async () => {
+                  const newFont = await onSelectVariation(font, v.id);
+                  if (newFont) {
+                    onSelect({ ...newFont, id: v.id, name: v.name, family_id: newFont.id });
+                  }
+                  setIsOpen(false);
+                }}
+                className="pl-10 pr-6 py-2 hover:bg-slate-50 cursor-pointer text-left text-lg text-slate-600 italic border-l-2 border-slate-200"
+                style={{ fontFamily: `"${v.name}", "${font.name}", ${font.css_stack || 'sans-serif'}` }}
+              >
+                — {v.name}
+              </li>
+            ))}
+          </React.Fragment>
         );
       })}
       {showAddOption && (
@@ -117,8 +152,21 @@ const FontSelection = ({
   setIsOpen,
   handleAdd,
   onSelect,
-  selectedFont
-}: any) => {
+  selectedFont,
+  onSelectVariation
+}: {
+  filteredFonts: Font[],
+  loading: boolean,
+  error: Error | null,
+  newFontName: string,
+  setNewFontName: (name: string) => void,
+  isOpen: boolean,
+  setIsOpen: (isOpen: boolean) => void,
+  handleAdd: () => void,
+  onSelect: (font: Font) => void,
+  selectedFont?: Font | null,
+  onSelectVariation: (font: Font, variationId: string) => Promise<Font | null>
+}) => {
   if (loading) return null;
 
   return (
@@ -155,6 +203,7 @@ const FontSelection = ({
         }}
         newFontName={newFontName}
         selectedFont={selectedFont}
+        onSelectVariation={onSelectVariation}
       />
     </div>
   );

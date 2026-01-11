@@ -1,13 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
 import { useWebFonts } from './useWebFonts.ts';
 
+export interface FontVariation {
+  id: string;
+  name: string;
+}
+
+export interface Font {
+  id: string;
+  name: string;
+  css_stack?: string;
+  variations?: FontVariation[];
+}
+
 export interface ClientFontRepository {
-  getFonts: () => Promise<any[]>;
-  addFont: (name: string) => Promise<any>;
+  getFonts: () => Promise<Font[]>;
+  addFont: (name: string, variationId?: string) => Promise<Font>;
 }
 
 export const useFonts = (repository: ClientFontRepository) => {
-  const [fonts, setFonts] = useState<any[]>([]);
+  const [fonts, setFonts] = useState<Font[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [newFontName, setNewFontName] = useState('');
@@ -42,13 +54,22 @@ export const useFonts = (repository: ClientFontRepository) => {
     };
   }, [isOpen]);
 
-  const addFont = async (name: string) => {
+  const addFont = async (name: string, variationId?: string) => {
     try {
-      const newFont = await repository.addFont(name);
-      setFonts(prev => [...prev, newFont]);
+      const newFont = await repository.addFont(name, variationId);
+      setFonts(prev => {
+        const otherFonts = prev.filter(f => f.id !== newFont.id);
+        return [...otherFonts, newFont];
+      });
+      return newFont;
     } catch (e) {
       setError(e as Error);
+      return null;
     }
+  };
+
+  const handleVariationSelect = async (font: Font, variationId: string) => {
+    return await addFont(font.name, variationId);
   };
 
   const handleAdd = async () => {
@@ -59,8 +80,8 @@ export const useFonts = (repository: ClientFontRepository) => {
   };
 
   const toggleOpen = () => setIsOpen(!isOpen);
-  const filteredFonts = fonts.filter(font => 
-    font.name.toLowerCase().includes(newFontName.toLowerCase())
+  const filteredFonts = fonts.filter(font =>
+    font && font.name && font.name.toLowerCase().includes(newFontName.toLowerCase())
   );
 
   return { 
@@ -75,13 +96,14 @@ export const useFonts = (repository: ClientFontRepository) => {
     setIsOpen,
     toggleOpen,
     handleAdd,
+    handleVariationSelect,
     containerRef
   };
 };
 
-const loadFonts = async (
+  const loadFonts = async (
   repository: ClientFontRepository,
-  setFonts: (fonts: any[]) => void,
+  setFonts: (fonts: Font[]) => void,
   setLoading: (loading: boolean) => void,
   setError: (error: Error) => void,
   isMounted: () => boolean
