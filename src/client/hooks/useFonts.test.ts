@@ -106,4 +106,29 @@ describe('Use Fonts', () => {
     expect(result.current.fonts[1].name).toBe('Campus MN');
     expect(result.current.fonts[2].name).toBe('Octin Sports');
   });
+
+  it('removes a font', async () => {
+    const fonts = [
+      { id: 'octin-sports', name: 'Octin Sports' },
+      { id: 'campus-mn', name: 'Campus MN' }
+    ];
+    let removedId = '';
+    const fakeRepository = {
+      getFonts: async () => fonts,
+      addFont: async () => ({}),
+      removeFont: async (id: string) => {
+        removedId = id;
+      }
+    };
+
+    const { result } = renderHook(() => useFonts(fakeRepository as any));
+    await waitFor(() => expect(result.current.fonts).toHaveLength(2));
+
+    await act(async () => {
+      await result.current.removeFont('octin-sports');
+    });
+
+    expect(removedId).toBe('octin-sports');
+    expect(result.current.fonts).toEqual([{ id: 'campus-mn', name: 'Campus MN' }]);
+  });
 });

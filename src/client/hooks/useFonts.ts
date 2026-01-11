@@ -16,6 +16,7 @@ export interface Font {
 export interface ClientFontRepository {
   getFonts: () => Promise<Font[]>;
   addFont: (name: string, variationId?: string) => Promise<Font>;
+  removeFont: (id: string) => Promise<void>;
 }
 
 export const useFonts = (repository: ClientFontRepository) => {
@@ -84,6 +85,15 @@ export const useFonts = (repository: ClientFontRepository) => {
     }
   };
 
+  const removeFont = async (id: string) => {
+    try {
+      await repository.removeFont(id);
+      setFonts(prev => prev.filter(f => f.id !== id));
+    } catch (e) {
+      setError(e as Error);
+    }
+  };
+
   const toggleOpen = () => setIsOpen(!isOpen);
   const filteredFonts = fonts.filter(font =>
     font && font.name && font.name.toLowerCase().includes(newFontName.toLowerCase())
@@ -108,6 +118,7 @@ export const useFonts = (repository: ClientFontRepository) => {
     toggleOpen,
     handleAdd,
     handleVariationSelect,
+    removeFont,
     containerRef
   };
 };
