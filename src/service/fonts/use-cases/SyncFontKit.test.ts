@@ -16,6 +16,7 @@ describe('Sync Font Kit', () => {
     };
 
     const fakeClient = {
+      getKit: async () => ({ families: [] }),
       addFamilyToKit: async (kid: string, fid: string) => {
         if (kid === kitId) addedFamilies.push(fid);
       },

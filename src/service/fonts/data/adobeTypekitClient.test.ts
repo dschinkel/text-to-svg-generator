@@ -55,6 +55,12 @@ describe('Adobe Typekit Client', () => {
       return;
     }
 
+    it('gets kit info', async () => {
+      const kit = await client.getKit(kitId);
+      expect(kit).toBeDefined();
+      expect(kit.id).toBe(kitId);
+    });
+
     it('manages kit families', async () => {
       const familyId = 'tgkh'; // Octin Sports
       const result = await client.addFamilyToKit(kitId, familyId);

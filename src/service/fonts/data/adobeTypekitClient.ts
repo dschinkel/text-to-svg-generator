@@ -38,6 +38,11 @@ export const adobeTypekitClient = (token: string) => {
       });
     },
 
+    getKit: async (kitId: string): Promise<any> => {
+      const data = await request(`/kits/${kitId}`);
+      return data.kit;
+    },
+
     publishKit: async (kitId: string): Promise<any> => {
       return await request(`/kits/${kitId}/publish`, {
         method: 'POST'

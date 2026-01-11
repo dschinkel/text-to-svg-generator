@@ -9,6 +9,7 @@ describe('Add Font', () => {
     let published = false;
 
     const fakeRepository = {
+      getAll: async () => [],
       fetch: async (slug: string) => {
         calledSlug = slug;
         return font;
@@ -16,6 +17,7 @@ describe('Add Font', () => {
     };
 
     const fakeClient = {
+      getKit: async () => ({ families: [] }),
       addFamilyToKit: async (kid: string, fid: string) => {
         if (kid === kitId && fid === font.id) addedToKit = true;
       },
@@ -39,6 +41,7 @@ describe('Add Font', () => {
     let published = false;
 
     const fakeRepository = {
+      getAll: async () => [],
       fetch: async (slug: string) => {
         if (slug === 'cholla') return font;
         return null;
@@ -46,6 +49,7 @@ describe('Add Font', () => {
     };
 
     const fakeClient = {
+      getKit: async () => ({ families: [] }),
       addFamilyToKit: async (kid: string, fid: string) => {
         if (kid === kitId && fid === font.id) addedToKit = true;
       },
@@ -74,10 +78,12 @@ describe('Add Font', () => {
     let addedFamilyId = '';
 
     const fakeRepository = {
+      getAll: async () => [],
       fetch: async () => family
     };
 
     const fakeClient = {
+      getKit: async () => ({ families: [] }),
       addFamilyToKit: async (kid: string, fid: string) => {
         addedFamilyId = fid;
       },
@@ -88,5 +94,55 @@ describe('Add Font', () => {
 
     expect(result).toEqual(family);
     expect(addedFamilyId).toBe('ymsq'); // Should extract family id from ymsq:n7
+  });
+
+  it('skips add and publish if family is already in kit', async () => {
+    const family = { id: 'ymsq', name: 'Cholla Sans', slug: 'cholla-sans' };
+    const kitId = 'jzl6jgi';
+    let addCalled = false;
+    let publishCalled = false;
+
+    const fakeRepository = {
+      getAll: async () => [family],
+      fetch: async () => family
+    };
+
+    const fakeClient = {
+      getKit: async () => ({
+        families: [{ id: 'ymsq' }]
+      }),
+      addFamilyToKit: async () => { addCalled = true; },
+      publishKit: async () => { publishCalled = true; }
+    };
+
+    const result = await AddFont(fakeRepository as any, fakeClient as any, kitId, 'Cholla Sans');
+    
+    expect(result).toEqual(family);
+    expect(addCalled).toBe(false);
+    expect(publishCalled).toBe(false);
+  });
+
+  it('skips fetch if font is already in local repository', async () => {
+    const family = { id: 'ymsq', name: 'Cholla Sans', slug: 'cholla-sans' };
+    const kitId = 'jzl6jgi';
+    let fetchCalled = false;
+
+    const fakeRepository = {
+      getAll: async () => [family],
+      fetch: async () => { 
+        fetchCalled = true;
+        return family;
+      }
+    };
+
+    const fakeClient = {
+      getKit: async () => ({ families: [] }),
+      addFamilyToKit: async () => {},
+      publishKit: async () => {}
+    };
+
+    await AddFont(fakeRepository as any, fakeClient as any, kitId, 'Cholla Sans');
+    
+    expect(fetchCalled).toBe(false);
   });
 });
