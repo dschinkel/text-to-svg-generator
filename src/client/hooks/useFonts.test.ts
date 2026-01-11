@@ -31,7 +31,7 @@ describe('Use Fonts', () => {
       await result.current.addFont('Campus MN');
     });
 
-    expect(result.current.fonts).toEqual([...initialFonts, newFont]);
+    expect(result.current.fonts).toEqual([newFont, ...initialFonts]);
   });
 
   it('filters fonts by name', async () => {
@@ -46,7 +46,7 @@ describe('Use Fonts', () => {
 
     const { result } = renderHook(() => useFonts(fakeRepository as any));
     
-    await waitFor(() => expect(result.current.fonts).toEqual(fonts));
+    await waitFor(() => expect(result.current.fonts).toEqual([fonts[1], fonts[0]]));
 
     await act(async () => {
       result.current.setNewFontName('Campus');
@@ -85,5 +85,25 @@ describe('Use Fonts', () => {
 
     expect(addedVariationId).toBe('cholla-wide-ot-ultra-bold');
     expect(result.current.fonts).toContainEqual(newVariation);
+  });
+
+  it('sorts fonts alphabetically', async () => {
+    const fonts = [
+      { id: 'octin-sports', name: 'Octin Sports' },
+      { id: 'campus-mn', name: 'Campus MN' },
+      { id: 'bungee', name: 'Bungee' }
+    ];
+    const fakeRepository = {
+      getFonts: async () => fonts,
+      addFont: async () => ({})
+    };
+
+    const { result } = renderHook(() => useFonts(fakeRepository as any));
+
+    await waitFor(() => expect(result.current.fonts).toHaveLength(3));
+    
+    expect(result.current.fonts[0].name).toBe('Bungee');
+    expect(result.current.fonts[1].name).toBe('Campus MN');
+    expect(result.current.fonts[2].name).toBe('Octin Sports');
   });
 });

@@ -31,7 +31,23 @@ export const useFonts = (repository: ClientFontRepository) => {
   useEffect(() => {
     let mounted = true;
 
-    loadFonts(repository, setFonts, setLoading, setError, () => mounted);
+    const load = async () => {
+      try {
+        const data = await repository.getFonts();
+        if (mounted) {
+          const sortedData = [...data].sort((a, b) => a.name.localeCompare(b.name));
+          setFonts(sortedData);
+          setLoading(false);
+        }
+      } catch (e) {
+        if (mounted) {
+          setError(e as Error);
+          setLoading(false);
+        }
+      }
+    };
+
+    load();
 
     return () => {
       mounted = false;
@@ -47,7 +63,8 @@ export const useFonts = (repository: ClientFontRepository) => {
       const newFont = await repository.addFont(name, variationId);
       setFonts(prev => {
         const otherFonts = prev.filter(f => f.id !== newFont.id);
-        return [...otherFonts, newFont];
+        const updated = [...otherFonts, newFont];
+        return updated.sort((a, b) => a.name.localeCompare(b.name));
       });
       return newFont;
     } catch (e) {
@@ -95,23 +112,3 @@ export const useFonts = (repository: ClientFontRepository) => {
   };
 };
 
-  const loadFonts = async (
-  repository: ClientFontRepository,
-  setFonts: (fonts: Font[]) => void,
-  setLoading: (loading: boolean) => void,
-  setError: (error: Error) => void,
-  isMounted: () => boolean
-) => {
-  try {
-    const data = await repository.getFonts();
-    if (isMounted()) {
-      setFonts(data);
-      setLoading(false);
-    }
-  } catch (e) {
-    if (isMounted()) {
-      setError(e as Error);
-      setLoading(false);
-    }
-  }
-};

@@ -257,3 +257,11 @@ Acceptance:
 - [COMPLETED] Variations are visible and selectable within the scrollable box.
 - [COMPLETED] All tests pass.
 - [COMPLETED] UI is simplified by removing dropdown-specific logic (e.g. click outside to close).
+
+## Task: 96: Sort Font List ASC [COMPLETED]
+### Goal: Sort the font list in ascending order by name.
+Acceptance:
+- [COMPLETED] Font list is sorted alphabetically by font name.
+- [COMPLETED] Sorting applies after initial fetch and after adding a new font.
+- [COMPLETED] Verified with unit tests.
+- [COMPLETED] All tests pass.

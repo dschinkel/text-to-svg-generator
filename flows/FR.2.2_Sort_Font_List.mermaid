@@ -1,0 +1,9 @@
+graph TD
+    A[Load Fonts] --> B[Sort ASC by Name]
+    B --> C[Set Fonts State]
+    D[Add Font] --> E[Add to List]
+    E --> F[Sort ASC by Name]
+    F --> G[Update State]
+    C --> H[Filter by Search]
+    G --> H
+    H --> I[Render List]
