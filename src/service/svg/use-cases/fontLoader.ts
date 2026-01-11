@@ -17,9 +17,9 @@ export const loadFontForSVG = async (
 
   try {
     // Try to get font URL from kit CSS
-    // Use the specific variation ID (fontId) if it exists, otherwise use the family slug
-    // We need to escape the variation ID because it contains a colon which might be differently represented in CSS
-    const fontUrl = await client.getFontFileUrlFromCss(kitId, fontId.includes(':') ? fontId : fontMetadata.slug);
+    // Use the family slug for family matching and the variation FVD (e.g. n5) if it exists
+    const variationFvd = fontId.includes(':') ? fontId.split(':')[1] : undefined;
+    const fontUrl = await client.getFontFileUrlFromCss(kitId, fontMetadata.slug, variationFvd);
 
     if (fontUrl) {
       const buffer = await client.getFontFileBinary(fontUrl);

@@ -231,3 +231,11 @@ Acceptance:
 - [COMPLETED] Fixed `AddFont` use case to correctly handle `variationId`.
 - [COMPLETED] Integration test verifies the full flow.
 - [COMPLETED] All tests pass.
+
+## Task: 92: Fix Font Variation Previews [COMPLETED]
+### Goal: Ensure selecting a font variation (e.g., Bungee Hairline) correctly updates the SVG previews.
+Acceptance:
+- [COMPLETED] Selecting a variation correctly fetches the specific font file for that variation.
+- [COMPLETED] SVG previews reflect the selected variation's style.
+- [COMPLETED] Robust CSS parsing handles multiple variations with the same font-family name.
+- [COMPLETED] All tests pass.
