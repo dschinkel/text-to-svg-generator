@@ -107,6 +107,25 @@ describe('Use Fonts', () => {
     expect(result.current.fonts[2].name).toBe('Octin Sports');
   });
 
+  it('deduplicates fonts by name and id', async () => {
+    const duplicateFonts = [
+      { id: 'bungee', name: 'Bungee' },
+      { id: 'bungee', name: 'Bungee' },
+      { id: 'other-id', name: 'Bungee' },
+      { id: 'campus-mn', name: 'Campus MN' }
+    ];
+    const fakeRepository = {
+      getFonts: async () => duplicateFonts,
+      addFont: async () => ({})
+    };
+
+    const { result } = renderHook(() => useFonts(fakeRepository as any));
+
+    await waitFor(() => expect(result.current.fonts).toHaveLength(2));
+    expect(result.current.fonts[0].name).toBe('Bungee');
+    expect(result.current.fonts[1].name).toBe('Campus MN');
+  });
+
   it('removes a font', async () => {
     const fonts = [
       { id: 'octin-sports', name: 'Octin Sports' },

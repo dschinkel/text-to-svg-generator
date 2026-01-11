@@ -36,7 +36,14 @@ export const useFonts = (repository: ClientFontRepository) => {
       try {
         const data = await repository.getFonts();
         if (mounted) {
-          const sortedData = [...data].sort((a, b) => a.name.localeCompare(b.name));
+          const uniqueFonts = data.reduce((acc: Font[], current) => {
+            const isDuplicate = acc.find(f => f.id === current.id || f.name.toLowerCase() === current.name.toLowerCase());
+            if (!isDuplicate) {
+              acc.push(current);
+            }
+            return acc;
+          }, []);
+          const sortedData = uniqueFonts.sort((a, b) => a.name.localeCompare(b.name));
           setFonts(sortedData);
           setLoading(false);
         }
@@ -63,7 +70,7 @@ export const useFonts = (repository: ClientFontRepository) => {
     try {
       const newFont = await repository.addFont(name, variationId);
       setFonts(prev => {
-        const otherFonts = prev.filter(f => f.id !== newFont.id);
+        const otherFonts = prev.filter(f => f.id !== newFont.id && f.name.toLowerCase() !== newFont.name.toLowerCase());
         const updated = [...otherFonts, newFont];
         return updated.sort((a, b) => a.name.localeCompare(b.name));
       });
