@@ -272,3 +272,12 @@ Acceptance:
 - [COMPLETED] Sorting applies after initial fetch and after adding a new font.
 - [COMPLETED] Verified with unit tests.
 - [COMPLETED] All tests pass.
+
+## Task: FR.1.6 (Task 97) [COMPLETED]
+### Goal: Add a new feature, the ability to remove an installed font easily from the list.
+Acceptance:
+- [COMPLETED] User can click a "remove" icon/button next to a font in the list.
+- [COMPLETED] The font is removed from the UI list immediately.
+- [COMPLETED] The font is deleted from `src/db/fonts.json`.
+- [COMPLETED] TDD workflow followed with RED/GREEN/REFACTOR cycles.
+- [COMPLETED] All tests pass.
