@@ -44,7 +44,11 @@ export const fontRepository = (dbPath: string, client: AdobeTypekitClient) => {
 
   const save = async (family: any): Promise<void> => {
     const fonts = await getAll();
-    const index = fonts.findIndex(f => f.id === family.id);
+    const index = fonts.findIndex(f => 
+      f.id === family.id || 
+      (f.slug && family.slug && f.slug === family.slug) || 
+      (f.name && family.name && f.name.toLowerCase() === family.name.toLowerCase())
+    );
     if (index === -1) {
       fonts.push(family);
     } else {

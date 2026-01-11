@@ -79,5 +79,22 @@ describe('Font Repository Integration', () => {
         fonts = await repository.getAll();
         expect(fonts).not.toContainEqual(expect.objectContaining({ id: 'to-be-removed' }));
       });
+
+      it('prevents duplicate saves of same font family', async () => {
+        const client = adobeTypekitClient(token);
+        const repository = fontRepository(dbPath, client);
+
+        const f1 = { id: 'id1', name: 'Duplicate Font', slug: 'duplicate-font' };
+        const f2 = { id: 'id2', name: 'Duplicate Font', slug: 'duplicate-font' };
+
+        await repository.save(f1);
+        let fonts = await repository.getAll();
+        expect(fonts).toHaveLength(1);
+
+        await repository.save(f2);
+        fonts = await repository.getAll();
+        expect(fonts).toHaveLength(1);
+        expect(fonts[0].id).toBe('id2'); // Should overwrite
+      });
   });
 });
