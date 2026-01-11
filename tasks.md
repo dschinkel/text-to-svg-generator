@@ -232,18 +232,25 @@ Acceptance:
 - [COMPLETED] Integration test verifies the full flow.
 - [COMPLETED] All tests pass.
 
+## Task: 92: Fix Font Variation Previews [COMPLETED]
+### Goal: Ensure selecting a font variation (e.g., Bungee Hairline) correctly updates the SVG previews.
+  The Fix:
+- [COMPLETED] Selecting a variation correctly fetches the specific font file for that variation.
+- [COMPLETED] SVG previews reflect the selected variation's style.
+- [COMPLETED] Robust CSS parsing handles multiple variations with the same font-family name.
+- [COMPLETED] All tests pass.
+
 ## Task: 93: Optimize Font Variation Selection Speed [COMPLETED]
 ### Goal: Reduce the time it takes to see the variation selected by avoiding redundant Adobe Typekit API calls.
-Acceptance:
+The Fix:
 - [COMPLETED] `AddFont` use case checks the local repository before calling Adobe's `fetch`.
 - [COMPLETED] `AddFont` checks the current kit families and avoids `publishKit` if the family is already present.
 - [COMPLETED] `SyncFontKit` avoids redundant `publishKit` calls on startup.
 - [COMPLETED] All tests pass.
 
-## Task: 92: Fix Font Variation Previews [COMPLETED]
-### Goal: Ensure selecting a font variation (e.g., Bungee Hairline) correctly updates the SVG previews.
-Acceptance:
-- [COMPLETED] Selecting a variation correctly fetches the specific font file for that variation.
-- [COMPLETED] SVG previews reflect the selected variation's style.
-- [COMPLETED] Robust CSS parsing handles multiple variations with the same font-family name.
+## Task: 94: Fix Cholla Wide Ultra Bold 404 [COMPLETED]
+### Goal: Fix 404 error when selecting 'Cholla Wide Ultra Bold' font variation.
+The Fix:
+- [COMPLETED] Robust font metadata lookup in `fontLoader` handles cases where family ID prefix doesn't match the top-level font ID.
+- [COMPLETED] Verified fix with unit test for `fontLoader`.
 - [COMPLETED] All tests pass.

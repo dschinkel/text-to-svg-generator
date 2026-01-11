@@ -9,7 +9,16 @@ export const loadFontForSVG = async (
 ): Promise<opentype.Font | null> => {
   const familyId = fontId.split(':')[0];
   const fonts = await repository.getAll();
-  const fontMetadata = fonts.find((f: any) => f.id === familyId);
+  
+  // Try to find the font metadata by familyId (e.g. ymsq or zgyk)
+  // or by searching within variations of all families
+  let fontMetadata = fonts.find((f: any) => f.id === familyId);
+  
+  if (!fontMetadata) {
+    fontMetadata = fonts.find((f: any) => 
+      f.variations && f.variations.some((v: any) => v.id.startsWith(familyId + ':'))
+    );
+  }
 
   if (!fontMetadata) {
     return null;
