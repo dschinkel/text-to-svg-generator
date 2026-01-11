@@ -281,3 +281,12 @@ Acceptance:
 - [COMPLETED] The font is deleted from `src/db/fonts.json`.
 - [COMPLETED] TDD workflow followed with RED/GREEN/REFACTOR cycles.
 - [COMPLETED] All tests pass.
+
+## Task: TR.4.3 (Task 98) [COMPLETED]
+### Goal: Migrate small UI components to shadcn/ui.
+Acceptance:
+- [COMPLETED] shadcn/ui is initialized in the project.
+- [COMPLETED] FontSelector, TextPreview, and previews use shadcn components.
+- [COMPLETED] Header and App layout use shadcn components.
+- [COMPLETED] All tests pass and continue to use `data-testid`.
+- [COMPLETED] Project aligns with PROJECT_SPEC.md TR.4.3.
