@@ -93,6 +93,8 @@ N1.10 Test names must be delivery mechanism and framework agnostic.
 Good: `adds a font`
 Bad: `posts a new font`, `adds a font by fetching from adobe`, `calls the api to add a font`.
 
+N1.11 Do not test for specific CSS classes or styles (e.g., `toHaveClass('opacity-0')`). Tests must be decoupled from visual implementation details, as styling is verified through visual inspection.
+
 ---
 
 ## A1. Architecture & DDD

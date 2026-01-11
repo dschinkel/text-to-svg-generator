@@ -69,4 +69,28 @@ describe('Font Selector', () => {
     const variationFont = screen.getByTestId('font-variation');
     expect(variationFont).toBeInTheDocument();
   });
+
+  test('renders remove font button', () => {
+    const fonts = [{ id: 'bungee', name: 'Bungee' }];
+    const fakeUseFonts = () => ({
+      fonts,
+      filteredFonts: fonts,
+      loading: false,
+      error: null,
+      newFontName: '',
+      setNewFontName: () => {},
+      isOpen: true,
+      setIsOpen: () => {},
+      toggleOpen: () => {},
+      handleAdd: async () => {},
+      handleVariationSelect: async () => {},
+      removeFont: async () => {},
+      containerRef: { current: null } as any
+    });
+
+    render(<FontSelector useFonts={fakeUseFonts as any} onSelect={() => {}} />);
+
+    const removeButton = screen.getByTestId('remove-font');
+    expect(removeButton).toBeInTheDocument();
+  });
 });

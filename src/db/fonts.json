@@ -692,44 +692,6 @@
     ]
   },
   {
-    "id": "campus-mn",
-    "name": "Campus-mn",
-    "slug": "campus-mn",
-    "web_link": "http://fonts.adobe.com/fonts/campus-mn",
-    "browse_info": {
-      "capitals": [],
-      "classification": [],
-      "contrast": [],
-      "language": [],
-      "number_style": [],
-      "recommended_for": [],
-      "weight": [],
-      "width": [],
-      "x_height": []
-    },
-    "css_stack": "\"campus-mn\", sans-serif",
-    "description": null,
-    "foundry": {
-      "name": "Mecanorma Collection",
-      "slug": "mecanorma-collection"
-    },
-    "libraries": [
-      {
-        "id": "full",
-        "link": "/api/v1/json/libraries/full",
-        "name": "Full Library"
-      }
-    ],
-    "variations": [
-      {
-        "id": "rcld:n4",
-        "link": "/api/v1/json/families/rcld/n4",
-        "name": "Campus MN Regular",
-        "fvd": "n4"
-      }
-    ]
-  },
-  {
     "id": "sporty-pro",
     "name": "Sporty-pro",
     "slug": "sporty-pro",
