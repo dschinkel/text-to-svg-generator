@@ -43,4 +43,21 @@ describe('Font Repository', () => {
     expect(calledOptions.headers['Content-Type']).toBe('application/json');
     expect(calledOptions.body).toBe(JSON.stringify({ name: 'Campus MN' }));
   });
+
+  it('removes a font', async () => {
+    let calledUrl = '';
+    let calledOptions: any = {};
+
+    global.fetch = (async (url: string, options: any) => {
+      calledUrl = url;
+      calledOptions = options;
+      return { ok: true };
+    }) as any;
+
+    const repository = fontRepository();
+    await repository.removeFont('octin-sports');
+
+    expect(calledUrl).toBe('/api/fonts/octin-sports');
+    expect(calledOptions.method).toBe('DELETE');
+  });
 });

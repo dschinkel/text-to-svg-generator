@@ -23,8 +23,19 @@ export const fontRepository = () => {
     return await response.json();
   };
 
+  const removeFont = async (id: string): Promise<void> => {
+    const response = await fetch(`/api/fonts/${id}`, {
+      method: 'DELETE'
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to remove font: ${response.statusText}`);
+    }
+  };
+
   return {
     getFonts,
-    addFont
+    addFont,
+    removeFont
   };
 };
