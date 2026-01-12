@@ -59,7 +59,7 @@ describe('SVG Generator Domain', () => {
     expect(outerPathMatch![1]).not.toBe(basePathMatch![1]);
   });
 
-  it('fills internal gaps for tight outline', async () => {
+  it('preserves internal holes for tight outline', async () => {
     const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
     const font = await opentype.load(fontPath);
     
@@ -71,26 +71,24 @@ describe('SVG Generator Domain', () => {
     const d = pathMatch![1];
     const mCommands = d.match(/M/g) || [];
     
-    // We expect only one closed path for 'O' if the hole is filled.
-    expect(mCommands.length).toBe(1);
+    // 'O' should have outer and inner paths
+    expect(mCommands.length).toBe(2);
   });
 
-  it('fills internal gaps for outer outline', async () => {
+  it('preserves internal holes for outer outline', async () => {
     const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
     const font = await opentype.load(fontPath);
     
     const text = 'O';
     const outerSvg = svgGenerator(text, font, { type: 'outer' });
     
-    // An 'O' typically has 2 paths in SVG (outer and inner hole).
-    // If gaps are filled, it should only have 1 'M' command (or fewer than the base).
     const pathMatch = outerSvg.match(/d="([^"]+)"/);
     expect(pathMatch).not.toBeNull();
     const d = pathMatch![1];
     const mCommands = d.match(/M/g) || [];
     
-    // We expect only one closed path for 'O' if the hole is filled.
-    expect(mCommands.length).toBe(1);
+    // 'O' should have outer and inner paths
+    expect(mCommands.length).toBe(2);
   });
 
   it('scales text svg down if it exceeds max dimensions', async () => {
@@ -118,5 +116,45 @@ describe('SVG Generator Domain', () => {
     expect(viewBoxMatch).not.toBeNull();
     const vbWidth = parseFloat(viewBoxMatch![1]);
     expect(vbWidth).toBeLessThanOrEqual(301);
+  });
+
+  it('generates filled outer outline with base text and outer contour', async () => {
+    const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
+    const font = await opentype.load(fontPath);
+    
+    const text = 'H';
+    const filledOuterSvg = svgGenerator(text, font, { type: 'filled-outer' });
+
+    // Should contain at least two path elements
+    const pathMatches = filledOuterSvg.match(/<path d="[^"]+"/g);
+    expect(pathMatches).not.toBeNull();
+    expect(pathMatches!.length).toBeGreaterThanOrEqual(2);
+    
+    expect(filledOuterSvg).toContain('fill="black"');
+  });
+
+  it('generates completely filled outer outline without any internal gaps', async () => {
+    const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
+    const font = await opentype.load(fontPath);
+    
+    // 'O' and 'B' have internal holes.
+    const text = 'OB';
+    const filledOuterSvg = svgGenerator(text, font, { type: 'filled-outer' });
+    
+    // Extract the first path (the offset one)
+    const pathMatch = filledOuterSvg.match(/<path d="([^"]+)"/);
+    expect(pathMatch).not.toBeNull();
+    const d = pathMatch![1];
+    
+    // It should have exactly two 'M' commands (one for 'O' and one for 'B' outer boundaries)
+    // if they don't overlap. If they overlap, it should have one.
+    // In any case, it should NOT have the 'M' commands for the holes.
+    const mCommands = d.match(/M/g) || [];
+    
+    // For the default font at 72pt, O and B might not overlap.
+    // Base 'O' has 2 paths. Base 'B' has 3 paths.
+    // Total 5 'M' commands in base.
+    // Filled outer should have at most 2.
+    expect(mCommands.length).toBeLessThanOrEqual(2);
   });
 });

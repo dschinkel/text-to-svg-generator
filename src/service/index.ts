@@ -9,6 +9,7 @@ import { SyncFontKit } from './fonts/use-cases/SyncFontKit.ts';
 import { GenerateBaseSVG } from './svg/use-cases/GenerateBaseSVG';
 import { GenerateTightOutlineSVG } from './svg/use-cases/GenerateTightOutlineSVG';
 import { GenerateOuterOutlineSVG } from './svg/use-cases/GenerateOuterOutlineSVG';
+import { GenerateFilledOuterOutlineSVG } from './svg/use-cases/GenerateFilledOuterOutlineSVG';
 import { ConvertImageToSVG } from './svg/use-cases/ConvertImageToSVG';
 import { GenerateSVGOutline } from './svg/use-cases/GenerateSVGOutline';
 import { imageController } from './svg/controllers/imageController';
@@ -35,6 +36,7 @@ SyncFontKit(repository, client, kitId)
 const boundGenerateBaseSVG = (text: string, fontId: string) => GenerateBaseSVG(repository, client, kitId, text, fontId);
 const boundGenerateTightOutlineSVG = (text: string, fontId: string) => GenerateTightOutlineSVG(repository, client, kitId, text, fontId);
 const boundGenerateOuterOutlineSVG = (text: string, fontId: string) => GenerateOuterOutlineSVG(repository, client, kitId, text, fontId);
+const boundGenerateFilledOuterOutlineSVG = (text: string, fontId: string) => GenerateFilledOuterOutlineSVG(repository, client, kitId, text, fontId);
 
 const controller = fontController(
   listFontsCommand, 
@@ -43,6 +45,7 @@ const controller = fontController(
   boundGenerateBaseSVG, 
   boundGenerateTightOutlineSVG,
   boundGenerateOuterOutlineSVG,
+  boundGenerateFilledOuterOutlineSVG,
   repository, 
   client, 
   kitId

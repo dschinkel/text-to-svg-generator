@@ -7,9 +7,10 @@ export interface SVGPreviewProps {
   label: string;
   onDownload?: () => void;
   'data-testid'?: string;
+  hideLabel?: boolean;
 }
 
-export const SVGPreview = ({ svgString, label, onDownload, 'data-testid': testId }: SVGPreviewProps) => {
+export const SVGPreview = ({ svgString, label, onDownload, 'data-testid': testId, hideLabel }: SVGPreviewProps) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -37,12 +38,14 @@ export const SVGPreview = ({ svgString, label, onDownload, 'data-testid': testId
 
   return (
     <div className="flex flex-col space-y-2">
-      <div className="flex justify-between items-center">
-        <span className="text-sm font-medium text-slate-500 uppercase tracking-wider">{label}</span>
-        {svgString && (
-          <span className="text-[10px] text-slate-400 font-bold bg-slate-100 px-1.5 py-0.5 rounded">CLICK TO DOWNLOAD</span>
-        )}
-      </div>
+      {!hideLabel && (
+        <div className="flex justify-between items-center">
+          <span className="text-sm font-medium text-slate-500 uppercase tracking-wider">{label}</span>
+          {svgString && (
+            <span className="text-[10px] text-slate-400 font-bold bg-slate-100 px-1.5 py-0.5 rounded">CLICK TO DOWNLOAD</span>
+          )}
+        </div>
+      )}
       <Card 
         ref={containerRef}
         className={cn(

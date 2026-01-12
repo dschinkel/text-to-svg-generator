@@ -96,6 +96,7 @@ The system generates all three SVG outputs for the selected font + text:
 
 **FR.5.2** Layered Preview Toggle
 - A toggle "include filled outer outline" that controls whether the Filled Outer Outline layer is included in the Layered Preview.
+- The toggle must be located in the Layered Preview section, right after the "Layered Preview" label.
 
 **FR.6 — Image to SVG Conversion**
 **FR.6.1** Upload a flat image (PNG/JPEG) and see a preview of the uploaded image.

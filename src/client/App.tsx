@@ -72,24 +72,14 @@ const App = () => {
                   onDownload={() => handleDownload(tightOutlineSVG, 'Tight Outline', preview.text)}
                   data-testid="tight-outline-preview"
                 />
-                <SVGPreview 
-                  svgString={outerOutlineSVG} 
-                  label="Outer Outline" 
-                  onDownload={() => handleDownload(outerOutlineSVG, 'Outer Outline', preview.text)}
-                  data-testid="outer-outline-preview"
-                />
-              </div>
-
-              <div className="flex items-center space-x-2 mt-4 mb-4" data-testid="filled-outer-toggle-container">
-                <Switch 
-                  id="include-filled-outer" 
-                  checked={includeFilledOuter} 
-                  onCheckedChange={setIncludeFilledOuter} 
-                  data-testid="filled-outer-toggle"
-                />
-                <Label htmlFor="include-filled-outer" className="text-slate-600 font-medium">
-                  include filled outer outline
-                </Label>
+                <div className="flex flex-col space-y-2">
+                  <SVGPreview 
+                    svgString={outerOutlineSVG} 
+                    label="Outer Outline" 
+                    onDownload={() => handleDownload(outerOutlineSVG, 'Outer Outline', preview.text)}
+                    data-testid="outer-outline-preview"
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t pt-8">
@@ -108,6 +98,19 @@ const App = () => {
                   outerLayer={outerLayer}
                   filledOuterLayer={includeFilledOuter ? filledOuterLayer : null}
                   label="Layered Preview"
+                  renderAction={
+                    <div className="flex items-center space-x-2" data-testid="filled-outer-toggle-container">
+                      <Switch 
+                        id="include-filled-outer" 
+                        checked={includeFilledOuter} 
+                        onCheckedChange={setIncludeFilledOuter} 
+                        data-testid="filled-outer-toggle"
+                      />
+                      <Label htmlFor="include-filled-outer" className="text-[10px] text-slate-500 font-medium uppercase">
+                        include filled outer outline
+                      </Label>
+                    </div>
+                  }
                 />
               </div>
             </section>

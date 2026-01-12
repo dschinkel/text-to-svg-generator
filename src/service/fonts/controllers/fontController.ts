@@ -5,6 +5,7 @@ export const fontController = (
   BaseSVGUseCase: (text: string, fontId: string) => Promise<string | null>,
   TightOutlineSVGUseCase: (text: string, fontId: string) => Promise<string | null>,
   OuterOutlineSVGUseCase: (text: string, fontId: string) => Promise<string | null>,
+  FilledOuterOutlineSVGUseCase: (text: string, fontId: string) => Promise<string | null>,
   repository: any,
   client: any,
   kitId: string
@@ -25,7 +26,8 @@ export const fontController = (
     const useCases = {
       base: BaseSVGUseCase,
       tight: TightOutlineSVGUseCase,
-      outer: OuterOutlineSVGUseCase
+      outer: OuterOutlineSVGUseCase,
+      'filled-outer': FilledOuterOutlineSVGUseCase
     };
 
     const useCase = useCases[type] || BaseSVGUseCase;

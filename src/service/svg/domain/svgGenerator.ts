@@ -2,7 +2,7 @@ import { Font } from 'opentype.js';
 import { getOffsetPath } from './pathOffsetter';
 
 export interface SVGGeneratorOptions {
-  type?: 'base' | 'tight' | 'outer';
+  type?: 'base' | 'tight' | 'outer' | 'filled-outer';
 }
 
 export const svgGenerator = (text: string, font: Font, options: SVGGeneratorOptions = {}): string => {
@@ -11,7 +11,8 @@ export const svgGenerator = (text: string, font: Font, options: SVGGeneratorOpti
   const typeConfigs = {
     base: { padding: 30, offset: 0 },
     tight: { padding: 30, offset: 4 },
-    outer: { padding: 30, offset: 8 }
+    outer: { padding: 30, offset: 8 },
+    'filled-outer': { padding: 30, offset: 8 }
   };
 
   const config = typeConfigs[options.type || 'base'];
@@ -44,9 +45,13 @@ export const svgGenerator = (text: string, font: Font, options: SVGGeneratorOpti
   const path = font.getPath(text, tx, ty, scaledFontSize);
   const baseD = path.toPathData(2);
   
-  const fillGaps = options.type === 'tight' || options.type === 'outer';
-  const d = getOffsetPath(baseD, scaledOffset, fillGaps);
-  const content = `<path d="${d}" fill="black" />`;
+  const fillGaps = options.type === 'filled-outer';
+  const offsetD = getOffsetPath(baseD, scaledOffset, fillGaps);
+  
+  let content = `<path d="${offsetD}" fill="black" />`;
+  if (options.type === 'filled-outer') {
+    content += `\n  <path d="${baseD}" fill="black" />`;
+  }
 
   const finalWidth = (scaledBox.x2 - scaledBox.x1) + 2 * scaledPadding;
   const finalHeight = (scaledBox.y2 - scaledBox.y1) + 2 * scaledPadding;

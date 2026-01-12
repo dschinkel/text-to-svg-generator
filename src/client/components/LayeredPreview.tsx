@@ -7,15 +7,17 @@ export interface LayeredPreviewProps {
   outerLayer: string | null;
   filledOuterLayer?: string | null;
   label: string;
+  renderAction?: React.ReactNode;
 }
 
-export const LayeredPreview = ({ baseLayer, tightLayer, outerLayer, filledOuterLayer, label }: LayeredPreviewProps) => {
+export const LayeredPreview = ({ baseLayer, tightLayer, outerLayer, filledOuterLayer, label, renderAction }: LayeredPreviewProps) => {
   const isReady = baseLayer && tightLayer && outerLayer;
 
   return (
     <div className="flex flex-col space-y-2">
       <div className="flex justify-between items-center">
         <span className="text-sm font-medium text-slate-500 uppercase tracking-wider">{label}</span>
+        {renderAction}
       </div>
       <Card 
         className="p-4 relative min-h-[300px] flex items-center justify-center overflow-hidden transition-all border-slate-200"

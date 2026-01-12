@@ -26,8 +26,17 @@ export const getOffsetPath = (d: string, offset: number, fillGaps = false): stri
     const polyTree = new CL.PolyTree();
     clipper.Execute(polyTree, offset * scale);
     
-    // PolyTree correctly identifies hierarchy. Top-level nodes are outer boundaries.
-    const outerNodes = polyTree.Childs();
+    // Convert PolyTree back to Paths to perform a Union, ensuring all overlapping areas are merged
+    const allOffsetPaths = CL.Clipper.PolyTreeToPaths(polyTree);
+    const mergedPaths = CL.Clipper.SimplifyPolygons(allOffsetPaths, CL.PolyFillType.pftNonZero);
+    
+    // Now get the top-level contours of the merged result
+    const finalPolyTree = new CL.PolyTree();
+    const c = new CL.Clipper();
+    c.AddPaths(mergedPaths, CL.PolyType.ptSubject, true);
+    c.Execute(CL.ClipType.ctUnion, finalPolyTree, CL.PolyFillType.pftNonZero, CL.PolyFillType.pftNonZero);
+    
+    const outerNodes = finalPolyTree.Childs();
     for (let i = 0; i < outerNodes.length; i++) {
       const node = outerNodes[i];
       resultD += pathToSvg(node.Contour(), scale);
