@@ -133,6 +133,10 @@ The system generates all three SVG outputs for the selected font + text:
 - **FR.8.2** Ensure all outlines are real path geometry (closed filled paths), not strokes.
 - **FR.8.3** Widen the preview container to prevent text wrapping for longer names. The container width should be fixed and doubled.
 
+**FR.9 — Tabbed Navigation**
+- **FR.9.1** "Font to SVG", "Image to SVG", and "SVG to Tight Outline" sections must be wrapped in tabs at the top for easier navigation.
+- **FR.9.2** The "Font Selection" section header must be renamed to "Font to SVG".
+
 ---
 
 ## 4. Technical Requirements (TR.*)

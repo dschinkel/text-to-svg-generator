@@ -314,3 +314,11 @@ Acceptance:
 - [COMPLETED] Preview image container is widened (doubled fixed width).
 - [COMPLETED] Long names do not wrap to the next line in the preview.
 - [COMPLETED] UI remains responsive and visually balanced.
+
+## Task: FR.9 (Task 102) [COMPLETED]
+### Goal: Add tabbed navigation for Font to SVG, Image to SVG, and SVG to Tight Outline.
+Acceptance:
+- [COMPLETED] Tabs for "Font to SVG", "Image to SVG", and "SVG to Tight Outline" at the top.
+- [COMPLETED] "Font Selection" header changed to "Font to SVG".
+- [COMPLETED] UI layout adjusted to support tabs.
+- [COMPLETED] All tests pass.
