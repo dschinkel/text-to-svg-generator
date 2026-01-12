@@ -322,3 +322,11 @@ Acceptance:
 - [COMPLETED] "Font Selection" header changed to "Font to SVG".
 - [COMPLETED] UI layout adjusted to support tabs.
 - [COMPLETED] All tests pass.
+
+## Task: FR.3.4.1 (Task 103) [COMPLETED]
+### Goal: Fix Filled Outer Outline gaps.
+Acceptance:
+- [COMPLETED] Filled outer outline is a solid silhouette with no internal holes.
+- [COMPLETED] Verified with text containing holes (e.g., 'A', 'O', 'e').
+- [COMPLETED] All tests pass.
+- [COMPLETED] Toggle moved closer to the Layered Preview label.

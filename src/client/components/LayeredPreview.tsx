@@ -15,7 +15,7 @@ export const LayeredPreview = ({ baseLayer, tightLayer, outerLayer, filledOuterL
 
   return (
     <div className="flex flex-col space-y-2">
-      <div className="flex justify-between items-center">
+      <div className="flex items-center space-x-4">
         <span className="text-sm font-medium text-slate-500 uppercase tracking-wider">{label}</span>
         {renderAction}
       </div>

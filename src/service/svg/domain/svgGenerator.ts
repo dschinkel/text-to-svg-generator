@@ -48,10 +48,7 @@ export const svgGenerator = (text: string, font: Font, options: SVGGeneratorOpti
   const fillGaps = options.type === 'filled-outer';
   const offsetD = getOffsetPath(baseD, scaledOffset, fillGaps);
   
-  let content = `<path d="${offsetD}" fill="black" />`;
-  if (options.type === 'filled-outer') {
-    content += `\n  <path d="${baseD}" fill="black" />`;
-  }
+  const content = `<path d="${offsetD}" fill="black" />`;
 
   const finalWidth = (scaledBox.x2 - scaledBox.x1) + 2 * scaledPadding;
   const finalHeight = (scaledBox.y2 - scaledBox.y1) + 2 * scaledPadding;

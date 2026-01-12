@@ -18,25 +18,33 @@ export const getOffsetPath = (d: string, offset: number, fillGaps = false): stri
   // Simplify input paths to handle self-intersections
   const simplifiedPaths = CL.Clipper.SimplifyPolygons(paths, CL.PolyFillType.pftNonZero);
   
-  clipper.AddPaths(simplifiedPaths, CL.JoinType.jtRound, CL.EndType.etClosedPolygon);
+  let pathsToOffset = simplifiedPaths;
+  if (fillGaps) {
+    // To fill gaps, we only offset the outermost boundaries of the shapes.
+    // Clipper.Orientation returns true for outer contours in a Y-down coordinate system.
+    pathsToOffset = simplifiedPaths.filter(p => CL.Clipper.Orientation(p));
+  }
+  
+  clipper.AddPaths(pathsToOffset, CL.JoinType.jtRound, CL.EndType.etClosedPolygon);
   
   let resultD = '';
   
   if (fillGaps) {
-    const polyTree = new CL.PolyTree();
-    clipper.Execute(polyTree, offset * scale);
+    const offsetPaths = new CL.Paths();
+    clipper.Execute(offsetPaths, offset * scale);
     
-    // Convert PolyTree back to Paths to perform a Union, ensuring all overlapping areas are merged
-    const allOffsetPaths = CL.Clipper.PolyTreeToPaths(polyTree);
-    const mergedPaths = CL.Clipper.SimplifyPolygons(allOffsetPaths, CL.PolyFillType.pftNonZero);
-    
-    // Now get the top-level contours of the merged result
-    const finalPolyTree = new CL.PolyTree();
+    // Perform a Union to merge overlapping letters
+    const solution = new CL.Paths();
     const c = new CL.Clipper();
-    c.AddPaths(mergedPaths, CL.PolyType.ptSubject, true);
-    c.Execute(CL.ClipType.ctUnion, finalPolyTree, CL.PolyFillType.pftNonZero, CL.PolyFillType.pftNonZero);
+    c.AddPaths(offsetPaths, CL.PolyType.ptSubject, true);
     
-    const outerNodes = finalPolyTree.Childs();
+    // Use PolyTree to explicitly separate outer from inner
+    const tree = new CL.PolyTree();
+    c.Execute(CL.ClipType.ctUnion, tree, CL.PolyFillType.pftNonZero, CL.PolyFillType.pftNonZero);
+    
+    // Recursively collect ONLY the level 0 contours (outer boundaries of clusters)
+    // Level 1 nodes in PolyTree are holes and are discarded.
+    const outerNodes = tree.Childs();
     for (let i = 0; i < outerNodes.length; i++) {
       const node = outerNodes[i];
       resultD += pathToSvg(node.Contour(), scale);

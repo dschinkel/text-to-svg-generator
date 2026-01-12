@@ -108,14 +108,14 @@ const App = () => {
                       filledOuterLayer={includeFilledOuter ? filledOuterLayer : null}
                       label="Layered Preview"
                       renderAction={
-                        <div className="flex items-center space-x-2" data-testid="filled-outer-toggle-container">
+                        <div className="flex items-center space-x-2 ml-4" data-testid="filled-outer-toggle-container">
                           <Switch 
                             id="include-filled-outer" 
                             checked={includeFilledOuter} 
                             onCheckedChange={setIncludeFilledOuter} 
                             data-testid="filled-outer-toggle"
                           />
-                          <Label htmlFor="include-filled-outer" className="text-[10px] text-slate-500 font-medium uppercase">
+                          <Label htmlFor="include-filled-outer" className="text-[10px] text-slate-500 font-medium uppercase whitespace-nowrap">
                             include filled outer outline
                           </Label>
                         </div>
