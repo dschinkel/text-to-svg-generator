@@ -332,9 +332,9 @@ Acceptance:
 - [COMPLETED] Toggle moved closer to the Layered Preview label.
 - [COMPLETED] Aggressive hole removal and Morphological Closing (dilation/erosion) implemented in domain logic.
 
-## Task: FR.3.4.2 (Task 104) [IN PROGRESS]
+## Task: FR.3.4.2 (Task 104) [COMPLETED]
 ### Goal: Fix persistent gaps in Filled Outer Outline.
 Acceptance:
-- [ ] No gap between 'L' and 'E' in 'HAYLEY' for Filled Outer Outline.
-- [ ] Maintain solid silhouette for all other tested cases ('A', 'O', 'HAYDEN').
-- [ ] All tests pass.
+- [COMPLETED] No gap between 'L' and 'E' in 'HAYLEY' for Filled Outer Outline.
+- [COMPLETED] Maintain solid silhouette for all other tested cases ('A', 'O', 'HAYDEN').
+- [COMPLETED] All tests pass.
