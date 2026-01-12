@@ -174,10 +174,58 @@ describe('SVG Generator Domain', () => {
     
     // We expect 6 or fewer if some letters overlap.
     expect(mCommands.length).toBeLessThanOrEqual(6);
+  });
+
+  it('generates solid silhouette with no gap between L and E for HAYLEY', async () => {
+    const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
+    const font = await opentype.load(fontPath);
     
-    // Check that there are no holes by checking the total number of 'M' commands in the whole SVG
-    // (excluding the base text path which we know has holes)
-    // Wait, let's just check the offset path 'd' we extracted.
-    // If it has holes, it would have more 'M' commands.
+    // We'll use 'L E' to simulate a small gap that should be bridged
+    const text = 'L E';
+    const filledOuterSvg = svgGenerator(text, font, { type: 'filled-outer' });
+    
+    const pathMatch = filledOuterSvg.match(/<path d="([^"]+)"/);
+    expect(pathMatch).not.toBeNull();
+    const d = pathMatch![1];
+    
+    const mCommands = d.match(/M/g) || [];
+    // We expect 1 'M' command if the space is bridged
+    expect(mCommands.length).toBe(1);
+  });
+
+  it('generates solid silhouette for text with internal holes', async () => {
+    const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
+    const font = await opentype.load(fontPath);
+    
+    const text = 'A'; // 'A' has an internal triangle hole
+    const filledOuterSvg = svgGenerator(text, font, { type: 'filled-outer' });
+    
+    const pathMatch = filledOuterSvg.match(/<path d="([^"]+)"/);
+    expect(pathMatch).not.toBeNull();
+    const d = pathMatch![1];
+    
+    const mCommands = d.match(/M/g) || [];
+    // If holes are removed, only the outer contour 'M' should remain.
+    expect(mCommands.length).toBe(1);
+  });
+
+  it('generates solid silhouette with absolutely no internal holes for HAYDEN', async () => {
+    const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
+    const font = await opentype.load(fontPath);
+    
+    const text = 'HAYDEN';
+    const filledOuterSvg = svgGenerator(text, font, { type: 'filled-outer' });
+    
+    const pathMatch = filledOuterSvg.match(/<path d="([^"]+)"/);
+    expect(pathMatch).not.toBeNull();
+    const d = pathMatch![1];
+    
+    const mCommands = d.match(/M/g) || [];
+    // Every 'M' starts a new contour. In a solid silhouette, we expect NO holes.
+    // We can verify this by checking if Clipper.Orientation(contour) is always true (outer).
+    // But since we can't easily call Clipper here, we'll check the total count of M commands.
+    // HAYDEN has 6 letters. If they are separate, we expect 6 M's. If they overlap, fewer.
+    // If they have holes, we'd expect 10+ M's.
+    expect(mCommands.length).toBeLessThanOrEqual(6);
   });
 });

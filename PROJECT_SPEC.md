@@ -88,6 +88,7 @@ The system generates all three SVG outputs for the selected font + text:
 **FR.3.4** Filled Outer Outline SVG
 - SVG image of the text plus a larger outer outline/contour, with the text filled in.
 - **FR.3.4.1** Ensure the filled outer outline is a solid silhouette with no internal holes or gaps, regardless of font or text.
+- **FR.3.4.2** Fix persistent gaps between specific letters (e.g., 'L' and 'E' in 'HAYLEY') in the filled outer outline by ensuring aggressive merging of adjacent contours.
 
 **FR.4 — Download**
 **FR.4.1**  Clicking a Base, Tight, or Outer thumbnail downloads its full-resolution SVG file.

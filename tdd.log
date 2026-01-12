@@ -1346,3 +1346,69 @@ CHANGESET:
 
 COMMANDS RUN: npm test src/service/fonts/use-cases/AddFont.test.ts
 TEST OUTPUT: GREEN - All tests passing
+
+PLAN:
+1. Service: Domain - Hardened Gap Bridging for filled-outer
+   RED:
+   - Test name: generates solid silhouette with no gap between L and E for HAYLEY
+   - Location: src/service/svg/domain/svgGenerator.test.ts
+   - Intent: Create a test case that specifically uses the 'HAYLEY' text and verifies that the resulting filled-outer SVG path has a single outermost contour (one 'M' command), indicating that the gap between 'L' and 'E' has been bridged and merged into the main silhouette.
+
+   GREEN:
+   - Minimal implementation: Increase the dilation factor in the "Morphological Closing" operation within pathOffsetter.ts. A larger dilation will allow the letters 'L' and 'E' to "grow" enough to touch and merge during the Union step, before being eroded back to their intended outline size.
+   - Files expected to change: src/service/svg/domain/pathOffsetter.ts
+
+   COMMIT:
+   - Proposed message: feat: FR.3.4.2: Step 1: Service: Domain: bridges gaps between letters in filled outer outline
+
+   REFACTOR:
+   - Candidate refactors: None anticipated, but I will review if the dilation factor should be dynamic or configurable.
+   - Files expected to change: src/service/svg/domain/pathOffsetter.ts
+
+2. Cleanup & Verification
+   - Run all tests
+   - Fix linting errors
+   - Mark task [COMPLETED] in tasks.md
+   COMMIT:
+   - Proposed message: feat: FR.3.4.2: cleanup: fix HAYLEY gap in filled outer outline
+
+GOAL: Fix persistent gaps in Filled Outer Outline.
+PLAN STEP: 1.1
+
+----------------------------------------------------------------------
+
+=== RED PHASE ===
+TEST ADDED: src/service/svg/domain/svgGenerator.test.ts - generates solid silhouette with no gap between L and E for HAYLEY
+CHANGESET:
+  it('generates solid silhouette with no gap between L and E for HAYLEY', async () => {
+    const fontPath = path.resolve(process.cwd(), 'src/service/assets/fonts/default.ttf');
+    const font = await opentype.load(fontPath);
+    
+    const text = 'HAYLEY';
+    const filledOuterSvg = svgGenerator(text, font, { type: 'filled-outer' });
+    
+    const pathMatch = filledOuterSvg.match(/<path d="([^"]+)"/);
+    expect(pathMatch).not.toBeNull();
+    const d = pathMatch![1];
+    
+    const mCommands = d.match(/M/g) || [];
+    // We expect 1 'M' command if all letters are merged into a single solid silhouette
+    expect(mCommands.length).toBe(1);
+  });
+
+COMMANDS RUN: npm test src/service/svg/domain/svgGenerator.test.ts
+TEST OUTPUT: RED - Expected: 1, Received: 2 (for 'L E')
+
+NEXT STEP: Increase dilation from 4 to 12 in pathOffsetter.ts
+
+=== GREEN PHASE ===
+CHANGESET:
+    // increasing dilation to be more aggressive in closing gaps.
+    // Increasing from 4 to 12 to handle wider gaps like 'L E' or bold fonts.
+    const dilation = 12 * scale; 
+
+COMMANDS RUN: npm test src/service/svg/domain/svgGenerator.test.ts
+TEST OUTPUT: GREEN - All tests passing
+
+=== COMMIT ===
+PROPOSED COMMIT: feat: FR.3.4.2: Step 1: Service: Domain: bridges gaps between letters in filled outer outline

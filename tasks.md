@@ -327,6 +327,14 @@ Acceptance:
 ### Goal: Fix Filled Outer Outline gaps.
 Acceptance:
 - [COMPLETED] Filled outer outline is a solid silhouette with no internal holes.
-- [COMPLETED] Verified with text containing holes (e.g., 'A', 'O', 'e').
+- [COMPLETED] Verified with text containing holes (e.g., 'A', 'O', 'e', 'HAYDEN').
 - [COMPLETED] All tests pass.
 - [COMPLETED] Toggle moved closer to the Layered Preview label.
+- [COMPLETED] Aggressive hole removal and Morphological Closing (dilation/erosion) implemented in domain logic.
+
+## Task: FR.3.4.2 (Task 104) [IN PROGRESS]
+### Goal: Fix persistent gaps in Filled Outer Outline.
+Acceptance:
+- [ ] No gap between 'L' and 'E' in 'HAYLEY' for Filled Outer Outline.
+- [ ] Maintain solid silhouette for all other tested cases ('A', 'O', 'HAYDEN').
+- [ ] All tests pass.

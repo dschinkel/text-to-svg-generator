@@ -21,8 +21,24 @@ export const getOffsetPath = (d: string, offset: number, fillGaps = false): stri
   let pathsToOffset = simplifiedPaths;
   if (fillGaps) {
     // To fill gaps, we only offset the outermost boundaries of the shapes.
-    // Clipper.Orientation returns true for outer contours in a Y-down coordinate system.
-    pathsToOffset = simplifiedPaths.filter(p => CL.Clipper.Orientation(p));
+    // First, perform a union to merge overlapping source parts and resolve hierarchies.
+    const c = new CL.Clipper();
+    c.AddPaths(simplifiedPaths, CL.PolyType.ptSubject, true);
+    const tree = new CL.PolyTree();
+    c.Execute(CL.ClipType.ctUnion, tree, CL.PolyFillType.pftNonZero, CL.PolyFillType.pftNonZero);
+    
+    // Extract only the top-level contours, effectively removing holes from the source.
+    const outerPaths = new CL.Paths();
+    const collectTopLevel = (nodes: any[]) => {
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        if (!node.IsHole()) {
+          outerPaths.push(node.Contour());
+        }
+      }
+    };
+    collectTopLevel(tree.Childs());
+    pathsToOffset = outerPaths;
   }
   
   clipper.AddPaths(pathsToOffset, CL.JoinType.jtRound, CL.EndType.etClosedPolygon);
@@ -33,20 +49,35 @@ export const getOffsetPath = (d: string, offset: number, fillGaps = false): stri
     const offsetPaths = new CL.Paths();
     clipper.Execute(offsetPaths, offset * scale);
     
-    // Perform a Union to merge overlapping letters
-    const solution = new CL.Paths();
+    // To fill gaps between letters that are very close but not touching,
+    // we can perform a tiny additional offset (dilation) followed by the same offset back (erosion).
+    // this is known as a "closing" morphological operation.
+    // increasing dilation to be more aggressive in closing gaps.
+    // Increasing from 4 to 12 to handle wider gaps like 'L E' or bold fonts.
+    const dilation = 12 * scale; 
+    const closingClipper = new CL.ClipperOffset();
+    closingClipper.AddPaths(offsetPaths, CL.JoinType.jtRound, CL.EndType.etClosedPolygon);
+    
+    const dilatedPaths = new CL.Paths();
+    closingClipper.Execute(dilatedPaths, dilation);
+    
+    const erodedPaths = new CL.Paths();
+    const erosionClipper = new CL.ClipperOffset();
+    erosionClipper.AddPaths(dilatedPaths, CL.JoinType.jtRound, CL.EndType.etClosedPolygon);
+    erosionClipper.Execute(erodedPaths, -dilation);
+
+    // Perform a Union to merge overlapping letters and resolve hierarchies
     const c = new CL.Clipper();
-    c.AddPaths(offsetPaths, CL.PolyType.ptSubject, true);
+    c.AddPaths(erodedPaths, CL.PolyType.ptSubject, true);
     
     // Use PolyTree to explicitly separate outer from inner
     const tree = new CL.PolyTree();
     c.Execute(CL.ClipType.ctUnion, tree, CL.PolyFillType.pftNonZero, CL.PolyFillType.pftNonZero);
     
-    // Recursively collect ONLY the level 0 contours (outer boundaries of clusters)
-    // Level 1 nodes in PolyTree are holes and are discarded.
-    const outerNodes = tree.Childs();
-    for (let i = 0; i < outerNodes.length; i++) {
-      const node = outerNodes[i];
+    // Recursively collect ONLY the Level 0 contours (outer boundaries).
+    const rootNodes = tree.Childs();
+    for (let i = 0; i < rootNodes.length; i++) {
+      const node = rootNodes[i];
       resultD += pathToSvg(node.Contour(), scale);
     }
   } else {
