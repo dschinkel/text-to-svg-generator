@@ -8,6 +8,8 @@ import { TextPreview } from './components/TextPreview/TextPreview';
 import { SVGPreview } from './components/SVGPreview';
 import { LayeredPreview } from './components/LayeredPreview';
 import { useApp } from './hooks/useApp';
+import { Switch } from './components/ui/switch';
+import { Label } from './components/ui/label';
 import { ImageToSVGSection } from './components/ImageToSVG/ImageToSVGSection';
 import { SVGToOutlineSection } from './components/SVGToOutline/SVGToOutlineSection';
 import { Card, CardContent } from './components/ui/card';
@@ -19,9 +21,13 @@ const App = () => {
     baseSVG,
     tightOutlineSVG,
     outerOutlineSVG,
+    filledOuterSVG,
+    includeFilledOuter,
+    setIncludeFilledOuter,
     baseLayer,
     tightLayer,
     outerLayer,
+    filledOuterLayer,
     handleDownload
   } = useApp();
 
@@ -74,11 +80,33 @@ const App = () => {
                 />
               </div>
 
+              <div className="flex items-center space-x-2 mt-4 mb-4" data-testid="filled-outer-toggle-container">
+                <Switch 
+                  id="include-filled-outer" 
+                  checked={includeFilledOuter} 
+                  onCheckedChange={setIncludeFilledOuter} 
+                  data-testid="filled-outer-toggle"
+                />
+                <Label htmlFor="include-filled-outer" className="text-slate-600 font-medium">
+                  include filled outer outline
+                </Label>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t pt-8">
+                <SVGPreview 
+                  svgString={filledOuterSVG} 
+                  label="Filled Outer Outline" 
+                  onDownload={() => handleDownload(filledOuterSVG, 'Filled Outer Outline', preview.text)}
+                  data-testid="filled-outer-preview"
+                />
+              </div>
+
               <div className="mt-8 border-t pt-8">
                 <LayeredPreview 
                   baseLayer={baseLayer}
                   tightLayer={tightLayer}
                   outerLayer={outerLayer}
+                  filledOuterLayer={includeFilledOuter ? filledOuterLayer : null}
                   label="Layered Preview"
                 />
               </div>

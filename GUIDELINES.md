@@ -39,6 +39,7 @@ P0.9 For React work, when presenting a PLAN, explicitly ask whether Step 1 (Comp
 P0.10 At the very end of a task (after all steps and cleanup), you MUST mark the task as [COMPLETED] in `tasks.md`, run all tests one last time, and then perform a final cleanup commit and push before calling `submit`.
 P0.11 When iterating on a feature, do not mark it as [FAILED] or create new "fix" tasks if it doesn't meet acceptance criteria immediately. Instead, keep the current task [IN PROGRESS] and iterate until it is [COMPLETED].
 P0.12 NEVER call `submit` if there are uncommitted or unpushed changes related to the task. Every task completion must end with a push to the remote repository.
+P0.13 When asked to add a new feature, you must always add it at the higher level in `PROJECT_SPEC.md` first, then break that out into smaller tasks second in `tasks.md` using the `PROJECT_SPEC` feature number.
 
 ---
 
@@ -64,6 +65,7 @@ T1.10 When fixing a defect or implementing a feature with a clear external contr
 T1.11 When tests fail, fix implementation first, not the test, unless the test clearly contradicts the spec.
 T1.12 Always follow an outside-in TDD approach. Start implementation at the highest permitted layer (e.g., UI components or Hooks for frontend, Controllers or API routes for backend) and work your way down to the lower-level collaborators (repositories, commands, domain logic). When a dependency is needed but has not been implemented yet, provide a simple custom stub (a "fake") for that dependency to satisfy the current test and allow the current step to go GREEN.
 T1.13 The backend / service code should also be implemented outside-in. This means starting from the entry point (Controller/App route) and working down through the use cases to the data layer, ensuring each layer is defined by a test before its implementation and dependencies are built.
+T1.14 Strict Outside-In Ordering: When presenting a PLAN or executing tasks, you MUST always start from the highest level of the delivery mechanism (UI for frontend, Controller for backend) and work your way down. You must never start from the domain or data layer and work up. The PLAN must explicitly list steps in this top-down order.
 
 ---
 
@@ -397,6 +399,8 @@ test('myFunction should be called with correct arguments')
 test('renders slider and handles value change')
 test('parseTags() returns valid results')
 test('GET /api/scoring creates [store]-seo-scores.json = {} if missing')
+test('returns filled-outer svg when requested')
+test('fetches filled outer outline svg')
 ```
 
 Good examples (use this style):
@@ -408,6 +412,7 @@ test('lists new cars for sale')
 test('shows prompt temperature slider')
 test('saves initial seo scores')
 test('saves scores for a unique etsy shop')
+test('returns filled-outer image')
 ```
 
 ### Appendix E — Naming and File Structure Examples

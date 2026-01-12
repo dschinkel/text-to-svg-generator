@@ -14,6 +14,17 @@ describe('Layered SVG Hook', () => {
     expect(result.current.outerLayer).toContain('fill="#3b82f6"');
   });
 
+  test('includes filled outer layer in layered preview', () => {
+    const baseSVG = '<svg><path d="M0 0h10v10H0z"/></svg>';
+    const tightSVG = '<svg><path d="M-1 -1h12v12H-1z"/></svg>';
+    const outerSVG = '<svg><path d="M-2 -2h14v14H-2z"/></svg>';
+    const filledOuterSVG = '<svg><path d="M-3 -3h16v16H-3z"/></svg>';
+
+    const { result } = renderHook(() => useLayeredSVG(baseSVG, tightSVG, outerSVG, filledOuterSVG));
+
+    expect(result.current.filledOuterLayer).toContain('fill="#f59e0b"');
+  });
+
   test('returns null layers if inputs are null', () => {
     const { result } = renderHook(() => useLayeredSVG(null, null, null));
     

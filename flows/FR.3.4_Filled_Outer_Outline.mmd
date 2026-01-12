@@ -1,0 +1,16 @@
+graph TD
+    User[User] -->|Enters Text| App[React App]
+    App -->|Toggles 'include filled outer outline'| App
+    App -->|Requests SVGs| useSVG[useSVG Hook]
+    useSVG -->|fetch /api/svg?type=filled-outer| Controller[FontController]
+    Controller -->|Calls| UseCase[GenerateFilledOuterOutlineSVG]
+    UseCase -->|Calls| Generator[svgGenerator]
+    Generator -->|Processes| PathOffsetter[pathOffsetter]
+    Generator -->|Returns SVG with base text + outer outline| UseCase
+    UseCase -->|Returns SVG| Controller
+    Controller -->|Returns SVG| useSVG
+    useSVG -->|Updates State| App
+    App -->|Passes Layers| useLayeredSVG[useLayeredSVG Hook]
+    useLayeredSVG -->|Returns Colored Layers| App
+    App -->|Conditionally Includes filledOuterLayer| LayeredPreview[LayeredPreview Component]
+    LayeredPreview -->|Renders Combined Preview| User

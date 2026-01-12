@@ -85,11 +85,17 @@ The system generates all three SVG outputs for the selected font + text:
 **FR.3.3** Outer Outline SVG
 - SVG image of the text plus a larger outer outline/contour outside the tight outline.
 
+**FR.3.4** Filled Outer Outline SVG
+- SVG image of the text plus a larger outer outline/contour, with the text filled in.
+
 **FR.4 — Download**
 **FR.4.1**  Clicking a Base, Tight, or Outer thumbnail downloads its full-resolution SVG file.
 
 **FR.5 — Layered Preview**
 **FR.5.1** A combined preview showing all three layers (Base, Tight, Outer) stacked together with different colors.
+
+**FR.5.2** Layered Preview Toggle
+- A toggle "include filled outer outline" that controls whether the Filled Outer Outline layer is included in the Layered Preview.
 
 **FR.6 — Image to SVG Conversion**
 **FR.6.1** Upload a flat image (PNG/JPEG) and see a preview of the uploaded image.

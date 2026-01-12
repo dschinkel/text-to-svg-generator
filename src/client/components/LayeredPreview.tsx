@@ -5,10 +5,11 @@ export interface LayeredPreviewProps {
   baseLayer: string | null;
   tightLayer: string | null;
   outerLayer: string | null;
+  filledOuterLayer?: string | null;
   label: string;
 }
 
-export const LayeredPreview = ({ baseLayer, tightLayer, outerLayer, label }: LayeredPreviewProps) => {
+export const LayeredPreview = ({ baseLayer, tightLayer, outerLayer, filledOuterLayer, label }: LayeredPreviewProps) => {
   const isReady = baseLayer && tightLayer && outerLayer;
 
   return (
@@ -33,6 +34,13 @@ export const LayeredPreview = ({ baseLayer, tightLayer, outerLayer, label }: Lay
               className="absolute inset-0 flex items-center justify-center pointer-events-none p-4"
               dangerouslySetInnerHTML={{ __html: outerLayer }}
             />
+            {filledOuterLayer && (
+              <div 
+                className="absolute inset-0 flex items-center justify-center pointer-events-none p-4"
+                dangerouslySetInnerHTML={{ __html: filledOuterLayer }}
+                data-testid="filled-outer-layer"
+              />
+            )}
             <div 
               className="absolute inset-0 flex items-center justify-center pointer-events-none p-4"
               dangerouslySetInnerHTML={{ __html: tightLayer }}

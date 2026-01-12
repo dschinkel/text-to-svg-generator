@@ -4,13 +4,15 @@ import { applyColorToSVG } from '../domain/svgColorService.ts';
 export const useLayeredSVG = (
   baseSVG: string | null,
   tightSVG: string | null,
-  outerSVG: string | null
+  outerSVG: string | null,
+  filledOuterSVG?: string | null
 ) => {
   return useMemo(() => {
     return {
       baseLayer: baseSVG ? applyColorToSVG(baseSVG, '#000000') : null,
       tightLayer: tightSVG ? applyColorToSVG(tightSVG, '#22c55e') : null,
       outerLayer: outerSVG ? applyColorToSVG(outerSVG, '#3b82f6') : null,
+      filledOuterLayer: filledOuterSVG ? applyColorToSVG(filledOuterSVG, '#f59e0b') : null,
     };
-  }, [baseSVG, tightSVG, outerSVG]);
+  }, [baseSVG, tightSVG, outerSVG, filledOuterSVG]);
 };

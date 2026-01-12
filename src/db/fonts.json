@@ -1,76 +1,5 @@
 [
   {
-    "id": "tgkh",
-    "name": "Octin Sports",
-    "slug": "octin-sports",
-    "web_link": "http://fonts.adobe.com/fonts/octin-sports",
-    "browse_info": {
-      "capitals": [
-        "all-or-small-caps"
-      ],
-      "classification": [
-        "decorative"
-      ],
-      "contrast": [
-        "low"
-      ],
-      "language": [
-        "ca",
-        "cs",
-        "de",
-        "en",
-        "es",
-        "fr",
-        "hu",
-        "it",
-        "mt",
-        "nl",
-        "pl",
-        "pt",
-        "sl",
-        "sv",
-        "tr"
-      ],
-      "number_style": [
-        "uppercase"
-      ],
-      "recommended_for": [],
-      "weight": [
-        "regular"
-      ],
-      "width": [
-        "regular"
-      ],
-      "x_height": []
-    },
-    "css_stack": "\"octin-sports\", sans-serif",
-    "description": "Octin Sports isn’t just for sports; it’s also great for school, construction, prison, police or military themes.",
-    "foundry": {
-      "name": "Typodermic",
-      "slug": "typodermic"
-    },
-    "libraries": [
-      {
-        "id": "full",
-        "link": "/api/v1/json/libraries/full",
-        "name": "Full Library"
-      },
-      {
-        "id": "enterprise",
-        "link": "/api/v1/json/libraries/enterprise",
-        "name": "Enterprise Library"
-      }
-    ],
-    "variations": [
-      {
-        "id": "tgkh:n4",
-        "link": "/api/v1/json/families/tgkh/n4",
-        "name": "Octin Sports Regular",
-        "fvd": "n4"
-      }
-    ]
-  },
-  {
     "id": "rcld",
     "name": "Campus MN",
     "slug": "campus-mn",
@@ -297,71 +226,6 @@
         "link": "/api/v1/json/families/hscm/n9",
         "name": "Erbaum Black",
         "fvd": "n9"
-      }
-    ]
-  },
-  {
-    "id": "rvyw",
-    "name": "Graduate",
-    "slug": "graduate",
-    "web_link": "http://fonts.adobe.com/fonts/graduate",
-    "browse_info": {
-      "capitals": [
-        "all-or-small-caps"
-      ],
-      "classification": [
-        "slab-serif"
-      ],
-      "contrast": [
-        "low"
-      ],
-      "language": [
-        "ca",
-        "de",
-        "en",
-        "es",
-        "fr",
-        "it",
-        "nl",
-        "pt",
-        "sv"
-      ],
-      "number_style": [
-        "uppercase"
-      ],
-      "recommended_for": [],
-      "weight": [
-        "regular"
-      ],
-      "width": [
-        "regular"
-      ],
-      "x_height": []
-    },
-    "css_stack": "serif",
-    "description": null,
-    "foundry": {
-      "name": "Google",
-      "slug": "google"
-    },
-    "libraries": [
-      {
-        "id": "full",
-        "link": "/api/v1/json/libraries/full",
-        "name": "Full Library"
-      },
-      {
-        "id": "trial",
-        "link": "/api/v1/json/libraries/trial",
-        "name": "Trial Library"
-      }
-    ],
-    "variations": [
-      {
-        "id": "rvyw:n4",
-        "link": "/api/v1/json/families/rvyw/n4",
-        "name": "Graduate Regular",
-        "fvd": "n4"
       }
     ]
   },
@@ -692,103 +556,6 @@
     ]
   },
   {
-    "id": "sporty-pro",
-    "name": "Sporty-pro",
-    "slug": "sporty-pro",
-    "web_link": "http://fonts.adobe.com/fonts/sporty-pro",
-    "browse_info": {
-      "capitals": [
-        "all-or-small-caps"
-      ],
-      "classification": [
-        "sans-serif"
-      ],
-      "contrast": [
-        "low"
-      ],
-      "language": [],
-      "number_style": [
-        "uppercase"
-      ],
-      "recommended_for": [
-        "headings",
-        "paragraphs"
-      ],
-      "weight": [
-        "heavy",
-        "light",
-        "regular"
-      ],
-      "width": [
-        "extended"
-      ],
-      "x_height": []
-    },
-    "css_stack": "\"sporty-pro\", sans-serif",
-    "description": null,
-    "foundry": {
-      "name": "Sudtipos",
-      "slug": "sudtipos"
-    },
-    "libraries": [
-      {
-        "id": "full",
-        "link": "/api/v1/json/libraries/full",
-        "name": "Full Library"
-      }
-    ],
-    "variations": [
-      {
-        "id": "grrl:n1",
-        "link": "/api/v1/json/families/grrl/n1",
-        "name": "Sporty Pro Thin",
-        "fvd": "n1"
-      },
-      {
-        "id": "grrl:n2",
-        "link": "/api/v1/json/families/grrl/n2",
-        "name": "Sporty Pro XLight",
-        "fvd": "n2"
-      },
-      {
-        "id": "grrl:n3",
-        "link": "/api/v1/json/families/grrl/n3",
-        "name": "Sporty Pro Light",
-        "fvd": "n3"
-      },
-      {
-        "id": "grrl:n4",
-        "link": "/api/v1/json/families/grrl/n4",
-        "name": "Sporty Pro Regular",
-        "fvd": "n4"
-      },
-      {
-        "id": "grrl:n5",
-        "link": "/api/v1/json/families/grrl/n5",
-        "name": "Sporty Pro Bold",
-        "fvd": "n5"
-      },
-      {
-        "id": "grrl:n6",
-        "link": "/api/v1/json/families/grrl/n6",
-        "name": "Sporty Pro XBold",
-        "fvd": "n6"
-      },
-      {
-        "id": "grrl:n7",
-        "link": "/api/v1/json/families/grrl/n7",
-        "name": "Sporty Pro Black",
-        "fvd": "n7"
-      },
-      {
-        "id": "grrl:n8",
-        "link": "/api/v1/json/families/grrl/n8",
-        "name": "Sporty Pro Shadow",
-        "fvd": "n8"
-      }
-    ]
-  },
-  {
     "id": "erbaum",
     "name": "Erbaum",
     "slug": "erbaum",
@@ -1022,6 +789,162 @@
         "id": "wdpc:n4",
         "link": "/api/v1/json/families/wdpc/n4",
         "name": "Fenway Park JF Regular",
+        "fvd": "n4"
+      }
+    ]
+  },
+  {
+    "id": "sneakers-pro",
+    "name": "Sneakers-pro",
+    "slug": "sneakers-pro",
+    "web_link": "http://fonts.adobe.com/fonts/sneakers-pro",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "decorative"
+      ],
+      "contrast": [
+        "regular"
+      ],
+      "language": [
+        "ca",
+        "cs",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "hu",
+        "it",
+        "mt",
+        "nl",
+        "pl",
+        "pt",
+        "sl",
+        "sv",
+        "tr"
+      ],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "heavy"
+      ],
+      "width": [
+        "regular"
+      ],
+      "x_height": [
+        "high"
+      ]
+    },
+    "css_stack": "\"sneakers-pro\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Positype",
+      "slug": "positype"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "wxlh:n5",
+        "link": "/api/v1/json/families/wxlh/n5",
+        "name": "Sneakers Pro Medium",
+        "fvd": "n5"
+      },
+      {
+        "id": "wxlh:i5",
+        "link": "/api/v1/json/families/wxlh/i5",
+        "name": "Sneakers Pro Medium Oblique",
+        "fvd": "i5"
+      }
+    ]
+  },
+  {
+    "id": "brush-script-std",
+    "name": "Brush-script-std",
+    "slug": "brush-script-std",
+    "web_link": "http://fonts.adobe.com/fonts/brush-script-std",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "script"
+      ],
+      "contrast": [
+        "regular"
+      ],
+      "language": [
+        "ca",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "it",
+        "nl",
+        "pt",
+        "sv"
+      ],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "heavy"
+      ],
+      "width": [
+        "regular"
+      ],
+      "x_height": [
+        "regular"
+      ]
+    },
+    "css_stack": "\"brush-script-std\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Adobe Originals",
+      "slug": "adobe"
+    },
+    "libraries": [
+      {
+        "id": "trial",
+        "link": "/api/v1/json/libraries/trial",
+        "name": "Trial Library"
+      },
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "personal",
+        "link": "/api/v1/json/libraries/personal",
+        "name": "Personal Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "hgrg:n4",
+        "link": "/api/v1/json/families/hgrg/n4",
+        "name": "Brush Script Std Regular",
         "fvd": "n4"
       }
     ]
