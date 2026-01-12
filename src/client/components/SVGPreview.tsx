@@ -49,7 +49,7 @@ export const SVGPreview = ({ svgString, label, onDownload, 'data-testid': testId
       <Card 
         ref={containerRef}
         className={cn(
-          "p-4 flex items-center justify-center min-h-[200px] transition-all",
+          "p-4 flex items-center justify-center min-h-[200px] transition-all overflow-x-auto",
           onDownload && "cursor-pointer hover:border-primary hover:shadow-md"
         )}
         dangerouslySetInnerHTML={{ __html: svgString }}

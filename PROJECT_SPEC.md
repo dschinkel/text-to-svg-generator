@@ -131,6 +131,7 @@ The system generates all three SVG outputs for the selected font + text:
 **FR.8 — CAD Compatibility & Scaling**
 - **FR.8.1** Automatic scaling of SVGs to fit within TinkerCad's workspace limits (e.g., max 300-1000 units).
 - **FR.8.2** Ensure all outlines are real path geometry (closed filled paths), not strokes.
+- **FR.8.3** Widen the preview container to prevent text wrapping for longer names. The container width should be fixed and doubled.
 
 ---
 

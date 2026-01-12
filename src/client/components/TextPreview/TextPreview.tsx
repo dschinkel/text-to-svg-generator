@@ -34,11 +34,11 @@ export const TextPreview = ({ text, setText, selectedFont }: TextPreviewProps) =
           <span className="text-base font-semibold text-slate-700">Preview</span>
           <div 
             data-testid="preview-display"
-            className="min-h-[150px] flex items-center justify-center border-2 border-dashed border-slate-200 rounded-xl bg-slate-50 p-8"
+            className="min-h-[150px] flex items-center justify-center border-2 border-dashed border-slate-200 rounded-xl bg-slate-50 p-8 overflow-x-auto"
           >
             {text ? (
               <p 
-                className="text-5xl text-center break-all" 
+                className="text-5xl text-center whitespace-nowrap" 
                 style={{ fontFamily: selectedFont?.css_stack || selectedFont?.name || 'inherit' }}
               >
                 {text}

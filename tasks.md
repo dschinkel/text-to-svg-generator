@@ -307,3 +307,10 @@ Acceptance:
 - [COMPLETED] The "include filled outer outline" toggle is moved to the Layered Preview section.
 - [COMPLETED] TDD workflow followed.
 - [COMPLETED] All tests pass.
+
+## Task: FR.8.3 (Task 101) [COMPLETED]
+### Goal: Widen the preview container to prevent text wrapping.
+Acceptance:
+- [COMPLETED] Preview image container is widened (doubled fixed width).
+- [COMPLETED] Long names do not wrap to the next line in the preview.
+- [COMPLETED] UI remains responsive and visually balanced.

@@ -37,7 +37,7 @@ const App = () => {
       
       <main className="flex-grow max-w-[1600px] w-full mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <Card className="lg:col-span-2 p-8 border-slate-200">
+          <Card className="lg:col-span-4 p-8 border-slate-200">
             <section className="mb-12">
               <h2 className="text-xl font-semibold mb-6 text-slate-800 border-b pb-2">Font Selection</h2>
               <div className="max-w-md">
@@ -116,11 +116,11 @@ const App = () => {
             </section>
           </Card>
 
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-2">
             <ImageToSVGSection />
           </div>
 
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-2">
             <SVGToOutlineSection />
           </div>
         </div>
