@@ -150,4 +150,48 @@ describe('Use Fonts', () => {
     expect(removedId).toBe('octin-sports');
     expect(result.current.fonts).toEqual([{ id: 'campus-mn', name: 'Campus MN' }]);
   });
+
+  it('selects newly added font immediately', async () => {
+    const newFont = { id: 'bungee', name: 'Bungee' };
+    const fakeRepository = {
+      getFonts: async () => [],
+      addFont: async () => newFont,
+      removeFont: async () => {}
+    };
+
+    const { result } = renderHook(() => useFonts(fakeRepository as any));
+
+    let addedFont: any = null;
+    await act(async () => {
+      addedFont = await result.current.addFont('Bungee');
+    });
+
+    expect(addedFont).toEqual(newFont);
+    expect(result.current.fonts).toContainEqual(newFont);
+  });
+
+  it('waits for font to be ready before selecting it', async () => {
+    const newFont = { id: 'bungee', name: 'Bungee' };
+    const fakeRepository = {
+      getFonts: async () => [],
+      addFont: async () => newFont,
+      removeFont: async () => {}
+    };
+
+    // Mock document.fonts.load to simulate font loading
+    const loadMock = jest.fn().mockResolvedValue([]);
+    Object.defineProperty(document, 'fonts', {
+      value: { load: loadMock },
+      configurable: true
+    });
+
+    const { result } = renderHook(() => useFonts(fakeRepository as any));
+
+    // We need to trigger the real implementation of handleAdd which calls addFont
+    await act(async () => {
+      await result.current.addFont('Bungee');
+    });
+
+    expect(loadMock).toHaveBeenCalledWith('1em "Bungee"');
+  });
 });

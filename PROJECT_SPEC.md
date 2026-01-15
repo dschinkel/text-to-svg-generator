@@ -70,6 +70,11 @@ A user can:
 - **FR.1.6.2** Removing a font should update the UI list immediately.
 - **FR.1.6.3** Removing a font should delete it from the local persistence (`fonts.json`).
 
+**FR.1.7 — Robust Font Installation & Selection**
+- **FR.1.7.1** When a new font is installed, the system must force a refresh of the Adobe Kit CSS in the browser (using a cache-busting timestamp).
+- **FR.1.7.2** The UI must wait for the new font to be fully loaded and available in the browser (via `document.fonts.ready` or similar) before automatically selecting it and triggering SVG previews.
+- **FR.1.7.3** This ensures that the first render of the preview correctly uses the newly installed font without requiring a manual re-selection.
+
 **FR.2 — Add Text for Font**
 **FR.2.1** User enters text and sees a preview of the text rendered in the selected font.
 

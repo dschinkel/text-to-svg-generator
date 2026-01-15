@@ -5,6 +5,7 @@ export const useSVG = (text: string, fontId: string | undefined) => {
   const [tightOutlineSVG, setTightOutlineSVG] = useState<string | null>(null);
   const [outerOutlineSVG, setOuterOutlineSVG] = useState<string | null>(null);
   const [filledOuterSVG, setFilledOuterSVG] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     if (!text || (text !== 'DEBUG' && !fontId)) {
@@ -15,13 +16,22 @@ export const useSVG = (text: string, fontId: string | undefined) => {
       return;
     }
 
+    // Reset SVGs to null when fontId changes to ensure we don't show stale previews
+    // This also helps trigger re-renders if the same font is "re-selected" (e.g. after install)
+    setBaseSVG(null);
+    setTightOutlineSVG(null);
+    setOuterOutlineSVG(null);
+    setFilledOuterSVG(null);
+
     const fetchSVG = async (type: 'base' | 'tight' | 'outer' | 'filled-outer') => {
       try {
+        const timestamp = Date.now();
         const baseUrl = text === 'DEBUG' 
           ? `/api/svg?text=DEBUG` 
           : `/api/svg?text=${encodeURIComponent(text)}&fontId=${encodeURIComponent(fontId!)}`;
         
-        const url = `${baseUrl}&type=${type}`;
+        // Append timestamp to bypass potential server-side or browser-side caching of API responses
+        const url = `${baseUrl}&type=${type}&_t=${timestamp}`;
         
         const response = await fetch(url);
         const svg = response.ok ? await response.text() : null;

@@ -29,7 +29,7 @@ export interface FontSelectorProps {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
     toggleOpen: () => void;
-    handleAdd: () => Promise<void>;
+    handleAdd: () => Promise<Font | null>;
     handleVariationSelect: (font: Font, variationId: string) => Promise<Font | null>;
     removeFont: (id: string) => Promise<void>;
     containerRef: React.RefObject<HTMLDivElement>;
@@ -80,7 +80,7 @@ const FontList = ({
   onSelect: (font: Font) => void,
   setIsOpen: (isOpen: boolean) => void,
   visible: boolean,
-  onAdd: () => void,
+  onAdd: () => Promise<Font | null>,
   newFontName: string,
   selectedFont?: Font | null,
   onSelectVariation: (font: Font, variationId: string) => Promise<Font | null>,
@@ -152,7 +152,12 @@ const FontList = ({
         })}
         {showAddOption && (
           <li 
-            onClick={onAdd}
+            onClick={async () => {
+              const newFont = await onAdd();
+              if (newFont) {
+                onSelect(newFont);
+              }
+            }}
             className="px-3 py-3 hover:bg-green-50 cursor-pointer text-left text-green-600 border-t border-slate-100 text-xl font-medium"
             data-testid="add-font-option"
           >
@@ -188,7 +193,7 @@ const FontSelection = ({
   setNewFontName: (name: string) => void,
   isOpen: boolean,
   setIsOpen: (isOpen: boolean) => void,
-  handleAdd: () => void,
+  handleAdd: () => Promise<Font | null>,
   onSelect: (font: Font) => void,
   selectedFont?: Font | null,
   onSelectVariation: (font: Font, variationId: string) => Promise<Font | null>,

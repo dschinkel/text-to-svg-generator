@@ -25,9 +25,10 @@ export const useFonts = (repository: ClientFontRepository) => {
   const [error, setError] = useState<Error | null>(null);
   const [newFontName, setNewFontName] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [kitVersion, setKitVersion] = useState(Date.now());
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useWebFonts('jzl6jgi');
+  useWebFonts('jzl6jgi', kitVersion);
 
   useEffect(() => {
     let mounted = true;
@@ -69,6 +70,24 @@ export const useFonts = (repository: ClientFontRepository) => {
   const addFont = async (name: string, variationId?: string) => {
     try {
       const newFont = await repository.addFont(name, variationId);
+      
+      // Force refresh the Adobe Kit CSS with a timestamp
+      const now = Date.now();
+      setKitVersion(now);
+
+      // Wait for the new font to be available in the browser
+      if (document.fonts) {
+        try {
+          // We try to load it specifically. 
+          // Since we just updated kitVersion, the CSS might still be loading.
+          // We give it a bit of time to propagate.
+          await new Promise(resolve => setTimeout(resolve, 500));
+          await document.fonts.load(`1em "${newFont.name}"`);
+        } catch (e) {
+          console.warn(`Font "${newFont.name}" could not be pre-loaded, it might still work though.`);
+        }
+      }
+
       setFonts(prev => {
         const otherFonts = prev.filter(f => f.id !== newFont.id && f.name.toLowerCase() !== newFont.name.toLowerCase());
         const updated = [...otherFonts, newFont];
@@ -87,9 +106,11 @@ export const useFonts = (repository: ClientFontRepository) => {
 
   const handleAdd = async () => {
     if (newFontName) {
-      await addFont(newFontName);
+      const added = await addFont(newFontName);
       setNewFontName('');
+      return added;
     }
+    return null;
   };
 
   const removeFont = async (id: string) => {

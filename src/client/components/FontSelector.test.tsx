@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { FontSelector } from './FontSelector';
 
@@ -92,5 +92,36 @@ describe('Font Selector', () => {
 
     const removeButton = screen.getByTestId('remove-font');
     expect(removeButton).toBeInTheDocument();
+  });
+
+  test('calls onSelect when a new font is added via handleAdd', async () => {
+    const newFont = { id: 'bungee', name: 'Bungee' };
+    let selectedFont: any = null;
+    const onSelect = (f: any) => { selectedFont = f; };
+
+    const fakeUseFonts = () => ({
+      fonts: [],
+      filteredFonts: [],
+      loading: false,
+      error: null,
+      newFontName: 'Bungee',
+      setNewFontName: () => {},
+      isOpen: true,
+      setIsOpen: () => {},
+      toggleOpen: () => {},
+      handleAdd: async () => {
+        onSelect(newFont);
+      },
+      handleVariationSelect: async () => {},
+      removeFont: async () => {},
+      containerRef: { current: null } as any
+    });
+
+    render(<FontSelector useFonts={fakeUseFonts as any} onSelect={onSelect} />);
+
+    const addOption = screen.getByTestId('add-font-option');
+    fireEvent.click(addOption);
+
+    expect(selectedFont).toEqual(newFont);
   });
 });

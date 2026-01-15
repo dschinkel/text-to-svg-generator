@@ -948,5 +948,701 @@
         "fvd": "n4"
       }
     ]
+  },
+  {
+    "id": "pacifico",
+    "name": "Pacifico",
+    "slug": "pacifico",
+    "web_link": "http://fonts.adobe.com/fonts/pacifico",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "script"
+      ],
+      "contrast": [
+        "low"
+      ],
+      "language": [
+        "ca",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "it",
+        "nl",
+        "pt",
+        "sv"
+      ],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "heavy"
+      ],
+      "width": [
+        "regular"
+      ],
+      "x_height": [
+        "regular"
+      ]
+    },
+    "css_stack": "\"pacifico\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Google",
+      "slug": "google"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "trial",
+        "link": "/api/v1/json/libraries/trial",
+        "name": "Trial Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "rgwk:n3",
+        "link": "/api/v1/json/families/rgwk/n3",
+        "name": "Pacifico Light",
+        "fvd": "n3"
+      },
+      {
+        "id": "rgwk:n4",
+        "link": "/api/v1/json/families/rgwk/n4",
+        "name": "Pacifico Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "rgwk:n7",
+        "link": "/api/v1/json/families/rgwk/n7",
+        "name": "Pacifico Bold",
+        "fvd": "n7"
+      }
+    ]
+  },
+  {
+    "id": "salsbury",
+    "name": "Salsbury",
+    "slug": "salsbury",
+    "web_link": "http://fonts.adobe.com/fonts/salsbury",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "decorative"
+      ],
+      "contrast": [
+        "regular"
+      ],
+      "language": [
+        "ca",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "it",
+        "nl",
+        "pt",
+        "sv"
+      ],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "regular"
+      ],
+      "width": [
+        "regular"
+      ],
+      "x_height": [
+        "regular"
+      ]
+    },
+    "css_stack": "\"salsbury\", sans-serif",
+    "description": "Salsbury is am abstraction/parody of Dom Casual and Flash, using the best elements of both. Rather than mimicking actual brush strokes, Salsbury resembles a hand-cut screen print, giving Salsbury an authentic carnival feel. Salsbury was designed for clear viewing on television making it an ideal choice for videogames or DVD menus.",
+    "foundry": {
+      "name": "Typodermic",
+      "slug": "typodermic"
+    },
+    "libraries": [
+      {
+        "id": "personal",
+        "link": "/api/v1/json/libraries/personal",
+        "name": "Personal Library"
+      },
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "wzyl:n4",
+        "link": "/api/v1/json/families/wzyl/n4",
+        "name": "Salsbury Regular",
+        "fvd": "n4"
+      }
+    ]
+  },
+  {
+    "id": "yellowtail",
+    "name": "Yellowtail",
+    "slug": "yellowtail",
+    "web_link": "http://fonts.adobe.com/fonts/yellowtail",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "script"
+      ],
+      "contrast": [
+        "low"
+      ],
+      "language": [
+        "ca",
+        "cs",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "hu",
+        "it",
+        "mt",
+        "nl",
+        "pl",
+        "pt",
+        "sl",
+        "sv",
+        "tr"
+      ],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "regular"
+      ],
+      "width": [
+        "regular"
+      ],
+      "x_height": [
+        "regular"
+      ]
+    },
+    "css_stack": "\"yellowtail\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Google",
+      "slug": "google"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "trial",
+        "link": "/api/v1/json/libraries/trial",
+        "name": "Trial Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "jscf:n4",
+        "link": "/api/v1/json/families/jscf/n4",
+        "name": "Yellowtail Regular",
+        "fvd": "n4"
+      }
+    ]
+  },
+  {
+    "id": "thirsty-script",
+    "name": "Thirsty-script",
+    "slug": "thirsty-script",
+    "web_link": "http://fonts.adobe.com/fonts/thirsty-script",
+    "browse_info": {
+      "capitals": [],
+      "classification": [],
+      "contrast": [],
+      "language": [
+        "ca",
+        "cs",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "hu",
+        "it",
+        "nl",
+        "pl",
+        "pt",
+        "sl",
+        "sv"
+      ],
+      "number_style": [],
+      "recommended_for": [],
+      "weight": [],
+      "width": [],
+      "x_height": []
+    },
+    "css_stack": "\"thirsty-script\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Yellow Design Studio",
+      "slug": "yellow-design-studio"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "qbnn:n3",
+        "link": "/api/v1/json/families/qbnn/n3",
+        "name": "Thirsty Script Light",
+        "fvd": "n3"
+      },
+      {
+        "id": "qbnn:n4",
+        "link": "/api/v1/json/families/qbnn/n4",
+        "name": "Thirsty Script Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "qbnn:n5",
+        "link": "/api/v1/json/families/qbnn/n5",
+        "name": "Thirsty Script Medium",
+        "fvd": "n5"
+      },
+      {
+        "id": "qbnn:n7",
+        "link": "/api/v1/json/families/qbnn/n7",
+        "name": "Thirsty Script Bold",
+        "fvd": "n7"
+      },
+      {
+        "id": "qbnn:n8",
+        "link": "/api/v1/json/families/qbnn/n8",
+        "name": "Thirsty Script Extrabold",
+        "fvd": "n8"
+      },
+      {
+        "id": "qbnn:n9",
+        "link": "/api/v1/json/families/qbnn/n9",
+        "name": "Thirsty Script Black",
+        "fvd": "n9"
+      }
+    ]
+  },
+  {
+    "id": "kinescope",
+    "name": "Kinescope",
+    "slug": "kinescope",
+    "web_link": "http://fonts.adobe.com/fonts/kinescope",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "script"
+      ],
+      "contrast": [
+        "regular"
+      ],
+      "language": [
+        "ca",
+        "cs",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "hu",
+        "it",
+        "mt",
+        "nl",
+        "pl",
+        "pt",
+        "sl",
+        "sv",
+        "tr"
+      ],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [
+        "headings"
+      ],
+      "weight": [
+        "heavy"
+      ],
+      "width": [
+        "condensed"
+      ],
+      "x_height": [
+        "low"
+      ]
+    },
+    "css_stack": "\"kinescope\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Mark Simonson Studio",
+      "slug": "mark-simonson-studio"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "cjms:n4",
+        "link": "/api/v1/json/families/cjms/n4",
+        "name": "Kinescope Regular",
+        "fvd": "n4"
+      }
+    ]
+  },
+  {
+    "id": "reklame-script",
+    "name": "Reklame-script",
+    "slug": "reklame-script",
+    "web_link": "http://fonts.adobe.com/fonts/reklame-script",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "script"
+      ],
+      "contrast": [
+        "regular"
+      ],
+      "language": [
+        "ca",
+        "cs",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "hu",
+        "it",
+        "mt",
+        "nl",
+        "pl",
+        "pt",
+        "sl",
+        "sv",
+        "tr"
+      ],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "heavy",
+        "light",
+        "regular"
+      ],
+      "width": [
+        "condensed"
+      ],
+      "x_height": [
+        "high"
+      ]
+    },
+    "css_stack": "\"reklame-script\", sans-serif",
+    "description": "Reklame Script is a brush typefamily consisting of four weights. It was designed by Hannes von Döhren in 2010. This family is influenced by the handlettering of printed advertisements of the 1940s and 1950s. You can combine the four weights to gain a better emphasis – perfect for headlines, posters, and other display uses.",
+    "foundry": {
+      "name": "HVD Fonts",
+      "slug": "hvd-fonts"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "personal",
+        "link": "/api/v1/json/libraries/personal",
+        "name": "Personal Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "ghpm:n4",
+        "link": "/api/v1/json/families/ghpm/n4",
+        "name": "Reklame Script Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "ghpm:n5",
+        "link": "/api/v1/json/families/ghpm/n5",
+        "name": "Reklame Script Medium",
+        "fvd": "n5"
+      },
+      {
+        "id": "ghpm:n7",
+        "link": "/api/v1/json/families/ghpm/n7",
+        "name": "Reklame Script Bold",
+        "fvd": "n7"
+      },
+      {
+        "id": "ghpm:n9",
+        "link": "/api/v1/json/families/ghpm/n9",
+        "name": "Reklame Script Black",
+        "fvd": "n9"
+      }
+    ]
+  },
+  {
+    "id": "fave-script-pro",
+    "name": "Fave-script-pro",
+    "slug": "fave-script-pro",
+    "web_link": "http://fonts.adobe.com/fonts/fave-script-pro",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "handmade"
+      ],
+      "contrast": [],
+      "language": [],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [],
+      "width": [],
+      "x_height": []
+    },
+    "css_stack": "\"fave-script-pro\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Aerotype",
+      "slug": "aerotype"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "bxjv:n4",
+        "link": "/api/v1/json/families/bxjv/n4",
+        "name": "Fave Script Pro Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "bxjv:n7",
+        "link": "/api/v1/json/families/bxjv/n7",
+        "name": "Fave Script Pro Bold",
+        "fvd": "n7"
+      }
+    ]
+  },
+  {
+    "id": "turbinado-pro",
+    "name": "Turbinado-pro",
+    "slug": "turbinado-pro",
+    "web_link": "http://fonts.adobe.com/fonts/turbinado-pro",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "handmade"
+      ],
+      "contrast": [],
+      "language": [],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [],
+      "width": [],
+      "x_height": []
+    },
+    "css_stack": "\"turbinado-pro\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Aerotype",
+      "slug": "aerotype"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "spqb:n3",
+        "link": "/api/v1/json/families/spqb/n3",
+        "name": "Turbinado Pro Light",
+        "fvd": "n3"
+      },
+      {
+        "id": "spqb:n4",
+        "link": "/api/v1/json/families/spqb/n4",
+        "name": "Turbinado Pro Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "spqb:n7",
+        "link": "/api/v1/json/families/spqb/n7",
+        "name": "Turbinado Pro Bold",
+        "fvd": "n7"
+      }
+    ]
+  },
+  {
+    "id": "relation-two",
+    "name": "Relation-two",
+    "slug": "relation-two",
+    "web_link": "http://fonts.adobe.com/fonts/relation-two",
+    "browse_info": {
+      "capitals": [
+        "uppercase-lowercase"
+      ],
+      "classification": [
+        "script"
+      ],
+      "contrast": [
+        "high"
+      ],
+      "language": [],
+      "number_style": [
+        "uppercase"
+      ],
+      "recommended_for": [],
+      "weight": [
+        "regular"
+      ],
+      "width": [
+        "condensed"
+      ],
+      "x_height": [
+        "low"
+      ]
+    },
+    "css_stack": "\"relation-two\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Jess Latham",
+      "slug": "jess-latham"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      },
+      {
+        "id": "enterprise",
+        "link": "/api/v1/json/libraries/enterprise",
+        "name": "Enterprise Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "vbyg:n4",
+        "link": "/api/v1/json/families/vbyg/n4",
+        "name": "Relation Two Regular",
+        "fvd": "n4"
+      },
+      {
+        "id": "vbyg:n7",
+        "link": "/api/v1/json/families/vbyg/n7",
+        "name": "Relation Two Bold",
+        "fvd": "n7"
+      }
+    ]
+  },
+  {
+    "id": "highest-praise",
+    "name": "Highest-praise",
+    "slug": "highest-praise",
+    "web_link": "http://fonts.adobe.com/fonts/highest-praise",
+    "browse_info": {
+      "capitals": [],
+      "classification": [],
+      "contrast": [],
+      "language": [],
+      "number_style": [],
+      "recommended_for": [],
+      "weight": [],
+      "width": [],
+      "x_height": []
+    },
+    "css_stack": "\"highest-praise\", sans-serif",
+    "description": null,
+    "foundry": {
+      "name": "Adam Ladd",
+      "slug": "adam-ladd"
+    },
+    "libraries": [
+      {
+        "id": "full",
+        "link": "/api/v1/json/libraries/full",
+        "name": "Full Library"
+      }
+    ],
+    "variations": [
+      {
+        "id": "lllm:n4",
+        "link": "/api/v1/json/families/lllm/n4",
+        "name": "Highest Praise Regular",
+        "fvd": "n4"
+      }
+    ]
   }
 ]

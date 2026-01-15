@@ -338,3 +338,19 @@ Acceptance:
 - [COMPLETED] No gap between 'L' and 'E' in 'HAYLEY' for Filled Outer Outline.
 - [COMPLETED] Maintain solid silhouette for all other tested cases ('A', 'O', 'HAYDEN').
 - [COMPLETED] All tests pass.
+
+## Task: FR.1.2.2 (Task 105) [COMPLETED]
+### Goal: Fix font selection issue after installation.
+Acceptance:
+- [COMPLETED] Newly added font is automatically selected after installation.
+- [COMPLETED] TDD workflow followed with RED/GREEN/REFACTOR cycles.
+- [COMPLETED] All tests pass.
+
+## Task: FR.1.7 (Task 106) [COMPLETED]
+### Goal: Harden font selection and preview update after installation.
+Acceptance:
+- [COMPLETED] Forces refresh of Adobe Kit CSS when a new font is added.
+- [COMPLETED] Waits for font to be ready in browser before selecting it.
+- [COMPLETED] Resets SVG state and uses cache-busting timestamps for re-fetches.
+- [COMPLETED] TDD workflow followed with RED/GREEN/REFACTOR cycles.
+- [COMPLETED] All tests pass.
